@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/fragmentTranslationsList">
+
+    <fragment
+        android:id="@+id/fragmentTranslationsList"
+        android:label="fragment_translations_list"
+        android:name="com.catvasiliy.mydic.presentation.translations_list.TranslationsListFragment"
+        tools:layout="@layout/fragment_translations_list">
+
+        <action
+            android:id="@+id/openTranslate"
+            app:destination="@id/fragmentTranslate" />
+
+        <action
+            android:id="@+id/openTranslationDetailsFromList"
+            app:destination="@id/fragmentTranslationDetails" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentTranslate"
+        android:label="fragment_translate"
+        android:name="com.catvasiliy.mydic.presentation.translate.TranslateFragment"
+        tools:layout="@layout/fragment_translate">
+
+        <action
+            android:id="@+id/openTranslationDetailsFromTranslate"
+            app:destination="@id/fragmentTranslationDetails" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentTranslationDetails"
+        android:label="fragment_translation_details"
+        android:name="com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsFragment"
+        tools:layout="@layout/fragment_translation_details">
+
+        <action
+            android:id="@+id/backToList"
+            app:destination="@id/fragmentTranslationsList" />
+
+        <argument
+            android:name="sourceText"
+            app:argType="string"
+            android:defaultValue="" />
+
+        <argument
+            android:name="translationId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+
+        <argument
+            android:name="isMissingTranslation"
+            app:argType="boolean"
+            android:defaultValue="false" />
+
+    </fragment>
+
+</navigation>
