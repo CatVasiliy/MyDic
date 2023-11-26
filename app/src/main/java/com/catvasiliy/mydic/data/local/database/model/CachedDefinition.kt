@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.data.local.model
+package com.catvasiliy.mydic.data.local.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -7,22 +7,24 @@ import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "synonym",
+    tableName = "definition",
     foreignKeys = [
         ForeignKey(
-            entity = CachedAlternativeTranslation::class,
+            entity = CachedTranslation::class,
             parentColumns = ["id"],
-            childColumns = ["alternative_translation_id"],
+            childColumns = ["translation_id"],
             onDelete = CASCADE
         )
     ]
 )
-data class CachedSynonym(
+data class CachedDefinition(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
 
-    @ColumnInfo(name = "alternative_translation_id")
-    val alternativeTranslationId: Long = 0,
+    @ColumnInfo(name = "translation_id")
+    val translationId: Long,
 
-    val synonymText: String
+    val definitionText: String,
+    val partOfSpeech: String,
+    val exampleText: String
 )

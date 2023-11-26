@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.domain.model
+package com.catvasiliy.mydic.domain.model.translation
 
 open class SimpleTranslation(
     id: Long = 0,

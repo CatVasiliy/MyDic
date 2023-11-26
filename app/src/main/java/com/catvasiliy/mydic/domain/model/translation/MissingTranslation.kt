@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.domain.model
+package com.catvasiliy.mydic.domain.model.translation
 
 import java.util.*
 

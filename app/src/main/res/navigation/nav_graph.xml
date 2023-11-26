@@ -60,4 +60,10 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/fragmentSettings"
+        android:label="fragment_settings"
+        android:name="com.catvasiliy.mydic.presentation.settings.SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
+
 </navigation>

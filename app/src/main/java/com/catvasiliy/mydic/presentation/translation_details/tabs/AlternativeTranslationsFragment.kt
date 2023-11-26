@@ -11,8 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.catvasiliy.mydic.databinding.AlternativeTranslationItemBinding
 import com.catvasiliy.mydic.databinding.FragmentAlternativeTranslationsBinding
-import com.catvasiliy.mydic.domain.model.AlternativeTranslation
-import com.catvasiliy.mydic.domain.model.ExtendedTranslation
+import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
+import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

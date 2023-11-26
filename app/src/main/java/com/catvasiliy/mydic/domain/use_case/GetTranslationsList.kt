@@ -1,6 +1,6 @@
 package com.catvasiliy.mydic.domain.use_case
 
-import com.catvasiliy.mydic.domain.model.Translation
+import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
 import kotlinx.coroutines.flow.Flow
 

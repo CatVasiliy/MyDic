@@ -1,8 +1,14 @@
-package com.catvasiliy.mydic.data.local
+package com.catvasiliy.mydic.data.local.database
 
 import androidx.room.*
 import androidx.room.OnConflictStrategy.Companion.REPLACE
-import com.catvasiliy.mydic.data.local.model.*
+import com.catvasiliy.mydic.data.local.database.model.CachedAlternativeTranslation
+import com.catvasiliy.mydic.data.local.database.model.CachedDefinition
+import com.catvasiliy.mydic.data.local.database.model.CachedExample
+import com.catvasiliy.mydic.data.local.database.model.CachedMissingTranslation
+import com.catvasiliy.mydic.data.local.database.model.CachedSynonym
+import com.catvasiliy.mydic.data.local.database.model.CachedTranslation
+import com.catvasiliy.mydic.data.local.database.model.CachedTranslationAggregate
 import kotlinx.coroutines.flow.Flow
 
 @Dao

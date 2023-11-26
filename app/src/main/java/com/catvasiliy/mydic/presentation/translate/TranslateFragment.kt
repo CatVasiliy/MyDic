@@ -34,6 +34,11 @@ class TranslateFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        arguments?.getString("sourceText")?.let { sourceText ->
+            binding.etSource.setText(sourceText)
+        }
+        arguments?.remove("sourceText")
+
         binding.btnTranslate.setOnClickListener {
             val sourceText = binding.etSource.text.toString()
             if (sourceText.isBlank()) {
@@ -53,7 +58,6 @@ class TranslateFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
         _binding = null
     }
 }

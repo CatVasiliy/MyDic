@@ -27,4 +27,7 @@
 
     <string name="missing_translation_message">Translation is unavailable. Click Refresh button to try again.</string>
     <string name="btn_refresh">Refresh</string>
+    <string name="search">Search</string>
+
+    <string name="settings">Settings</string>
 </resources>

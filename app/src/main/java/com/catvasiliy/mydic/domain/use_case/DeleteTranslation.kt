@@ -1,6 +1,6 @@
 package com.catvasiliy.mydic.domain.use_case
 
-import com.catvasiliy.mydic.domain.model.Translation
+import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
 
 class DeleteTranslation(private val repository: TranslateRepository) {
@@ -10,10 +10,10 @@ class DeleteTranslation(private val repository: TranslateRepository) {
         val deletedTranslation: Translation
 
         if (isMissingTranslation) {
-            deletedTranslation = repository.getExtendedTranslationById(id)
+            deletedTranslation = repository.getMissingTranslationById(id)
             repository.deleteMissingTranslationById(id)
         } else {
-            deletedTranslation = repository.getMissingTranslationById(id)
+            deletedTranslation = repository.getExtendedTranslationById(id)
             repository.deleteTranslationById(id)
         }
 

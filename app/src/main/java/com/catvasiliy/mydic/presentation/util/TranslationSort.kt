@@ -1,7 +1,7 @@
 package com.catvasiliy.mydic.presentation.util
 
-import com.catvasiliy.mydic.domain.model.SimpleTranslation
-import com.catvasiliy.mydic.domain.model.Translation
+import com.catvasiliy.mydic.domain.model.translation.SimpleTranslation
+import com.catvasiliy.mydic.domain.model.translation.Translation
 
 sealed class TranslationSort(var sortType: SortType) {
     class Date(sortType: SortType) : TranslationSort(sortType)

@@ -1,7 +1,19 @@
-package com.catvasiliy.mydic.data.local
+package com.catvasiliy.mydic.data.local.database
 
-import com.catvasiliy.mydic.data.local.model.*
-import com.catvasiliy.mydic.domain.model.*
+import com.catvasiliy.mydic.data.local.database.model.CachedAlternativeAggregate
+import com.catvasiliy.mydic.data.local.database.model.CachedAlternativeTranslation
+import com.catvasiliy.mydic.data.local.database.model.CachedDefinition
+import com.catvasiliy.mydic.data.local.database.model.CachedExample
+import com.catvasiliy.mydic.data.local.database.model.CachedMissingTranslation
+import com.catvasiliy.mydic.data.local.database.model.CachedSynonym
+import com.catvasiliy.mydic.data.local.database.model.CachedTranslation
+import com.catvasiliy.mydic.data.local.database.model.CachedTranslationAggregate
+import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
+import com.catvasiliy.mydic.domain.model.translation.Definition
+import com.catvasiliy.mydic.domain.model.translation.Example
+import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
+import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
+import com.catvasiliy.mydic.domain.model.translation.SimpleTranslation
 
 fun CachedTranslationAggregate.toExtendedTranslation(): ExtendedTranslation {
     return ExtendedTranslation(

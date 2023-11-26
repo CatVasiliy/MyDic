@@ -1,6 +1,6 @@
 package com.catvasiliy.mydic.presentation.translation_details
 
-import com.catvasiliy.mydic.domain.model.Translation
+import com.catvasiliy.mydic.domain.model.translation.Translation
 
 data class TranslationDetailsState(
     val translation: Translation? = null,

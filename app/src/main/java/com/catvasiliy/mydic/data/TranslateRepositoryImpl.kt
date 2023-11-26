@@ -1,13 +1,18 @@
 package com.catvasiliy.mydic.data
 
-import com.catvasiliy.mydic.data.local.*
-import com.catvasiliy.mydic.data.local.model.CachedMissingTranslation
-import com.catvasiliy.mydic.data.local.model.CachedTranslation
+import com.catvasiliy.mydic.data.local.database.TranslationDao
+import com.catvasiliy.mydic.data.local.database.model.CachedMissingTranslation
+import com.catvasiliy.mydic.data.local.database.toCachedMissingTranslation
+import com.catvasiliy.mydic.data.local.database.toCachedTranslation
+import com.catvasiliy.mydic.data.local.database.toExtendedTranslation
+import com.catvasiliy.mydic.data.local.database.toMissingTranslation
+import com.catvasiliy.mydic.data.local.database.toSimpleTranslation
+import com.catvasiliy.mydic.data.local.database.model.CachedTranslation
 import com.catvasiliy.mydic.data.remote.TranslateApi
 import com.catvasiliy.mydic.data.remote.toExtendedTranslation
-import com.catvasiliy.mydic.domain.model.ExtendedTranslation
-import com.catvasiliy.mydic.domain.model.MissingTranslation
-import com.catvasiliy.mydic.domain.model.Translation
+import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
+import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
+import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
 import com.catvasiliy.mydic.domain.util.Resource
 import kotlinx.coroutines.flow.*

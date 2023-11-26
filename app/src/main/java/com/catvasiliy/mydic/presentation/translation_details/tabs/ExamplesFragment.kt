@@ -6,13 +6,15 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.catvasiliy.mydic.databinding.ExampleItemBinding
 import com.catvasiliy.mydic.databinding.FragmentExamplesBinding
-import com.catvasiliy.mydic.domain.model.Example
-import com.catvasiliy.mydic.domain.model.ExtendedTranslation
+import com.catvasiliy.mydic.domain.model.translation.Example
+import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -62,7 +64,10 @@ class ExamplesFragment : Fragment() {
 
         examples.forEach { example ->
             val exampleBinding = ExampleItemBinding.inflate(layoutInflater)
-            exampleBinding.tvExample.text = example.exampleText
+            exampleBinding.tvExample.text = HtmlCompat.fromHtml(
+                example.exampleText,
+                FROM_HTML_MODE_COMPACT
+            )
             binding.llExamples.addView(exampleBinding.root)
         }
     }

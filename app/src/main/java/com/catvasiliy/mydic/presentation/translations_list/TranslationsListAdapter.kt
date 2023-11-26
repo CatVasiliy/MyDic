@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.catvasiliy.mydic.databinding.TranslationListItemBinding
-import com.catvasiliy.mydic.domain.model.MissingTranslation
-import com.catvasiliy.mydic.domain.model.SimpleTranslation
-import com.catvasiliy.mydic.domain.model.Translation
+import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
+import com.catvasiliy.mydic.domain.model.translation.SimpleTranslation
+import com.catvasiliy.mydic.domain.model.translation.Translation
 
 class TranslationsListAdapter
     : ListAdapter<Translation, TranslationsListAdapter.TranslationViewHolder>(ITEM_COMPARATOR) {

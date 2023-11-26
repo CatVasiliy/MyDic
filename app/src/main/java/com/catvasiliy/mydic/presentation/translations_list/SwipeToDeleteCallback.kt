@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.presentation.translation_details
+package com.catvasiliy.mydic.presentation.translations_list
 
 import android.content.Context
 import android.graphics.Canvas
@@ -11,8 +11,9 @@ import com.catvasiliy.mydic.R
 abstract class SwipeToDeleteCallback(context: Context)
     : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
-    private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.baseline_delete_36)
     private val background = ColorDrawable(ContextCompat.getColor(context, R.color.delete_background))
+    private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.baseline_delete_36)
+    private val iconCover = ColorDrawable(ContextCompat.getColor(context, R.color.black))
 
     override fun onMove(
         recyclerView: RecyclerView,
@@ -29,14 +30,15 @@ abstract class SwipeToDeleteCallback(context: Context)
         actionState: Int,
         isCurrentlyActive: Boolean
     ) {
-        val itemView = viewHolder.itemView
-
         if (deleteIcon == null) {
             return
         }
 
+        val itemView = viewHolder.itemView
+        val currentRight = itemView.right + dX.toInt()
+
         if (dX < 0) {
-            background.setBounds(itemView.right + dX.toInt(), itemView.top, itemView.right, itemView.bottom)
+            background.setBounds(currentRight, itemView.top, itemView.right, itemView.bottom)
         } else {
             background.setBounds(0, 0, 0, 0)
         }
@@ -47,10 +49,19 @@ abstract class SwipeToDeleteCallback(context: Context)
         val deleteIconRight = itemView.right - deleteIconMargin
         val deleteIconBottom = deleteIconTop + deleteIcon.intrinsicHeight
 
-        deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
+        if (currentRight in deleteIconLeft..deleteIconRight) {
+            deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
+            iconCover.setBounds(deleteIconLeft, itemView.top, currentRight, itemView.bottom)
+        } else if (currentRight > deleteIconRight) {
+            deleteIcon.setBounds(0, 0, 0, 0)
+            iconCover.setBounds(0, 0, 0, 0)
+        } else {
+            iconCover.setBounds(0, 0, 0, 0)
+        }
 
         background.draw(c)
         deleteIcon.draw(c)
+        iconCover.draw(c)
 
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }

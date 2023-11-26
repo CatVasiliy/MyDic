@@ -15,8 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslationDetailsBinding
-import com.catvasiliy.mydic.domain.model.ExtendedTranslation
-import com.catvasiliy.mydic.domain.model.MissingTranslation
+import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
+import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.presentation.MainActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint

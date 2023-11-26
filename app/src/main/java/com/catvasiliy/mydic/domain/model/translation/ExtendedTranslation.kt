@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.domain.model
+package com.catvasiliy.mydic.domain.model.translation
 
 class ExtendedTranslation(
     id: Long = 0,

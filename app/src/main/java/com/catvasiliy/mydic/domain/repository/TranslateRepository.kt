@@ -1,8 +1,8 @@
 package com.catvasiliy.mydic.domain.repository
 
-import com.catvasiliy.mydic.domain.model.ExtendedTranslation
-import com.catvasiliy.mydic.domain.model.MissingTranslation
-import com.catvasiliy.mydic.domain.model.Translation
+import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
+import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
+import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
 

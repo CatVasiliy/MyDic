@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.data.local.model
+package com.catvasiliy.mydic.data.local.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

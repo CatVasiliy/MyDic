@@ -4,7 +4,10 @@ import com.catvasiliy.mydic.data.remote.model.ApiDefinition
 import com.catvasiliy.mydic.data.remote.model.ApiExample
 import com.catvasiliy.mydic.data.remote.model.ApiAlternativeTranslation
 import com.catvasiliy.mydic.data.remote.model.ApiTranslation
-import com.catvasiliy.mydic.domain.model.*
+import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
+import com.catvasiliy.mydic.domain.model.translation.Definition
+import com.catvasiliy.mydic.domain.model.translation.Example
+import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import java.util.*
 
 fun ApiTranslation.toExtendedTranslation(): ExtendedTranslation {

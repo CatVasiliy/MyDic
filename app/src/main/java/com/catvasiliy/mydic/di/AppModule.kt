@@ -2,8 +2,8 @@ package com.catvasiliy.mydic.di
 
 import android.content.Context
 import androidx.room.Room
-import com.catvasiliy.mydic.data.local.TranslationDao
-import com.catvasiliy.mydic.data.local.TranslationDatabase
+import com.catvasiliy.mydic.data.local.database.TranslationDao
+import com.catvasiliy.mydic.data.local.database.TranslationDatabase
 import com.catvasiliy.mydic.data.remote.TranslateApi
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
 import com.catvasiliy.mydic.domain.use_case.DeleteTranslation

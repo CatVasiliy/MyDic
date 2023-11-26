@@ -15,9 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.BottomSheetSortBinding
 import com.catvasiliy.mydic.databinding.FragmentTranslationsListBinding
-import com.catvasiliy.mydic.domain.model.MissingTranslation
+import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.presentation.MainActivity
-import com.catvasiliy.mydic.presentation.translation_details.SwipeToDeleteCallback
 import com.catvasiliy.mydic.presentation.util.SortType
 import com.catvasiliy.mydic.presentation.util.TranslationSort
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -63,7 +62,7 @@ class TranslationsListFragment : Fragment() {
                         return
                     }
                     val itemPosition = viewHolder.adapterPosition
-                    val translationsList = viewModel.state.value.translations ?: emptyList()
+                    val translationsList = viewModel.state.value.translations
 
                     val id = translationsList[itemPosition].id
                     val isMissingTranslation = translationsList[itemPosition] is MissingTranslation
@@ -80,11 +79,7 @@ class TranslationsListFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.state.collectLatest { state ->
-                if (state.searchResultTranslations != null) {
-                    translationsListAdapter.submitList(state.searchResultTranslations)
-                } else {
-                    translationsListAdapter.submitList(state.translations)
-                }
+                translationsListAdapter.submitList(state.translations)
             }
         }
 
@@ -103,7 +98,6 @@ class TranslationsListFragment : Fragment() {
                 }
             }
         }
-
         val searchView = binding.tbTranslations.menu.findItem(R.id.miSearch).actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
