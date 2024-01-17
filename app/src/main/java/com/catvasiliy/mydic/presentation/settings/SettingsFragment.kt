@@ -8,7 +8,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.catvasiliy.mydic.databinding.FragmentSettingsBinding
 import com.catvasiliy.mydic.domain.model.settings.Period
 import com.catvasiliy.mydic.presentation.MainActivity
@@ -76,12 +78,15 @@ class SettingsFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            viewModel.state.collectLatest { state ->
-                binding.swSendTranslations.isChecked = state.sendTranslationPreferences.isSendingEnabled
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collectLatest { state ->
+                    binding.swSendTranslations.isChecked =
+                        state.sendTranslationPreferences.isSendingEnabled
 
-                val selection = state.sendTranslationPreferences.period
-                val position = spinnerAdapter.getPosition(selection)
-                binding.spPeriods.setSelection(position)
+                    val selection = state.sendTranslationPreferences.period
+                    val position = spinnerAdapter.getPosition(selection)
+                    binding.spPeriods.setSelection(position)
+                }
             }
         }
         startPostponedEnterTransition()

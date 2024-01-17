@@ -8,7 +8,9 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.catvasiliy.mydic.databinding.AlternativeTranslationItemBinding
 import com.catvasiliy.mydic.databinding.FragmentAlternativeTranslationsBinding
 import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
@@ -35,13 +37,15 @@ class AlternativeTranslationsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         lifecycleScope.launch {
-            viewModel.state.collectLatest { state ->
-                val alternativeTranslations = if (state.translation is ExtendedTranslation) {
-                    state.translation.alternativeTranslations
-                } else {
-                    emptyList()
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collectLatest { state ->
+                    val alternativeTranslations = if (state.translation is ExtendedTranslation) {
+                        state.translation.alternativeTranslations
+                    } else {
+                        emptyList()
+                    }
+                    createAlternativeTranslationsViews(alternativeTranslations)
                 }
-                createAlternativeTranslationsViews(alternativeTranslations)
             }
         }
     }

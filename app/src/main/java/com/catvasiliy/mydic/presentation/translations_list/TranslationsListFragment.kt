@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -78,22 +80,26 @@ class TranslationsListFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            viewModel.state.collectLatest { state ->
-                translationsListAdapter.submitList(state.translations)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collectLatest { state ->
+                    translationsListAdapter.submitList(state.translations)
+                }
             }
         }
 
         lifecycleScope.launch {
-            viewModel.eventFlow.collectLatest { event ->
-                when (event) {
-                    is TranslationsListUiEvent.ShowUndoDeleteSnackbar -> {
-                        Snackbar.make(
-                            binding.root,
-                            R.string.delete_translation_snackbar,
-                            Snackbar.LENGTH_LONG
-                        ).setAction(R.string.undo) {
-                            viewModel.undoDeleteTranslation()
-                        }.show()
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.eventFlow.collectLatest { event ->
+                    when (event) {
+                        is TranslationsListUiEvent.ShowUndoDeleteSnackbar -> {
+                            Snackbar.make(
+                                binding.root,
+                                R.string.delete_translation_snackbar,
+                                Snackbar.LENGTH_LONG
+                            ).setAction(R.string.undo) {
+                                viewModel.undoDeleteTranslation()
+                            }.show()
+                        }
                     }
                 }
             }

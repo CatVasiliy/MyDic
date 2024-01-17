@@ -11,7 +11,9 @@ import androidx.activity.addCallback
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslationDetailsBinding
@@ -48,12 +50,14 @@ class TranslationDetailsFragment : Fragment() {
         handleNavigationArguments()
 
         lifecycleScope.launch {
-            viewModel.state.collectLatest { state ->
-                showProgressBar(state.isLoading)
-                val translation = state.translation ?: return@collectLatest
-                when (translation) {
-                    is ExtendedTranslation -> createTranslationView(translation)
-                    is MissingTranslation -> createMissingTranslationView(translation)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collectLatest { state ->
+                    showProgressBar(state.isLoading)
+                    val translation = state.translation ?: return@collectLatest
+                    when (translation) {
+                        is ExtendedTranslation -> createTranslationView(translation)
+                        is MissingTranslation -> createMissingTranslationView(translation)
+                    }
                 }
             }
         }

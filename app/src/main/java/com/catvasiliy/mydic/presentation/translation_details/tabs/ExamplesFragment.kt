@@ -10,7 +10,9 @@ import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.catvasiliy.mydic.databinding.ExampleItemBinding
 import com.catvasiliy.mydic.databinding.FragmentExamplesBinding
 import com.catvasiliy.mydic.domain.model.translation.Example
@@ -37,13 +39,15 @@ class ExamplesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         lifecycleScope.launch {
-            viewModel.state.collectLatest { state ->
-                val examples = if (state.translation is ExtendedTranslation) {
-                    state.translation.examples
-                } else {
-                    emptyList()
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collectLatest { state ->
+                    val examples = if (state.translation is ExtendedTranslation) {
+                        state.translation.examples
+                    } else {
+                        emptyList()
+                    }
+                    createExamplesViews(examples)
                 }
-                createExamplesViews(examples)
             }
         }
     }
