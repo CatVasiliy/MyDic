@@ -1,13 +1,16 @@
 package com.catvasiliy.mydic.data.remote.model
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ApiDefinition(
-    @field:Json(name = "pos") val partOfSpeech: String?,
-    @field:Json(name = "entry") val entries: List<ApiDefinitionEntry>?
+    @SerialName("pos") val partOfSpeech: String = "",
+    @SerialName("entry") val entries: List<ApiDefinitionEntry> = emptyList()
 )
 
+@Serializable
 data class ApiDefinitionEntry(
-    @field:Json(name = "gloss") val definitionText: String?,
-    @field:Json(name = "example") val exampleText: String?
+    @SerialName("gloss") val definitionText: String = "",
+    @SerialName("example") val exampleText: String = ""
 )

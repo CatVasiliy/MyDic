@@ -1,10 +1,12 @@
 package com.catvasiliy.mydic.data.remote.model
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ApiTranslation(
-    @field:Json(name = "sentences") val primaryTranslation: List<ApiPrimaryTranslation>?,
-    @field:Json(name = "dict") val alternativeTranslations: List<ApiAlternativeTranslation>?,
-    @field:Json(name = "definitions") val definitions: List<ApiDefinition>?,
-    @field:Json(name = "examples") val examples: ApiExample?
+    @SerialName("sentences") val primaryTranslation: List<ApiPrimaryTranslation> = emptyList(),
+    @SerialName("dict") val alternativeTranslations: List<ApiAlternativeTranslation> = emptyList(),
+    @SerialName("definitions") val definitions: List<ApiDefinition> = emptyList(),
+    @SerialName("examples") val examples: ApiExample = ApiExample()
 )

@@ -1,11 +1,14 @@
 package com.catvasiliy.mydic.data.remote.model
 
-import com.squareup.moshi.Json
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ApiExample(
-    @field:Json(name = "example") val entries: List<ApiExampleEntry>?
+    @SerialName("example") val entries: List<ApiExampleEntry> = emptyList()
 )
 
+@Serializable
 data class ApiExampleEntry(
-    @field:Json(name = "text") val exampleText: String?
+    @SerialName("text") val exampleText: String = ""
 )

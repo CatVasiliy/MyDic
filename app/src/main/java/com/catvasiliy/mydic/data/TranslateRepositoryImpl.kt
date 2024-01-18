@@ -36,6 +36,7 @@ class TranslateRepositoryImpl @Inject constructor(
 
         emit(Resource.Success())
     }.catch {exception ->
+        exception.printStackTrace()
         val missingTranslation = MissingTranslation.fromSourceText(sourceText)
         val errorResource = getErrorResource(
             exception as Exception,

@@ -12,44 +12,44 @@ import java.util.*
 
 fun ApiTranslation.toExtendedTranslation(): ExtendedTranslation {
     return ExtendedTranslation(
-        translationText = primaryTranslation?.get(0)?.translationText ?: "",
-        sourceText = primaryTranslation?.get(0)?.sourceText ?: "",
-        sourceTransliteration = primaryTranslation?.get(1)?.sourceTransliteration ?: "",
-        alternativeTranslations = alternativeTranslations?.flatMap { alternativeTranslation ->
+        translationText = primaryTranslation[0].translationText,
+        sourceText = primaryTranslation[0].sourceText,
+        sourceTransliteration = primaryTranslation[1].sourceTransliteration,
+        alternativeTranslations = alternativeTranslations.flatMap { alternativeTranslation ->
             alternativeTranslation.toAlternativeTranslationsList()
-        } ?: emptyList(),
-        definitions = definitions?.flatMap { definitions ->
+        },
+        definitions = definitions.flatMap { definitions ->
             definitions.toDefinitionsList()
-        } ?: emptyList(),
-        examples = examples?.toExamplesList() ?: emptyList(),
+        },
+        examples = examples.toExamplesList(),
         translatedAtMillis = Date().time
     )
 }
 
 private fun ApiAlternativeTranslation.toAlternativeTranslationsList(): List<AlternativeTranslation> {
-    return entries?.map { alternativeTranslation ->
+    return entries.map { alternativeTranslation ->
         AlternativeTranslation(
-            translationText = alternativeTranslation.translationText ?: "",
-            partOfSpeech = partOfSpeech ?: "",
-            synonyms = alternativeTranslation.synonyms ?: emptyList()
+            translationText = alternativeTranslation.translationText,
+            partOfSpeech = partOfSpeech,
+            synonyms = alternativeTranslation.synonyms
         )
-    } ?: emptyList()
+    }
 }
 
 private fun ApiDefinition.toDefinitionsList(): List<Definition> {
-    return entries?.map { definition ->
+    return entries.map { definition ->
         Definition(
-            definitionText = definition.definitionText ?: "",
-            partOfSpeech = partOfSpeech ?: "",
-            exampleText = definition.exampleText ?: ""
+            definitionText = definition.definitionText,
+            partOfSpeech = partOfSpeech,
+            exampleText = definition.exampleText
         )
-    } ?: emptyList()
+    }
 }
 
 private fun ApiExample.toExamplesList(): List<Example> {
-    return entries?.map { example ->
+    return entries.map { example ->
         Example(
-            exampleText = example.exampleText ?: ""
+            exampleText = example.exampleText
         )
-    } ?: emptyList()
+    }
 }
