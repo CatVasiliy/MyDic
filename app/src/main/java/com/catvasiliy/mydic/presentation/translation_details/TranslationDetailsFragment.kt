@@ -3,9 +3,6 @@ package com.catvasiliy.mydic.presentation.translation_details
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.annotation.StringRes
@@ -20,6 +17,8 @@ import com.catvasiliy.mydic.databinding.FragmentTranslationDetailsBinding
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.presentation.MainActivity
+import com.catvasiliy.mydic.presentation.util.hideAndShowOther
+import com.catvasiliy.mydic.presentation.util.visibleIf
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -52,7 +51,7 @@ class TranslationDetailsFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-                    showProgressBar(state.isLoading)
+                    binding.piTranslation.visibleIf { state.isLoading }
                     val translation = state.translation ?: return@collectLatest
                     when (translation) {
                         is ExtendedTranslation -> createTranslationView(translation)
@@ -116,17 +115,8 @@ class TranslationDetailsFragment : Fragment() {
         viewModel.loadTranslation(id, isMissingTranslation)
     }
 
-    private fun showProgressBar(isLoading: Boolean) {
-        if (isLoading) {
-            binding.piTranslation.visibility = VISIBLE
-        } else {
-            binding.piTranslation.visibility = INVISIBLE
-        }
-    }
-
     private fun createTranslationView(translation: ExtendedTranslation) {
-        binding.llMissingTranslation.visibility = GONE
-        binding.llTranslationDetails.visibility = VISIBLE
+        binding.llMissingTranslation.hideAndShowOther(binding.llTranslationDetails)
 
         setupTabLayout()
         binding.tvTranslation.text = translation.translationText
@@ -154,8 +144,7 @@ class TranslationDetailsFragment : Fragment() {
     }
 
     private fun createMissingTranslationView(missingTranslation: MissingTranslation) {
-        binding.llTranslationDetails.visibility = GONE
-        binding.llMissingTranslation.visibility = VISIBLE
+        binding.llTranslationDetails.hideAndShowOther(binding.llMissingTranslation)
 
         binding.tvSource.text = missingTranslation.sourceText
         binding.btnRefresh.setOnClickListener {

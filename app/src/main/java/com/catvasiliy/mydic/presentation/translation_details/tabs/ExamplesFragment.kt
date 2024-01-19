@@ -3,8 +3,6 @@ package com.catvasiliy.mydic.presentation.translation_details.tabs
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
@@ -18,6 +16,8 @@ import com.catvasiliy.mydic.databinding.FragmentExamplesBinding
 import com.catvasiliy.mydic.domain.model.translation.Example
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
+import com.catvasiliy.mydic.presentation.util.hideAndShowOther
+import com.catvasiliy.mydic.presentation.util.show
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -59,12 +59,11 @@ class ExamplesFragment : Fragment() {
 
     private fun createExamplesViews(examples: List<Example>) {
         if (examples.isEmpty()) {
-            binding.svExamples.visibility = GONE
-            binding.llNoExamples.visibility = VISIBLE
+            binding.svExamples.hideAndShowOther(binding.llNoExamples)
             return
         }
 
-        binding.svExamples.visibility = VISIBLE
+        binding.svExamples.show()
 
         examples.forEach { example ->
             val exampleBinding = ExampleItemBinding.inflate(layoutInflater)

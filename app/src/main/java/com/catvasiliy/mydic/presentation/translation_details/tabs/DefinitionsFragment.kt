@@ -3,8 +3,6 @@ package com.catvasiliy.mydic.presentation.translation_details.tabs
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +14,8 @@ import com.catvasiliy.mydic.databinding.FragmentDefinitionsBinding
 import com.catvasiliy.mydic.domain.model.translation.Definition
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
+import com.catvasiliy.mydic.presentation.util.hideAndShowOther
+import com.catvasiliy.mydic.presentation.util.show
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -57,13 +57,11 @@ class DefinitionsFragment : Fragment() {
 
     private fun createDefinitionViews(definitions: List<Definition>) {
         if (definitions.isEmpty()) {
-            binding.svDefinitions.visibility = GONE
-            binding.llNoDefinitions.visibility = VISIBLE
+            binding.svDefinitions.hideAndShowOther(binding.llNoDefinitions)
             return
         }
 
-        binding.svDefinitions.visibility = VISIBLE
-
+        binding.svDefinitions.show()
         definitions.forEach { definition ->
             val definitionBinding = DefinitionItemBinding.inflate(layoutInflater)
             definitionBinding.apply {

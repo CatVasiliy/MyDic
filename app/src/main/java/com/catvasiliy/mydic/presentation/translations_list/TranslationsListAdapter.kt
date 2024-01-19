@@ -1,8 +1,6 @@
 package com.catvasiliy.mydic.presentation.translations_list
 
 import android.view.LayoutInflater
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
@@ -12,6 +10,7 @@ import com.catvasiliy.mydic.databinding.TranslationListItemBinding
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.SimpleTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
+import com.catvasiliy.mydic.presentation.util.showIf
 
 class TranslationsListAdapter
     : ListAdapter<Translation, TranslationsListAdapter.TranslationViewHolder>(ITEM_COMPARATOR) {
@@ -41,7 +40,7 @@ class TranslationsListAdapter
             }
             binding.tvSource.text = item.sourceText
             binding.tvTranslation.text = if (item is SimpleTranslation) item.translationText else ""
-            binding.ivProblem.visibility = if (item is SimpleTranslation) GONE else VISIBLE
+            binding.ivProblem.showIf { item is MissingTranslation }
         }
     }
 }

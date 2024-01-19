@@ -3,8 +3,6 @@ package com.catvasiliy.mydic.presentation.translation_details.tabs
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +14,8 @@ import com.catvasiliy.mydic.databinding.FragmentAlternativeTranslationsBinding
 import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
+import com.catvasiliy.mydic.presentation.util.hideAndShowOther
+import com.catvasiliy.mydic.presentation.util.show
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -59,12 +59,11 @@ class AlternativeTranslationsFragment : Fragment() {
         alternativeTranslations: List<AlternativeTranslation>
     ) {
         if (alternativeTranslations.isEmpty()) {
-            binding.svAlternativeTranslations.visibility = GONE
-            binding.llNoAlternativeTranslations.visibility = VISIBLE
+            binding.svAlternativeTranslations.hideAndShowOther(binding.llNoAlternativeTranslations)
             return
         }
 
-        binding.svAlternativeTranslations.visibility = VISIBLE
+        binding.svAlternativeTranslations.show()
 
         alternativeTranslations.forEach { alternativeTranslation ->
             val alternativeTranslationBinding = AlternativeTranslationItemBinding
