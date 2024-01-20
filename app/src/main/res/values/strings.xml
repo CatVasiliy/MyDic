@@ -2,6 +2,7 @@
     <string name="app_name">My Dic</string>
 
     <string name="translations">Translations</string>
+    <string name="add_translation">Add translation</string>
     <string name="sort_by_chip">Sort by: %1$s</string>
     <string name="descending">Descending</string>
     <string name="sort_by">Sort by</string>
@@ -10,6 +11,7 @@
     <string name="translation_text">Translation Text</string>
     <string name="delete_translation_snackbar">Translation deleted</string>
     <string name="undo">Undo</string>
+    <string name="no_translations">There are no saved translations. Click Add button to translate.</string>
 
     <string name="translate">Translate</string>
     <string name="et_source_hint">Text to translate</string>

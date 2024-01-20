@@ -18,9 +18,11 @@ import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.BottomSheetSortBinding
 import com.catvasiliy.mydic.databinding.FragmentTranslationsListBinding
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
+import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.presentation.MainActivity
 import com.catvasiliy.mydic.presentation.util.SortType
 import com.catvasiliy.mydic.presentation.util.TranslationSort
+import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +40,8 @@ class TranslationsListFragment : Fragment() {
     private var _bottomSheetSortBinding: BottomSheetSortBinding? = null
     private val bottomSheetSortBinding get() = _bottomSheetSortBinding!!
 
+    private val translationsListAdapter = TranslationsListAdapter()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,8 +58,6 @@ class TranslationsListFragment : Fragment() {
         binding.tbTranslations.setNavigationOnClickListener {
             (requireActivity() as MainActivity).openNavigationDrawer()
         }
-
-        val translationsListAdapter = TranslationsListAdapter()
 
         val swipeHelper = ItemTouchHelper(
             object : SwipeToDeleteCallback(requireContext()) {
@@ -82,7 +84,7 @@ class TranslationsListFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-                    translationsListAdapter.submitList(state.translations)
+                    showTranslations(state.translations)
                 }
             }
         }
@@ -131,6 +133,15 @@ class TranslationsListFragment : Fragment() {
 
         _bottomSheetSortBinding = null
         _binding = null
+    }
+
+    private fun showTranslations(translationsList: List<Translation>) {
+        if (translationsList.isNotEmpty()) {
+            translationsListAdapter.submitList(translationsList)
+            binding.llNoTranslations.hideAndShowOther(binding.llTranslations)
+        } else {
+            binding.llTranslations.hideAndShowOther(binding.llNoTranslations)
+        }
     }
 
     private fun setupAndGetBottomSheetSort(): BottomSheetDialog {
