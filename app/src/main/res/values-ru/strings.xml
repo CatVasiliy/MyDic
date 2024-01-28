@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="translations">Переводы</string>
+    <string name="add_translation">Добавить перевод</string>
+    <string name="sort_by_chip">Сортировать по: %1$s</string>
+    <string name="descending">По убыванию</string>
+    <string name="sort_by">Сортировать по</string>
+    <string name="date">Дата</string>
+    <string name="source_text">Исходный текст</string>
+    <string name="translation_text">Перевод</string>
+    <string name="delete_translation_snackbar">Перевод удален</string>
+    <string name="undo">Отмена</string>
+    <string name="no_translations">Сохраненных переводов нет. Нажмите кнопку Добавить для перевода</string>
+
+    <string name="translate">Перевести</string>
+    <string name="et_source_hint">Текст для перевода</string>
+    <string name="btn_translate">Перевести</string>
+    <string name="empty_source_snackbar">Поле \"Текст для перевода\" не может быть пустым</string>
+
+    <string name="translation_details">Перевод</string>
+    <string name="alternatives">Альтернативы</string>
+    <string name="definitions">Определения</string>
+    <string name="examples">Примеры</string>
+    <string name="synonyms">Синонимы</string>
+    <string name="no_alternatives">Альтернативы отстутствуют.</string>
+    <string name="no_definitions">Определения отсутствуют.</string>
+    <string name="no_examples">Примеры отсутствуют.</string>
+
+    <string name="missing_translation_message">Перевод недоступен. Нажмите кнопку Обновить, чтобы попробовать снова.</string>
+    <string name="btn_refresh">Обновить</string>
+    <string name="search">Поиск</string>
+
+    <string name="settings">Настройки</string>
+
+</resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Dic</string>
+    <string name="app_name" translatable="false">My Dic</string>
 
     <string name="translations">Translations</string>
     <string name="add_translation">Add translation</string>
