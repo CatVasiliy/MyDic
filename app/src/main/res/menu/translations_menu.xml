@@ -6,6 +6,7 @@
         android:id="@+id/miSearch"
         android:title="@string/search"
         android:icon="@drawable/baseline_search_24"
+        app:iconTint="?attr/colorOnPrimary"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 

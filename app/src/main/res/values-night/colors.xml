@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primary">#FF26334D</color>
+    <color name="primaryContainer">#FF37538B</color>
+    <color name="onPrimaryContainer">#FFDDE8FF</color>
+
+    <color name="secondaryContainer">#FF444B58</color>
+
+    <color name="surface">#FF1D2026</color>
+    <color name="onSurface">#FFE0E3E9</color>
+
+    <color name="outlineVariant">#FF45484F</color>
+
+    <color name="deleteBackground">#FF880000</color>
+
+</resources>

@@ -9,13 +9,23 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tbTranslations"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:title="@string/translations"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/Theme.MyDic.ToolbarWithSearch"
         app:navigationIcon="@drawable/baseline_menu_24"
         app:menu="@menu/translations_menu"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:gravity="center_vertical"
+            android:text="@string/translations"
+            android:textAppearance="?attr/textAppearanceTitleLarge"/>
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <LinearLayout
         android:id="@+id/llTranslations"
@@ -56,8 +66,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:dividerColor="?attr/colorSurfaceVariant" />
+            android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTranslations"

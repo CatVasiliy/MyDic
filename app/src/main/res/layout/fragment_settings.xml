@@ -8,7 +8,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tbSettings"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         app:title="@string/settings"
         app:navigationIcon="@drawable/baseline_menu_24"
         app:layout_constraintTop_toTopOf="parent"

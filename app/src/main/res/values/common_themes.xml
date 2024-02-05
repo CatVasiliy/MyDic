@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.MyDic.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="titleTextColor">?attr/colorOnPrimary</item>
+        <item name="navigationIconTint">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="Theme.MyDic.ToolbarWithSearch" parent="Theme.MyDic.Toolbar">
+        <item name="colorControlNormal">?attr/colorOnPrimary</item>
+        <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
+    </style>
+
+</resources>

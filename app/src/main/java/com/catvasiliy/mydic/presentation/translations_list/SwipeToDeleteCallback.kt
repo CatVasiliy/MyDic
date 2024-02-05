@@ -11,9 +11,9 @@ import com.catvasiliy.mydic.R
 abstract class SwipeToDeleteCallback(context: Context)
     : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
-    private val background = ColorDrawable(ContextCompat.getColor(context, R.color.delete_background))
+    private val background = ColorDrawable(ContextCompat.getColor(context, R.color.deleteBackground))
     private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.baseline_delete_36)
-    private val iconCover = ColorDrawable(ContextCompat.getColor(context, R.color.black))
+    private val iconCover = ColorDrawable(ContextCompat.getColor(context, R.color.surface))
 
     override fun onMove(
         recyclerView: RecyclerView,

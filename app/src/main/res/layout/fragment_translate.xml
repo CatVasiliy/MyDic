@@ -8,7 +8,7 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tbTranslation"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         app:title="@string/translate"
         app:navigationIcon="@drawable/baseline_arrow_back_24"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,7 +28,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnTranslate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

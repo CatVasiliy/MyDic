@@ -10,7 +10,7 @@
     android:paddingEnd="16dp"
     android:clickable="true"
     android:focusable="true"
-    android:background="?android:selectableItemBackground">
+    android:foreground="?attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/tvSource"
@@ -48,20 +48,20 @@
     
     <ImageView
         android:id="@+id/ivProblem"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/attention_icon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/tvTranslation"
         app:layout_constraintStart_toEndOf="@id/barrier"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="?attr/colorError" />
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:dividerColor="?attr/colorSurfaceVariant"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
