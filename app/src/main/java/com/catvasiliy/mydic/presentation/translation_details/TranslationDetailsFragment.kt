@@ -56,6 +56,7 @@ class TranslationDetailsFragment : Fragment() {
                     when (translation) {
                         is ExtendedTranslation -> createTranslationView(translation)
                         is MissingTranslation -> createMissingTranslationView(translation)
+                        else -> throw IllegalArgumentException()
                     }
                 }
             }
