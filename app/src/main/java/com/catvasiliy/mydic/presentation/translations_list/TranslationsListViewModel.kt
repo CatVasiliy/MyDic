@@ -9,6 +9,7 @@ import com.catvasiliy.mydic.presentation.util.TranslationSort
 import com.catvasiliy.mydic.presentation.util.sortedCustom
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -62,14 +63,24 @@ class TranslationsListViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     private var currentJob: Job? = null
+    private var searchJob: Job? = null
+
+    private val searchDelayMillis: Long = 300
 
     override fun onCleared() {
         currentJob?.cancel()
+        searchJob?.cancel()
         super.onCleared()
     }
 
     fun searchTranslations(searchQuery: String) {
-        _searchQuery.update { searchQuery }
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            if (searchQuery.isNotBlank()) {
+                delay(searchDelayMillis)
+            }
+            _searchQuery.update { searchQuery }
+        }
     }
 
     fun sortTranslations(sortInfo: TranslationSort) {
