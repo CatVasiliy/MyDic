@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.domain.use_case
+package com.catvasiliy.mydic.domain.use_case.translate
 
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation

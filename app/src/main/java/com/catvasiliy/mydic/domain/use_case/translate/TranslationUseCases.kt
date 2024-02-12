@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.domain.use_case
+package com.catvasiliy.mydic.domain.use_case.translate
 
 data class TranslationUseCases(
     val getTranslationsList: GetTranslationsList,

@@ -6,11 +6,11 @@ import com.catvasiliy.mydic.data.local.database.TranslationDao
 import com.catvasiliy.mydic.data.local.database.TranslationDatabase
 import com.catvasiliy.mydic.data.remote.TranslateApi
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
-import com.catvasiliy.mydic.domain.use_case.DeleteTranslation
-import com.catvasiliy.mydic.domain.use_case.GetTranslation
-import com.catvasiliy.mydic.domain.use_case.GetTranslationsList
-import com.catvasiliy.mydic.domain.use_case.InsertTranslation
-import com.catvasiliy.mydic.domain.use_case.TranslationUseCases
+import com.catvasiliy.mydic.domain.use_case.translate.DeleteTranslation
+import com.catvasiliy.mydic.domain.use_case.translate.GetTranslation
+import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationsList
+import com.catvasiliy.mydic.domain.use_case.translate.InsertTranslation
+import com.catvasiliy.mydic.domain.use_case.translate.TranslationUseCases
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

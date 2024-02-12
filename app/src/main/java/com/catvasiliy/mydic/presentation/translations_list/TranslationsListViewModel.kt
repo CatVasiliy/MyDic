@@ -3,7 +3,7 @@ package com.catvasiliy.mydic.presentation.translations_list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.catvasiliy.mydic.domain.model.translation.Translation
-import com.catvasiliy.mydic.domain.use_case.TranslationUseCases
+import com.catvasiliy.mydic.domain.use_case.translate.TranslationUseCases
 import com.catvasiliy.mydic.presentation.util.SortType
 import com.catvasiliy.mydic.presentation.util.TranslationSort
 import com.catvasiliy.mydic.presentation.util.sortedCustom
