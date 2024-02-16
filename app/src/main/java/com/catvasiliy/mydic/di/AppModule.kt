@@ -7,12 +7,6 @@ import androidx.work.WorkManager
 import com.catvasiliy.mydic.data.local.database.TranslationDao
 import com.catvasiliy.mydic.data.local.database.TranslationDatabase
 import com.catvasiliy.mydic.data.remote.TranslateApi
-import com.catvasiliy.mydic.domain.repository.TranslateRepository
-import com.catvasiliy.mydic.domain.use_case.translate.DeleteTranslation
-import com.catvasiliy.mydic.domain.use_case.translate.GetTranslation
-import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationsList
-import com.catvasiliy.mydic.domain.use_case.translate.InsertTranslation
-import com.catvasiliy.mydic.domain.use_case.translate.TranslationUseCases
 import com.catvasiliy.mydic.presentation.settings.translation_sending.Notifier
 import com.catvasiliy.mydic.presentation.settings.translation_sending.TranslationNotifier
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -55,17 +49,6 @@ object AppModule {
     @Provides
     fun provideTranslationDao(translationDatabase: TranslationDatabase): TranslationDao {
         return translationDatabase.translationDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideTranslationUseCases(repository: TranslateRepository): TranslationUseCases {
-        return TranslationUseCases(
-            GetTranslationsList(repository),
-            GetTranslation(repository),
-            InsertTranslation(repository),
-            DeleteTranslation(repository)
-        )
     }
 
     @Provides

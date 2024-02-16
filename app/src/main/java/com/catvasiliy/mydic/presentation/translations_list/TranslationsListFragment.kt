@@ -70,7 +70,7 @@ class TranslationsListFragment : Fragment() {
 
                     val id = translationsList[itemPosition].id
                     val isMissingTranslation = translationsList[itemPosition] is MissingTranslation
-                    viewModel.deleteTranslation(id, isMissingTranslation)
+                    viewModel.removeTranslation(id, isMissingTranslation)
                 }
             }
         )
@@ -99,7 +99,7 @@ class TranslationsListFragment : Fragment() {
                                 R.string.delete_translation_snackbar,
                                 Snackbar.LENGTH_LONG
                             ).setAction(R.string.undo) {
-                                viewModel.undoDeleteTranslation()
+                                viewModel.undoRemoveTranslation()
                             }.show()
                         }
                     }

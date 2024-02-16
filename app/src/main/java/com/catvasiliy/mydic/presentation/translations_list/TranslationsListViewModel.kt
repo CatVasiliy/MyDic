@@ -3,7 +3,9 @@ package com.catvasiliy.mydic.presentation.translations_list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.catvasiliy.mydic.domain.model.translation.Translation
-import com.catvasiliy.mydic.domain.use_case.translate.TranslationUseCases
+import com.catvasiliy.mydic.domain.use_case.translate.DeleteTranslationUseCase
+import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationsListUseCase
+import com.catvasiliy.mydic.domain.use_case.translate.InsertTranslationUseCase
 import com.catvasiliy.mydic.presentation.util.SortType
 import com.catvasiliy.mydic.presentation.util.TranslationSort
 import com.catvasiliy.mydic.presentation.util.sortedCustom
@@ -23,10 +25,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TranslationsListViewModel @Inject constructor(
-    private val translationUseCases: TranslationUseCases
+    getTranslationsList: GetTranslationsListUseCase,
+    private val insertTranslation: InsertTranslationUseCase,
+    private val deleteTranslation: DeleteTranslationUseCase
 ) : ViewModel() {
 
-    private val _translationsList = translationUseCases.getTranslationsList()
+    private val _translationsList = getTranslationsList()
 
     private val _sortInfo = MutableStateFlow<TranslationSort>(TranslationSort.Date(SortType.Descending))
 
@@ -87,20 +91,20 @@ class TranslationsListViewModel @Inject constructor(
         _sortInfo.update { sortInfo }
     }
 
-    fun deleteTranslation(id: Long, isMissingTranslation: Boolean) {
+    fun removeTranslation(id: Long, isMissingTranslation: Boolean) {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             _lastDeletedTranslation.update {
-                translationUseCases.deleteTranslation(id, isMissingTranslation)
+                deleteTranslation(id, isMissingTranslation)
             }
             _eventFlow.emit(TranslationsListUiEvent.ShowUndoDeleteSnackbar)
         }
     }
 
-    fun undoDeleteTranslation() {
+    fun undoRemoveTranslation() {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
-            _lastDeletedTranslation.value?.let { translationUseCases.insertTranslation(it) }
+            _lastDeletedTranslation.value?.let { insertTranslation(it) }
             _lastDeletedTranslation.update { null }
         }
     }

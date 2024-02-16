@@ -4,14 +4,17 @@ import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
+import javax.inject.Inject
 
-class InsertTranslation(private val repository: TranslateRepository) {
+class InsertTranslationUseCase @Inject constructor(
+    private val translateRepository: TranslateRepository
+) {
 
     suspend operator fun invoke(translation: Translation) {
         if (translation is MissingTranslation) {
-            repository.insertMissingTranslation(translation)
+            translateRepository.insertMissingTranslation(translation)
         } else {
-            repository.insertExtendedTranslation(translation as ExtendedTranslation)
+            translateRepository.insertExtendedTranslation(translation as ExtendedTranslation)
         }
     }
 }

@@ -3,7 +3,7 @@ package com.catvasiliy.mydic.presentation.translation_details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.catvasiliy.mydic.domain.model.translation.Translation
-import com.catvasiliy.mydic.domain.use_case.translate.TranslationUseCases
+import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationUseCase
 import com.catvasiliy.mydic.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TranslationDetailsViewModel @Inject constructor(
-    private val translationUseCases: TranslationUseCases
+    private val getTranslation: GetTranslationUseCase
 ): ViewModel() {
 
     private val _state = MutableStateFlow(TranslationDetailsState())
@@ -32,11 +32,13 @@ class TranslationDetailsViewModel @Inject constructor(
 
     fun translate(sourceText: String) {
         currentJob?.cancel()
-        currentJob = translationUseCases.getTranslation(
+        currentJob = getTranslation(
             sourceLanguage = "en",
             targetLanguage = "ru",
             sourceText = sourceText
-        ).onEach { processResult(it) }.launchIn(viewModelScope)
+        )
+        .onEach { processResult(it) }
+        .launchIn(viewModelScope)
     }
 
     private fun processResult(result: Resource<Translation>) {
@@ -68,7 +70,7 @@ class TranslationDetailsViewModel @Inject constructor(
         currentJob = viewModelScope.launch {
             _state.update {
                 state.value.copy(
-                    translation = translationUseCases.getTranslation(id, isMissingTranslation)
+                    translation = getTranslation(id, isMissingTranslation)
                 )
             }
         }
@@ -77,10 +79,12 @@ class TranslationDetailsViewModel @Inject constructor(
     fun updateMissingTranslation() {
         val missingTranslation = state.value.translation ?: return
         currentJob?.cancel()
-        currentJob = translationUseCases.getTranslation(
+        currentJob = getTranslation(
             sourceLanguage = "en",
             targetLanguage = "ru",
             translation = missingTranslation
-        ).onEach { processResult(it) }.launchIn(viewModelScope)
+        )
+        .onEach { processResult(it) }
+        .launchIn(viewModelScope)
     }
 }
