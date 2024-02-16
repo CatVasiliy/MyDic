@@ -2,8 +2,15 @@ package com.catvasiliy.mydic.presentation.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.catvasiliy.mydic.data.local.preferences.PreferencesRepository
-import com.catvasiliy.mydic.domain.model.settings.Period
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import com.catvasiliy.mydic.domain.model.settings.TranslationSendingInterval
+import com.catvasiliy.mydic.domain.model.settings.TranslationSendingPreferences
+import com.catvasiliy.mydic.domain.use_case.settings.GetPreferencesUseCase
+import com.catvasiliy.mydic.domain.use_case.settings.UpdateTranslationSendingIntervalUseCase
+import com.catvasiliy.mydic.domain.use_case.settings.ToggleTranslationSendingUseCase
+import com.catvasiliy.mydic.presentation.settings.translation_sending.TranslationNotificationWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -13,10 +20,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val preferences: PreferencesRepository
+    getPreferences: GetPreferencesUseCase,
+    private val toggleTranslationSending: ToggleTranslationSendingUseCase,
+    private val updateTranslationSendingInterval: UpdateTranslationSendingIntervalUseCase,
+    private val workManager: WorkManager
 ) : ViewModel() {
 
-    val state = preferences.getPreferences()
+    val state = getPreferences()
         .map { sendTranslationPreferences ->
             SettingsState(
                 sendTranslationPreferences = sendTranslationPreferences
@@ -28,15 +38,44 @@ class SettingsViewModel @Inject constructor(
             initialValue = SettingsState()
         )
 
-    fun setIsSendingEnabled(isSendingEnabled: Boolean) {
+    fun toggleTranslationSending(
+        isSendingEnabled: Boolean,
+        sendingInterval: TranslationSendingInterval
+    ) {
         viewModelScope.launch {
-            preferences.setIsSendingEnabled(isSendingEnabled)
+
+            val workRequest = PeriodicWorkRequestBuilder<TranslationNotificationWorker>(
+                repeatInterval = sendingInterval.duration,
+                repeatIntervalTimeUnit = sendingInterval.timeUnit
+            )
+            .setInitialDelay(
+                duration = sendingInterval.duration,
+                timeUnit = sendingInterval.timeUnit
+            )
+            .build()
+
+            if (isSendingEnabled) {
+                workManager.enqueueUniquePeriodicWork(
+                    TranslationNotificationWorker.UNIQUE_WORK_NAME,
+                    ExistingPeriodicWorkPolicy.KEEP,
+                    workRequest
+                )
+            } else {
+                workManager.cancelUniqueWork(TranslationNotificationWorker.UNIQUE_WORK_NAME)
+            }
+
+            toggleTranslationSending(
+                TranslationSendingPreferences(
+                    isSendingEnabled = isSendingEnabled,
+                    sendingInterval = sendingInterval
+                )
+            )
         }
     }
 
-    fun setPeriod(period: Period) {
+    fun setTranslationSendingInterval(interval: TranslationSendingInterval) {
         viewModelScope.launch {
-            preferences.setPeriod(period)
+            updateTranslationSendingInterval(interval)
         }
     }
 }

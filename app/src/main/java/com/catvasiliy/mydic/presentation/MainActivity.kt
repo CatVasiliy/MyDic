@@ -1,15 +1,14 @@
 package com.catvasiliy.mydic.presentation
 
-import android.Manifest
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.ActivityMainBinding
+import com.catvasiliy.mydic.presentation.util.ACTION_OPEN_TRANSLATION
+import com.catvasiliy.mydic.presentation.util.EXTRA_TRANSLATION_ID
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,24 +56,21 @@ class MainActivity : AppCompatActivity() {
             closeNavigationDrawer()
             return@setNavigationItemSelectedListener true
         }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                0
-            )
-        }
-
-
-//        val alarmScheduler = AndroidAlarmScheduler(this)
-//        alarmScheduler.schedule()
     }
 
     override fun onStart() {
         super.onStart()
 
-        if (intent.type == "text/plain") {
+        if (intent.action == ACTION_OPEN_TRANSLATION) {
+            val translationId = intent.getLongExtra(EXTRA_TRANSLATION_ID, -1L)
+            if (translationId == -1L) return
+
+            val args = Bundle().apply {
+                putLong("translationId", translationId)
+            }
+            binding.navHostFragment.findNavController().navigate(R.id.fragmentTranslationDetails, args)
+            intent.removeExtra(EXTRA_TRANSLATION_ID)
+        } else if (intent.type == "text/plain") {
             intent.getStringExtra(Intent.EXTRA_TEXT)?.let { text ->
                 val args = Bundle().apply {
                     putString("sourceText", text.trim().trim('"'))

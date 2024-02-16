@@ -98,11 +98,11 @@ class TranslationDetailsFragment : Fragment() {
             return
         }
 
-        val id = arguments?.let { args ->
+        val translationId = arguments?.let { args ->
             TranslationDetailsFragmentArgs.fromBundle(args).translationId
-        } ?: -1L
+        } ?: arguments?.getLong("translationId", -1L) ?: -1L
 
-        if (id == -1L) {
+        if (translationId == -1L) {
             return
         }
 
@@ -113,7 +113,7 @@ class TranslationDetailsFragment : Fragment() {
         arguments?.remove("translationId")
         arguments?.remove("isMissingTranslation")
 
-        viewModel.loadTranslation(id, isMissingTranslation)
+        viewModel.loadTranslation(translationId, isMissingTranslation)
     }
 
     private fun createTranslationView(translation: ExtendedTranslation) {

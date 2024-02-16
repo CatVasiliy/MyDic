@@ -1,7 +1,7 @@
 package com.catvasiliy.mydic.presentation.settings
 
-import com.catvasiliy.mydic.domain.model.settings.SendTranslationPreferences
+import com.catvasiliy.mydic.domain.model.settings.TranslationSendingPreferences
 
 data class SettingsState(
-    val sendTranslationPreferences: SendTranslationPreferences = SendTranslationPreferences()
+    val sendTranslationPreferences: TranslationSendingPreferences = TranslationSendingPreferences()
 )

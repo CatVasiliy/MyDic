@@ -2,20 +2,28 @@ package com.catvasiliy.mydic.data
 
 import com.catvasiliy.mydic.data.local.database.TranslationDao
 import com.catvasiliy.mydic.data.local.database.model.CachedMissingTranslation
+import com.catvasiliy.mydic.data.local.database.model.CachedTranslation
+import com.catvasiliy.mydic.data.local.database.model.CachedTranslationForSending
 import com.catvasiliy.mydic.data.local.database.toCachedMissingTranslation
 import com.catvasiliy.mydic.data.local.database.toCachedTranslation
 import com.catvasiliy.mydic.data.local.database.toExtendedTranslation
 import com.catvasiliy.mydic.data.local.database.toMissingTranslation
 import com.catvasiliy.mydic.data.local.database.toSimpleTranslation
-import com.catvasiliy.mydic.data.local.database.model.CachedTranslation
+import com.catvasiliy.mydic.data.local.database.toTranslationForSending
 import com.catvasiliy.mydic.data.remote.TranslateApi
 import com.catvasiliy.mydic.data.remote.toExtendedTranslation
+import com.catvasiliy.mydic.domain.model.settings.TranslationForSending
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
 import com.catvasiliy.mydic.domain.util.Resource
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 
 class TranslateRepositoryImpl @Inject constructor(
@@ -102,6 +110,30 @@ class TranslateRepositoryImpl @Inject constructor(
 
     override suspend fun insertMissingTranslation(missingTranslation: MissingTranslation) {
         translationDao.insertMissingTranslation(missingTranslation.toCachedMissingTranslation())
+    }
+
+    override suspend fun getTranslationForSending(): TranslationForSending {
+        var cachedTranslationsForSending = translationDao.getTranslationsForSendingList()
+
+        if (cachedTranslationsForSending.isEmpty()) {
+            val translationIds = translationDao.getTranslationIds()
+
+            translationIds.forEach { id ->
+                val cachedNotificationTranslation = CachedTranslationForSending(
+                    id = id
+                )
+                translationDao.insertTranslationForSending(cachedNotificationTranslation)
+            }
+
+            cachedTranslationsForSending = translationDao.getTranslationsForSendingList()
+        }
+
+        val cachedTranslationForSending = cachedTranslationsForSending.random()
+        translationDao.deleteTranslationForSending(cachedTranslationForSending)
+
+        val cachedTranslation = translationDao.getTranslationById(cachedTranslationForSending.id)
+
+        return cachedTranslation.toTranslationForSending()
     }
 
     private fun baseTranslationFlow(

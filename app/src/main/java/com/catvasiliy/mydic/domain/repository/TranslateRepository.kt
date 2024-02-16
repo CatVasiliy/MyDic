@@ -1,5 +1,6 @@
 package com.catvasiliy.mydic.domain.repository
 
+import com.catvasiliy.mydic.domain.model.settings.TranslationForSending
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
@@ -28,4 +29,6 @@ interface TranslateRepository {
 
     suspend fun insertExtendedTranslation(extendedTranslation: ExtendedTranslation)
     suspend fun insertMissingTranslation(missingTranslation: MissingTranslation)
+
+    suspend fun getTranslationForSending(): TranslationForSending
 }

@@ -6,6 +6,7 @@ import com.catvasiliy.mydic.data.local.database.model.CachedAlternativeTranslati
 import com.catvasiliy.mydic.data.local.database.model.CachedDefinition
 import com.catvasiliy.mydic.data.local.database.model.CachedExample
 import com.catvasiliy.mydic.data.local.database.model.CachedMissingTranslation
+import com.catvasiliy.mydic.data.local.database.model.CachedTranslationForSending
 import com.catvasiliy.mydic.data.local.database.model.CachedSynonym
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslation
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslationAggregate
@@ -69,6 +70,9 @@ abstract class TranslationDao {
     @Query("SELECT * FROM translation")
     abstract fun getTranslations(): Flow<List<CachedTranslation>>
 
+    @Query("SELECT id FROM translation")
+    abstract suspend fun getTranslationIds(): List<Long>
+
     @Transaction
     @Query("SELECT * FROM translation WHERE id = :id")
     abstract suspend fun getTranslationById(id: Long): CachedTranslationAggregate
@@ -88,4 +92,17 @@ abstract class TranslationDao {
 
     @Query("DELETE FROM missing_translation WHERE id = :id")
     abstract suspend fun deleteMissingTranslationById(id: Long)
+
+    @Insert(onConflict = REPLACE)
+    abstract suspend fun insertTranslationForSending(
+        notificationTranslation: CachedTranslationForSending
+    )
+
+    @Query("SELECT * FROM translation_for_sending")
+    abstract suspend fun getTranslationsForSendingList(): List<CachedTranslationForSending>
+
+    @Delete
+    abstract suspend fun deleteTranslationForSending(
+        notificationTranslation: CachedTranslationForSending
+    )
 }

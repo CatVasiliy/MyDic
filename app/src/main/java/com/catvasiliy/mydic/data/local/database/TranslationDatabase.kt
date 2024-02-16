@@ -6,6 +6,7 @@ import com.catvasiliy.mydic.data.local.database.model.CachedAlternativeTranslati
 import com.catvasiliy.mydic.data.local.database.model.CachedDefinition
 import com.catvasiliy.mydic.data.local.database.model.CachedExample
 import com.catvasiliy.mydic.data.local.database.model.CachedMissingTranslation
+import com.catvasiliy.mydic.data.local.database.model.CachedTranslationForSending
 import com.catvasiliy.mydic.data.local.database.model.CachedSynonym
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslation
 
@@ -16,7 +17,8 @@ import com.catvasiliy.mydic.data.local.database.model.CachedTranslation
         CachedSynonym::class,
         CachedDefinition::class,
         CachedExample::class,
-        CachedMissingTranslation::class
+        CachedMissingTranslation::class,
+        CachedTranslationForSending::class
     ],
     version = 1
 )

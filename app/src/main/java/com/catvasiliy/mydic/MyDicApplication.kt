@@ -1,30 +1,19 @@
 package com.catvasiliy.mydic
 
 import android.app.Application
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.os.Build
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
 @HiltAndroidApp
-class MyDicApplication : Application() {
+class MyDicApplication : Application(), Configuration.Provider {
 
-    override fun onCreate() {
-        super.onCreate()
-        createNotificationChannel()
-    }
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
 
-    private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                "TRANSLATION_CHANNEL",
-                "Translation",
-                NotificationManager.IMPORTANCE_LOW
-            ).apply {
-                description = "Test"
-            }
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
 }

@@ -1,18 +1,23 @@
 package com.catvasiliy.mydic.presentation.settings
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.catvasiliy.mydic.databinding.FragmentSettingsBinding
-import com.catvasiliy.mydic.domain.model.settings.Period
+import com.catvasiliy.mydic.domain.model.settings.TranslationSendingInterval
 import com.catvasiliy.mydic.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -26,20 +31,17 @@ class SettingsFragment : Fragment() {
 
     private val viewModel: SettingsViewModel by viewModels()
 
-    private val spinnerItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(
-            parent: AdapterView<*>,
-            view: View?,
-            position: Int,
-            id: Long
-        ) {
-            val item = parent.getItemAtPosition(position) as Period
-            viewModel.setPeriod(item)
+    private val spinnerItemSelectedListener = object : OnItemSelectedListener {
+
+        override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            val item = parent.getItemAtPosition(position) as TranslationSendingInterval
+            val currentItem = viewModel.state.value.sendTranslationPreferences.sendingInterval
+            if (item != currentItem) {
+                viewModel.setTranslationSendingInterval(item)
+            }
         }
 
-        override fun onNothingSelected(parent: AdapterView<*>?) {
-
-        }
+        override fun onNothingSelected(parent: AdapterView<*>?) { }
     }
 
     override fun onCreateView(
@@ -61,18 +63,22 @@ class SettingsFragment : Fragment() {
         }
 
         binding.swSendTranslations.setOnClickListener {
-            viewModel.setIsSendingEnabled(binding.swSendTranslations.isChecked)
+            checkAndRequestNotificationPermission()
+            viewModel.toggleTranslationSending(
+                isSendingEnabled = binding.swSendTranslations.isChecked,
+                sendingInterval = binding.spSendingIntervals.selectedItem as TranslationSendingInterval
+            )
         }
 
         val spinnerAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
-            Period.entries
+            TranslationSendingInterval.entries
         ).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
 
-        binding.spPeriods.apply {
+        binding.spSendingIntervals.apply {
             adapter = spinnerAdapter
             onItemSelectedListener = spinnerItemSelectedListener
         }
@@ -80,12 +86,16 @@ class SettingsFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-                    binding.swSendTranslations.isChecked =
-                        state.sendTranslationPreferences.isSendingEnabled
+                    val isSendingEnabled = state.sendTranslationPreferences.isSendingEnabled
+                    binding.swSendTranslations.isChecked = isSendingEnabled
 
-                    val selection = state.sendTranslationPreferences.period
+                    val selection = state.sendTranslationPreferences.sendingInterval
                     val position = spinnerAdapter.getPosition(selection)
-                    binding.spPeriods.setSelection(position)
+                    binding.spSendingIntervals.apply {
+                        // Disable intervals spinner if translation sending enabled
+                        isEnabled = !isSendingEnabled
+                        setSelection(position)
+                    }
                 }
             }
         }
@@ -95,5 +105,17 @@ class SettingsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun checkAndRequestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (requireContext().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    0
+                )
+            }
+        }
     }
 }

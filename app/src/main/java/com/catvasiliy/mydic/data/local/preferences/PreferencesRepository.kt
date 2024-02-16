@@ -1,16 +1,16 @@
 package com.catvasiliy.mydic.data.local.preferences
 
 import androidx.datastore.core.DataStore
-import com.catvasiliy.mydic.domain.model.settings.Period
-import com.catvasiliy.mydic.domain.model.settings.SendTranslationPreferences
+import com.catvasiliy.mydic.domain.model.settings.TranslationSendingInterval
+import com.catvasiliy.mydic.domain.model.settings.TranslationSendingPreferences
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class PreferencesRepository @Inject constructor(
-    private val preferences: DataStore<SendTranslationPreferences>
+    private val preferences: DataStore<TranslationSendingPreferences>
 ) {
 
-    suspend fun setIsSendingEnabled(isSendingEnabled: Boolean) {
+    suspend fun setIsTranslationSendingEnabled(isSendingEnabled: Boolean) {
         preferences.updateData { preferencesData ->
             preferencesData.copy(
                 isSendingEnabled = isSendingEnabled
@@ -18,15 +18,15 @@ class PreferencesRepository @Inject constructor(
         }
     }
 
-    suspend fun setPeriod(period: Period) {
+    suspend fun setTranslationSendingInterval(interval: TranslationSendingInterval) {
         preferences.updateData { preferencesData ->
             preferencesData.copy(
-                period = period
+                sendingInterval = interval
             )
         }
     }
 
-    fun getPreferences(): Flow<SendTranslationPreferences> {
+    fun getPreferences(): Flow<TranslationSendingPreferences> {
         return preferences.data
     }
 }

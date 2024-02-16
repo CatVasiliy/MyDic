@@ -1,7 +1,9 @@
 package com.catvasiliy.mydic.di
 
+import android.app.NotificationManager
 import android.content.Context
 import androidx.room.Room
+import androidx.work.WorkManager
 import com.catvasiliy.mydic.data.local.database.TranslationDao
 import com.catvasiliy.mydic.data.local.database.TranslationDatabase
 import com.catvasiliy.mydic.data.remote.TranslateApi
@@ -11,6 +13,8 @@ import com.catvasiliy.mydic.domain.use_case.translate.GetTranslation
 import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationsList
 import com.catvasiliy.mydic.domain.use_case.translate.InsertTranslation
 import com.catvasiliy.mydic.domain.use_case.translate.TranslationUseCases
+import com.catvasiliy.mydic.presentation.settings.translation_sending.Notifier
+import com.catvasiliy.mydic.presentation.settings.translation_sending.TranslationNotifier
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -61,6 +65,30 @@ object AppModule {
             GetTranslation(repository),
             InsertTranslation(repository),
             DeleteTranslation(repository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
+        return WorkManager.getInstance(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationManager(@ApplicationContext context: Context): NotificationManager {
+        return context.getSystemService(NotificationManager::class.java)
+    }
+
+    @Provides
+    @TranslationNotifierQualifier
+    fun provideNotifier(
+        @ApplicationContext context: Context,
+        notificationManager: NotificationManager
+    ): Notifier {
+        return TranslationNotifier(
+            context = context,
+            notificationManager = notificationManager
         )
     }
 }
