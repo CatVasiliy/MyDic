@@ -71,8 +71,7 @@ class TranslateRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteTranslationById(id: Long) {
-        translationDao.deleteTranslationForSendingById(id)
-        translationDao.deleteTranslationById(id)
+        translationDao.deleteTranslation(id)
     }
 
     override fun updateMissingTranslationFromApi(

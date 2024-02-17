@@ -63,7 +63,15 @@ abstract class TranslationDao {
             insertExample(exampleWithId)
         }
 
+        insertTranslationForSending(CachedTranslationForSending(id = translationId))
+
         return translationId
+    }
+
+    @Transaction
+    open suspend fun deleteTranslation(id: Long) {
+        deleteTranslationForSendingById(id)
+        deleteTranslationById(id)
     }
 
     @Transaction
@@ -95,7 +103,7 @@ abstract class TranslationDao {
 
     @Insert(onConflict = REPLACE)
     abstract suspend fun insertTranslationForSending(
-        notificationTranslation: CachedTranslationForSending
+        translationForSending: CachedTranslationForSending
     )
 
     @Query("SELECT * FROM translation_for_sending")
