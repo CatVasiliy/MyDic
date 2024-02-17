@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import com.catvasiliy.mydic.domain.model.settings.TranslationSendingInterval
-import java.util.Date
 import javax.inject.Inject
 
 class TranslationSendingAlarmScheduler @Inject constructor(
@@ -19,8 +18,8 @@ class TranslationSendingAlarmScheduler @Inject constructor(
     fun schedule(interval: TranslationSendingInterval) {
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
-            Date().time + interval.durationMillis,
-            interval.durationMillis,
+            interval.getFromNowMillis(),
+            interval.millis,
             getPendingIntent()
         )
     }
