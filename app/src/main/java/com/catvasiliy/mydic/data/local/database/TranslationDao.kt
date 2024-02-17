@@ -101,8 +101,6 @@ abstract class TranslationDao {
     @Query("SELECT * FROM translation_for_sending")
     abstract suspend fun getTranslationsForSendingList(): List<CachedTranslationForSending>
 
-    @Delete
-    abstract suspend fun deleteTranslationForSending(
-        notificationTranslation: CachedTranslationForSending
-    )
+    @Query("DELETE FROM translation_for_sending WHERE id = :id")
+    abstract suspend fun deleteTranslationForSendingById(id: Long)
 }

@@ -30,5 +30,5 @@ interface TranslateRepository {
     suspend fun insertExtendedTranslation(extendedTranslation: ExtendedTranslation)
     suspend fun insertMissingTranslation(missingTranslation: MissingTranslation)
 
-    suspend fun getTranslationForSending(): TranslationForSending
+    suspend fun getTranslationForSending(): Resource<TranslationForSending>
 }

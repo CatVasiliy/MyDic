@@ -71,6 +71,7 @@ class TranslateRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteTranslationById(id: Long) {
+        translationDao.deleteTranslationForSendingById(id)
         translationDao.deleteTranslationById(id)
     }
 
@@ -112,11 +113,13 @@ class TranslateRepositoryImpl @Inject constructor(
         translationDao.insertMissingTranslation(missingTranslation.toCachedMissingTranslation())
     }
 
-    override suspend fun getTranslationForSending(): TranslationForSending {
+    override suspend fun getTranslationForSending(): Resource<TranslationForSending> {
         var cachedTranslationsForSending = translationDao.getTranslationsForSendingList()
 
         if (cachedTranslationsForSending.isEmpty()) {
             val translationIds = translationDao.getTranslationIds()
+
+            if (translationIds.isEmpty()) return Resource.Error("There are no saved translations")
 
             translationIds.forEach { id ->
                 val cachedNotificationTranslation = CachedTranslationForSending(
@@ -129,11 +132,11 @@ class TranslateRepositoryImpl @Inject constructor(
         }
 
         val cachedTranslationForSending = cachedTranslationsForSending.random()
-        translationDao.deleteTranslationForSending(cachedTranslationForSending)
+        translationDao.deleteTranslationForSendingById(cachedTranslationForSending.id)
 
         val cachedTranslation = translationDao.getTranslationById(cachedTranslationForSending.id)
 
-        return cachedTranslation.toTranslationForSending()
+        return Resource.Success(cachedTranslation.toTranslationForSending())
     }
 
     private fun baseTranslationFlow(
