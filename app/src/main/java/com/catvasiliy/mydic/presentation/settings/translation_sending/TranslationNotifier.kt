@@ -27,10 +27,11 @@ class TranslationNotifier @Inject constructor(
 
     override fun buildNotification(): Notification {
         return NotificationCompat.Builder(context, notificationChannelId)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(context.getString(R.string.app_name))
             .setContentText(sourceText)
             .setContentIntent(getTranslationPendingIntent())
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setAutoCancel(true)
             .build()
     }
 
