@@ -72,8 +72,8 @@ class TranslationsListViewModel @Inject constructor(
     private val searchDelayMillis: Long = 300
 
     override fun onCleared() {
-        currentJob?.cancel()
-        searchJob?.cancel()
+        currentJob = null
+        searchJob = null
         super.onCleared()
     }
 

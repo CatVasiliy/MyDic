@@ -26,7 +26,7 @@ class TranslationDetailsViewModel @Inject constructor(
     private var currentJob: Job? = null
 
     override fun onCleared() {
-        currentJob?.cancel()
+        currentJob = null
         super.onCleared()
     }
 
