@@ -19,11 +19,9 @@ import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
 import com.catvasiliy.mydic.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 
 class TranslateRepositoryImpl @Inject constructor(
@@ -35,23 +33,40 @@ class TranslateRepositoryImpl @Inject constructor(
         sourceLanguage: String,
         targetLanguage: String,
         sourceText: String
-    ): Flow<Resource<Translation>> = baseTranslationFlow(
-        sourceLanguage,
-        targetLanguage,
-        sourceText
-    ).onCompletion {exception ->
-        if (exception != null) return@onCompletion
+    ): Flow<Resource<Translation>> = flow {
 
-        emit(Resource.Success())
-    }.catch {exception ->
-        exception.printStackTrace()
-        val missingTranslation = MissingTranslation.fromSourceText(sourceText)
-        val errorResource = getErrorResource(
-            exception as Exception,
-            missingTranslation,
-            true
-        )
-        emit(errorResource)
+        emit(Resource.Loading())
+
+        try {
+            val domainTranslation = translateApi.getTranslation(
+                sourceLanguage,
+                targetLanguage,
+                sourceText
+            )
+            .toExtendedTranslation()
+
+            emit(Resource.Loading(domainTranslation))
+
+            val cachedTranslation = domainTranslation.toCachedTranslation()
+            translationDao.insertTranslation(cachedTranslation)
+
+            emit(Resource.Success())
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            val cachedMissingTranslation = MissingTranslation
+                .fromSourceText(sourceText)
+                .toCachedMissingTranslation()
+
+            val missingTranslationId = translationDao.insertMissingTranslation(cachedMissingTranslation)
+
+            val missingTranslation = translationDao
+                .getMissingTranslationById(missingTranslationId)
+                .toMissingTranslation()
+
+            emit(Resource.Error(e.localizedMessage, missingTranslation))
+        }
     }
 
     override fun getTranslationsList(): Flow<List<Translation>> {
@@ -78,22 +93,31 @@ class TranslateRepositoryImpl @Inject constructor(
         sourceLanguage: String,
         targetLanguage: String,
         missingTranslation: MissingTranslation
-    ): Flow<Resource<Translation>> = baseTranslationFlow(
-        sourceLanguage,
-        targetLanguage,
-        missingTranslation.sourceText
-    ).onCompletion { exception ->
-        if (exception != null) return@onCompletion
+    ): Flow<Resource<Translation>> = flow {
 
-        translationDao.deleteMissingTranslationById(missingTranslation.id)
-        emit(Resource.Success())
-    }.catch { exception ->
-        val errorResource = getErrorResource(
-            exception as Exception,
-            missingTranslation,
-            false
-        )
-        emit(errorResource)
+        emit(Resource.Loading())
+
+        try {
+            val domainTranslation = translateApi.getTranslation(
+                sourceLanguage,
+                targetLanguage,
+                missingTranslation.sourceText
+            ).toExtendedTranslation()
+
+            emit(Resource.Loading(domainTranslation))
+
+            val cachedTranslation = domainTranslation.toCachedTranslation()
+            translationDao.insertTranslation(cachedTranslation)
+
+            translationDao.deleteMissingTranslationById(missingTranslation.id)
+
+            emit(Resource.Success())
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            emit(Resource.Error(e.localizedMessage, missingTranslation))
+        }
     }
 
     override suspend fun getMissingTranslationById(id: Long): MissingTranslation {
@@ -136,45 +160,5 @@ class TranslateRepositoryImpl @Inject constructor(
         val cachedTranslation = translationDao.getTranslationById(cachedTranslationForSending.id)
 
         return Resource.Success(cachedTranslation.toTranslationForSending())
-    }
-
-    private fun baseTranslationFlow(
-        sourceLanguage: String,
-        targetLanguage: String,
-        sourceText: String
-    ): Flow<Resource<Translation>> = flow {
-
-        emit(Resource.Loading())
-
-        try {
-            val domainTranslation = translateApi.getTranslation(
-                sourceLanguage,
-                targetLanguage,
-                sourceText
-            ).toExtendedTranslation()
-
-            emit(Resource.Loading(domainTranslation))
-
-            val cachedTranslation = domainTranslation.toCachedTranslation()
-            translationDao.insertTranslation(cachedTranslation)
-
-        } catch (e: Exception) {
-            throw e
-        }
-    }
-
-    private suspend fun getErrorResource(
-        exception: Exception,
-        missingTranslation: MissingTranslation,
-        isNewMissingTranslation: Boolean
-    ): Resource.Error<Translation> {
-        val resourceMissingTranslation = if (isNewMissingTranslation) {
-            val cachedMissingTranslation = missingTranslation.toCachedMissingTranslation()
-            val id = translationDao.insertMissingTranslation(cachedMissingTranslation)
-            getMissingTranslationById(id)
-        } else {
-            missingTranslation
-        }
-        return Resource.Error(exception.localizedMessage, resourceMissingTranslation)
     }
 }
