@@ -102,7 +102,7 @@ class TranslateRepositoryImpl @Inject constructor(
                 sourceLanguage,
                 targetLanguage,
                 missingTranslation.sourceText
-            ).toExtendedTranslation()
+            ).toExtendedTranslation(missingTranslation.translatedAtMillis)
 
             emit(Resource.Loading(domainTranslation))
 

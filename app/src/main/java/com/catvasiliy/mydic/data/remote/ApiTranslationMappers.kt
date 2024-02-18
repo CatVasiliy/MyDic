@@ -10,7 +10,9 @@ import com.catvasiliy.mydic.domain.model.translation.Example
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import java.util.*
 
-fun ApiTranslation.toExtendedTranslation(): ExtendedTranslation {
+fun ApiTranslation.toExtendedTranslation(
+    translatedAtMillis: Long = Date().time
+): ExtendedTranslation {
     return ExtendedTranslation(
         translationText = primaryTranslation[0].translationText,
         sourceText = primaryTranslation[0].sourceText,
@@ -22,7 +24,7 @@ fun ApiTranslation.toExtendedTranslation(): ExtendedTranslation {
             definitions.toDefinitionsList()
         },
         examples = examples.toExamplesList(),
-        translatedAtMillis = Date().time
+        translatedAtMillis = translatedAtMillis
     )
 }
 
