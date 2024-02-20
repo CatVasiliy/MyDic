@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 data class ApiPrimaryTranslation(
     @SerialName("trans") val translationText: String = "",
     @SerialName("orig") val sourceText: String = "",
-    @SerialName("src_translit") val sourceTransliteration: String = ""
+    @SerialName("src_translit") val sourceTransliteration: String? = null
 )

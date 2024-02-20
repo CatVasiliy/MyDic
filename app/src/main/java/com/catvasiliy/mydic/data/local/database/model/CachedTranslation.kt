@@ -12,7 +12,7 @@ data class CachedTranslation(
 
     val translationText: String,
     val sourceText: String,
-    val sourceTransliteration: String,
+    val sourceTransliteration: String?,
     val translatedAtMillis: Long
 )
 

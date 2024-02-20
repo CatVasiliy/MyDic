@@ -6,7 +6,7 @@ data class ExtendedTranslation(
     override val translatedAtMillis: Long,
 
     val translationText: String,
-    val sourceTransliteration: String,
+    val sourceTransliteration: String?,
     val alternativeTranslations: List<AlternativeTranslation>,
     val definitions: List<Definition>,
     val examples: List<Example>

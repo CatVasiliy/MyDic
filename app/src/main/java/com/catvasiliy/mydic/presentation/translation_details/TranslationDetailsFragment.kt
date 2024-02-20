@@ -122,7 +122,7 @@ class TranslationDetailsFragment : Fragment() {
         setupTabLayout()
         binding.tvTranslation.text = translation.translationText
         binding.tvSource.text = translation.sourceText
-        binding.tvTransliteration.text = translation.sourceTransliteration
+        binding.tvTransliteration.text = translation.sourceTransliteration ?: "No transliteration"
     }
 
     private fun setupTabLayout() {
