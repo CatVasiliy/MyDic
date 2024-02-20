@@ -2,8 +2,11 @@ package com.catvasiliy.mydic.presentation.translation_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationUseCase
+import com.catvasiliy.mydic.domain.use_case.translate.TranslateUseCase
+import com.catvasiliy.mydic.domain.use_case.translate.UpdateMissingTranslationUseCase
 import com.catvasiliy.mydic.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -17,7 +20,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TranslationDetailsViewModel @Inject constructor(
-    private val getTranslationUseCase: GetTranslationUseCase
+    private val translateUseCase: TranslateUseCase,
+    private val getTranslationUseCase: GetTranslationUseCase,
+    private val updateMissingTranslationUseCase: UpdateMissingTranslationUseCase
 ): ViewModel() {
 
     private val _state = MutableStateFlow(TranslationDetailsState())
@@ -32,7 +37,7 @@ class TranslationDetailsViewModel @Inject constructor(
 
     fun translate(sourceText: String) {
         currentJob?.cancel()
-        currentJob = getTranslationUseCase(
+        currentJob = translateUseCase(
             sourceLanguage = "en",
             targetLanguage = "ru",
             sourceText = sourceText
@@ -77,12 +82,15 @@ class TranslationDetailsViewModel @Inject constructor(
     }
 
     fun updateMissingTranslation() {
-        val missingTranslation = state.value.translation ?: return
+        val translation = state.value.translation ?: return
+        if (translation !is MissingTranslation)
+            throw IllegalStateException("Translation is not a MissingTranslation")
+
         currentJob?.cancel()
-        currentJob = getTranslationUseCase(
+        currentJob = updateMissingTranslationUseCase(
             sourceLanguage = "en",
             targetLanguage = "ru",
-            translation = missingTranslation
+            missingTranslation = translation
         )
         .onEach { processResult(it) }
         .launchIn(viewModelScope)
