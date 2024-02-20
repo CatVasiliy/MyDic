@@ -55,9 +55,16 @@ class TranslationDetailsViewModel @Inject constructor(
                 )
             }
             is Resource.Success -> {
-                state.value.copy(
-                    isLoading = false
-                )
+                if (result.data != null) {
+                    state.value.copy(
+                        translation = result.data,
+                        isLoading = false
+                    )
+                } else {
+                    state.value.copy(
+                        isLoading = false
+                    )
+                }
             }
             is Resource.Error -> {
                 state.value.copy(

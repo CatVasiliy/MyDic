@@ -1,15 +1,18 @@
 package com.catvasiliy.mydic.data.local.database
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
+import androidx.room.Query
+import androidx.room.Transaction
 import com.catvasiliy.mydic.data.local.database.model.CachedAlternativeTranslation
 import com.catvasiliy.mydic.data.local.database.model.CachedDefinition
 import com.catvasiliy.mydic.data.local.database.model.CachedExample
 import com.catvasiliy.mydic.data.local.database.model.CachedMissingTranslation
-import com.catvasiliy.mydic.data.local.database.model.CachedTranslationForSending
 import com.catvasiliy.mydic.data.local.database.model.CachedSynonym
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslation
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslationAggregate
+import com.catvasiliy.mydic.data.local.database.model.CachedTranslationForSending
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -86,6 +89,10 @@ abstract class TranslationDao {
     abstract suspend fun getTranslationById(id: Long): CachedTranslationAggregate
 
     @Transaction
+    @Query("SELECT * FROM translation WHERE sourceText = :sourceText")
+    abstract suspend fun getTranslationBySourceText(sourceText: String): CachedTranslationAggregate?
+
+    @Transaction
     @Query("DELETE FROM translation WHERE id = :id")
     abstract suspend fun deleteTranslationById(id: Long)
 
@@ -97,6 +104,11 @@ abstract class TranslationDao {
 
     @Query("SELECT * FROM missing_translation WHERE id = :id")
     abstract suspend fun getMissingTranslationById(id: Long): CachedMissingTranslation
+
+    @Query("SELECT * FROM missing_translation WHERE sourceText = :sourceText")
+    abstract suspend fun getMissingTranslationBySourceText(
+        sourceText: String
+    ): CachedMissingTranslation?
 
     @Query("DELETE FROM missing_translation WHERE id = :id")
     abstract suspend fun deleteMissingTranslationById(id: Long)

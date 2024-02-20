@@ -37,6 +37,20 @@ class TranslateRepositoryImpl @Inject constructor(
 
         emit(Resource.Loading())
 
+        val existingCachedTranslation = translationDao.getTranslationBySourceText(sourceText)
+
+        if (existingCachedTranslation != null) {
+            emit(Resource.Success(existingCachedTranslation.toExtendedTranslation()))
+            return@flow
+        }
+
+        val existingCachedMissingTranslation = translationDao.getMissingTranslationBySourceText(sourceText)
+
+        if (existingCachedMissingTranslation != null) {
+            emit(Resource.Success(existingCachedMissingTranslation.toMissingTranslation()))
+            return@flow
+        }
+
         try {
             val domainTranslation = translateApi.getTranslation(
                 sourceLanguage,
