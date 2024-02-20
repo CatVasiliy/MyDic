@@ -19,7 +19,7 @@ class TranslationNotificationWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParameters: WorkerParameters,
     @TranslationNotifierQualifier private val notifier: Notifier,
-    private val getTranslationForSending: GetTranslationForSendingUseCase
+    private val getTranslationForSendingUseCase: GetTranslationForSendingUseCase
 ) : CoroutineWorker(context, workerParameters) {
 
     override suspend fun doWork(): Result {
@@ -33,7 +33,7 @@ class TranslationNotificationWorker @AssistedInject constructor(
             }
         }
 
-        val translation = when (val translationResource = getTranslationForSending()) {
+        val translation = when (val translationResource = getTranslationForSendingUseCase()) {
             is Resource.Success -> translationResource.data!!
             is Resource.Error -> return Result.failure()
             else -> throw IllegalStateException()

@@ -25,12 +25,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TranslationsListViewModel @Inject constructor(
-    getTranslationsList: GetTranslationsListUseCase,
-    private val insertTranslation: InsertTranslationUseCase,
-    private val deleteTranslation: DeleteTranslationUseCase
+    getTranslationsListUseCase: GetTranslationsListUseCase,
+    private val insertTranslationUseCase: InsertTranslationUseCase,
+    private val deleteTranslationUseCase: DeleteTranslationUseCase
 ) : ViewModel() {
 
-    private val _translationsList = getTranslationsList()
+    private val _translationsList = getTranslationsListUseCase()
 
     private val _sortInfo = MutableStateFlow<TranslationSort>(TranslationSort.Date(SortType.Descending))
 
@@ -95,7 +95,7 @@ class TranslationsListViewModel @Inject constructor(
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             _lastDeletedTranslation.update {
-                deleteTranslation(id, isMissingTranslation)
+                deleteTranslationUseCase(id, isMissingTranslation)
             }
             _eventFlow.emit(TranslationsListUiEvent.ShowUndoDeleteSnackbar)
         }
@@ -104,7 +104,7 @@ class TranslationsListViewModel @Inject constructor(
     fun undoRemoveTranslation() {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
-            _lastDeletedTranslation.value?.let { insertTranslation(it) }
+            _lastDeletedTranslation.value?.let { insertTranslationUseCase(it) }
             _lastDeletedTranslation.update { null }
         }
     }

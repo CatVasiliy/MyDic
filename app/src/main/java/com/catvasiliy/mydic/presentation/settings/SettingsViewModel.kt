@@ -17,13 +17,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    getPreferences: GetPreferencesUseCase,
-    private val toggleTranslationSending: ToggleTranslationSendingUseCase,
-    private val updateTranslationSendingInterval: UpdateTranslationSendingIntervalUseCase,
+    getPreferencesUseCase: GetPreferencesUseCase,
+    private val toggleTranslationSendingUseCase: ToggleTranslationSendingUseCase,
+    private val updateTranslationSendingIntervalUseCase: UpdateTranslationSendingIntervalUseCase,
     private val alarmScheduler: TranslationSendingAlarmScheduler
 ) : ViewModel() {
 
-    val state = getPreferences()
+    val state = getPreferencesUseCase()
         .map { sendTranslationPreferences ->
             SettingsState(
                 sendTranslationPreferences = sendTranslationPreferences
@@ -47,7 +47,7 @@ class SettingsViewModel @Inject constructor(
                 alarmScheduler.cancel()
             }
 
-            toggleTranslationSending(
+            toggleTranslationSendingUseCase(
                 TranslationSendingPreferences(
                     isSendingEnabled = isSendingEnabled,
                     sendingInterval = sendingInterval
@@ -56,9 +56,9 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setTranslationSendingInterval(interval: TranslationSendingInterval) {
+    fun updateTranslationSendingInterval(interval: TranslationSendingInterval) {
         viewModelScope.launch {
-            updateTranslationSendingInterval(interval)
+            updateTranslationSendingIntervalUseCase(interval)
         }
     }
 }

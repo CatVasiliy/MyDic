@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TranslationDetailsViewModel @Inject constructor(
-    private val getTranslation: GetTranslationUseCase
+    private val getTranslationUseCase: GetTranslationUseCase
 ): ViewModel() {
 
     private val _state = MutableStateFlow(TranslationDetailsState())
@@ -32,7 +32,7 @@ class TranslationDetailsViewModel @Inject constructor(
 
     fun translate(sourceText: String) {
         currentJob?.cancel()
-        currentJob = getTranslation(
+        currentJob = getTranslationUseCase(
             sourceLanguage = "en",
             targetLanguage = "ru",
             sourceText = sourceText
@@ -70,7 +70,7 @@ class TranslationDetailsViewModel @Inject constructor(
         currentJob = viewModelScope.launch {
             _state.update {
                 state.value.copy(
-                    translation = getTranslation(id, isMissingTranslation)
+                    translation = getTranslationUseCase(id, isMissingTranslation)
                 )
             }
         }
@@ -79,7 +79,7 @@ class TranslationDetailsViewModel @Inject constructor(
     fun updateMissingTranslation() {
         val missingTranslation = state.value.translation ?: return
         currentJob?.cancel()
-        currentJob = getTranslation(
+        currentJob = getTranslationUseCase(
             sourceLanguage = "en",
             targetLanguage = "ru",
             translation = missingTranslation

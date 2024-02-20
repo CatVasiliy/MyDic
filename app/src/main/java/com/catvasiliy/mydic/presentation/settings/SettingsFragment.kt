@@ -37,7 +37,7 @@ class SettingsFragment : Fragment() {
             val item = parent.getItemAtPosition(position) as TranslationSendingInterval
             val currentItem = viewModel.state.value.sendTranslationPreferences.sendingInterval
             if (item != currentItem) {
-                viewModel.setTranslationSendingInterval(item)
+                viewModel.updateTranslationSendingInterval(item)
             }
         }
 
