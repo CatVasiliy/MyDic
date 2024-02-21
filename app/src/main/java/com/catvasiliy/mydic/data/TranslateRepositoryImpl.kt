@@ -14,6 +14,7 @@ import com.catvasiliy.mydic.data.remote.TranslateApi
 import com.catvasiliy.mydic.data.remote.toExtendedTranslation
 import com.catvasiliy.mydic.domain.model.settings.TranslationForSending
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
+import com.catvasiliy.mydic.domain.model.translation.Language
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
@@ -30,21 +31,29 @@ class TranslateRepositoryImpl @Inject constructor(
 ) : TranslateRepository {
 
     override fun getTranslationFromApi(
-        sourceLanguage: String,
-        targetLanguage: String,
-        sourceText: String
+        sourceText: String,
+        sourceLanguage: Language,
+        targetLanguage: Language
     ): Flow<Resource<Translation>> = flow {
 
         emit(Resource.Loading())
 
-        val existingCachedTranslation = translationDao.getTranslationBySourceText(sourceText)
+        val existingCachedTranslation = translationDao.getUniqueTranslation(
+            sourceText = sourceText,
+            sourceLanguage = sourceLanguage,
+            targetLanguage = targetLanguage
+        )
 
         if (existingCachedTranslation != null) {
             emit(Resource.Success(existingCachedTranslation.toExtendedTranslation()))
             return@flow
         }
 
-        val existingCachedMissingTranslation = translationDao.getMissingTranslationBySourceText(sourceText)
+        val existingCachedMissingTranslation = translationDao.getUniqueMissingTranslation(
+            sourceText = sourceText,
+            sourceLanguage = sourceLanguage,
+            targetLanguage = targetLanguage
+        )
 
         if (existingCachedMissingTranslation != null) {
             emit(Resource.Success(existingCachedMissingTranslation.toMissingTranslation()))
@@ -53,11 +62,11 @@ class TranslateRepositoryImpl @Inject constructor(
 
         try {
             val domainTranslation = translateApi.getTranslation(
-                sourceLanguage,
-                targetLanguage,
-                sourceText
+                sourceText = sourceText,
+                sourceLanguage = sourceLanguage.code,
+                targetLanguage = targetLanguage.code
             )
-            .toExtendedTranslation()
+            .toExtendedTranslation(sourceLanguage, targetLanguage)
 
             emit(Resource.Loading(domainTranslation))
 
@@ -70,7 +79,7 @@ class TranslateRepositoryImpl @Inject constructor(
             e.printStackTrace()
 
             val cachedMissingTranslation = MissingTranslation
-                .fromSourceText(sourceText)
+                .fromSourceText(sourceText, sourceLanguage, targetLanguage)
                 .toCachedMissingTranslation()
 
             val missingTranslationId = translationDao.insertMissingTranslation(cachedMissingTranslation)
@@ -104,8 +113,6 @@ class TranslateRepositoryImpl @Inject constructor(
     }
 
     override fun updateMissingTranslationFromApi(
-        sourceLanguage: String,
-        targetLanguage: String,
         missingTranslation: MissingTranslation
     ): Flow<Resource<Translation>> = flow {
 
@@ -113,10 +120,14 @@ class TranslateRepositoryImpl @Inject constructor(
 
         try {
             val domainTranslation = translateApi.getTranslation(
-                sourceLanguage,
-                targetLanguage,
-                missingTranslation.sourceText
-            ).toExtendedTranslation(missingTranslation.translatedAtMillis)
+                sourceText = missingTranslation.sourceText,
+                sourceLanguage = missingTranslation.sourceLanguage.code,
+                targetLanguage = missingTranslation.targetLanguage.code
+            ).toExtendedTranslation(
+                sourceLanguage = missingTranslation.sourceLanguage,
+                targetLanguage = missingTranslation.targetLanguage,
+                translatedAtMillis = missingTranslation.translatedAtMillis
+            )
 
             emit(Resource.Loading(domainTranslation))
 

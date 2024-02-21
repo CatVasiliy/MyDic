@@ -19,8 +19,10 @@ import com.catvasiliy.mydic.domain.model.translation.SimpleTranslation
 fun CachedTranslationAggregate.toExtendedTranslation(): ExtendedTranslation {
     return ExtendedTranslation(
         id = translation.id,
-        translationText = translation.translationText,
         sourceText = translation.sourceText,
+        translationText = translation.translationText,
+        sourceLanguage = translation.sourceLanguage,
+        targetLanguage = translation.targetLanguage,
         sourceTransliteration = translation.sourceTransliteration,
         alternativeTranslations = alternativeTranslations.map(
             CachedAlternativeAggregate::toAlternativeTranslation
@@ -34,8 +36,10 @@ fun CachedTranslationAggregate.toExtendedTranslation(): ExtendedTranslation {
 fun CachedTranslation.toSimpleTranslation(): SimpleTranslation {
     return SimpleTranslation(
         id = id,
-        translationText = translationText,
         sourceText = sourceText,
+        translationText = translationText,
+        sourceLanguage = sourceLanguage,
+        targetLanguage = targetLanguage,
         translatedAtMillis = translatedAtMillis
     )
 }
@@ -43,8 +47,10 @@ fun CachedTranslation.toSimpleTranslation(): SimpleTranslation {
 fun ExtendedTranslation.toCachedTranslation(): CachedTranslationAggregate {
     val cachedTranslation = CachedTranslation(
         id = id,
-        translationText = translationText,
         sourceText = sourceText,
+        translationText = translationText,
+        sourceLanguage = sourceLanguage,
+        targetLanguage = targetLanguage,
         sourceTransliteration = sourceTransliteration,
         translatedAtMillis = translatedAtMillis
     )
@@ -68,6 +74,8 @@ fun CachedMissingTranslation.toMissingTranslation(): MissingTranslation {
     return MissingTranslation(
         id = id,
         sourceText = sourceText,
+        sourceLanguage = sourceLanguage,
+        targetLanguage = targetLanguage,
         translatedAtMillis = translatedAtMillis
     )
 }
@@ -76,6 +84,8 @@ fun MissingTranslation.toCachedMissingTranslation(): CachedMissingTranslation {
     return CachedMissingTranslation(
         id = id,
         sourceText = sourceText,
+        sourceLanguage = sourceLanguage,
+        targetLanguage = targetLanguage,
         translatedAtMillis = translatedAtMillis
     )
 }

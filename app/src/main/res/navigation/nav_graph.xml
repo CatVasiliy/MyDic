@@ -49,6 +49,16 @@
             android:defaultValue="" />
 
         <argument
+            android:name="sourceLanguage"
+            app:argType="com.catvasiliy.mydic.domain.model.translation.Language"
+            android:defaultValue="ENGLISH" />
+
+        <argument
+            android:name="targetLanguage"
+            app:argType="com.catvasiliy.mydic.domain.model.translation.Language"
+            android:defaultValue="ENGLISH" />
+
+        <argument
             android:name="translationId"
             app:argType="long"
             android:defaultValue="-1L" />

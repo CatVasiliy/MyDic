@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslateBinding
+import com.catvasiliy.mydic.domain.model.translation.Language
 import com.google.android.material.snackbar.Snackbar
 
 class TranslateFragment : Fragment() {
@@ -39,6 +41,25 @@ class TranslateFragment : Fragment() {
         }
         arguments?.remove("sourceText")
 
+        val slSpinnerAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            Language.entries
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
+        val tlSpinnerAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            Language.entries
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
+        binding.spSourceLanguage.adapter = slSpinnerAdapter
+        binding.spTargetLanguage.adapter = tlSpinnerAdapter
+
         binding.btnTranslate.setOnClickListener {
             val sourceText = binding.etSource.text.toString()
             if (sourceText.isBlank()) {
@@ -50,7 +71,9 @@ class TranslateFragment : Fragment() {
                 return@setOnClickListener
             }
             val action = TranslateFragmentDirections.openTranslationDetailsFromTranslate(
-                binding.etSource.text.toString()
+                binding.etSource.text.toString(),
+                binding.spSourceLanguage.selectedItem as Language,
+                binding.spTargetLanguage.selectedItem as Language
             )
             findNavController().navigate(action)
         }

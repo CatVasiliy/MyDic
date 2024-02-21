@@ -4,14 +4,17 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import com.catvasiliy.mydic.domain.model.translation.Language
 
 @Entity(tableName = "translation")
 data class CachedTranslation(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
 
-    val translationText: String,
     val sourceText: String,
+    val translationText: String,
+    val sourceLanguage: Language,
+    val targetLanguage: Language,
     val sourceTransliteration: String?,
     val translatedAtMillis: Long
 )

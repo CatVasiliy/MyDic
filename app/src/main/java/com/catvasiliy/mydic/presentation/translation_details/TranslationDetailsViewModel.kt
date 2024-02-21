@@ -2,6 +2,7 @@ package com.catvasiliy.mydic.presentation.translation_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.catvasiliy.mydic.domain.model.translation.Language
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationUseCase
@@ -35,11 +36,15 @@ class TranslationDetailsViewModel @Inject constructor(
         super.onCleared()
     }
 
-    fun translate(sourceText: String) {
+    fun translate(
+        sourceText: String,
+        sourceLanguage: Language,
+        targetLanguage: Language
+    ) {
         currentJob?.cancel()
         currentJob = translateUseCase(
-            sourceLanguage = "en",
-            targetLanguage = "ru",
+            sourceLanguage = sourceLanguage,
+            targetLanguage = targetLanguage,
             sourceText = sourceText
         )
         .onEach { processResult(it) }
@@ -95,8 +100,6 @@ class TranslationDetailsViewModel @Inject constructor(
 
         currentJob?.cancel()
         currentJob = updateMissingTranslationUseCase(
-            sourceLanguage = "en",
-            targetLanguage = "ru",
             missingTranslation = translation
         )
         .onEach { processResult(it) }

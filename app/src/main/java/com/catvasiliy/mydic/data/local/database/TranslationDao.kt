@@ -13,6 +13,7 @@ import com.catvasiliy.mydic.data.local.database.model.CachedSynonym
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslation
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslationAggregate
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslationForSending
+import com.catvasiliy.mydic.domain.model.translation.Language
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -89,8 +90,15 @@ abstract class TranslationDao {
     abstract suspend fun getTranslationById(id: Long): CachedTranslationAggregate
 
     @Transaction
-    @Query("SELECT * FROM translation WHERE sourceText = :sourceText")
-    abstract suspend fun getTranslationBySourceText(sourceText: String): CachedTranslationAggregate?
+    @Query("SELECT * FROM translation " +
+            "WHERE sourceText = :sourceText " +
+                "AND sourceLanguage = :sourceLanguage " +
+                "AND targetLanguage = :targetLanguage")
+    abstract suspend fun getUniqueTranslation(
+        sourceText: String,
+        sourceLanguage: Language,
+        targetLanguage: Language
+    ): CachedTranslationAggregate?
 
     @Transaction
     @Query("DELETE FROM translation WHERE id = :id")
@@ -105,9 +113,14 @@ abstract class TranslationDao {
     @Query("SELECT * FROM missing_translation WHERE id = :id")
     abstract suspend fun getMissingTranslationById(id: Long): CachedMissingTranslation
 
-    @Query("SELECT * FROM missing_translation WHERE sourceText = :sourceText")
-    abstract suspend fun getMissingTranslationBySourceText(
-        sourceText: String
+    @Query("SELECT * FROM missing_translation " +
+                "WHERE sourceText = :sourceText " +
+                    "AND sourceLanguage = :sourceLanguage " +
+                    "AND targetLanguage = :targetLanguage")
+    abstract suspend fun getUniqueMissingTranslation(
+        sourceText: String,
+        sourceLanguage: Language,
+        targetLanguage: Language
     ): CachedMissingTranslation?
 
     @Query("DELETE FROM missing_translation WHERE id = :id")

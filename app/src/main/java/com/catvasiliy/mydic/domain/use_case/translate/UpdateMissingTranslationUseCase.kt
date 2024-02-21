@@ -12,12 +12,8 @@ class UpdateMissingTranslationUseCase @Inject constructor(
 ) {
 
     operator fun invoke(
-        sourceLanguage: String,
-        targetLanguage: String,
         missingTranslation: MissingTranslation
     ): Flow<Resource<Translation>> = translateRepository.updateMissingTranslationFromApi(
-        sourceLanguage,
-        targetLanguage,
         missingTranslation
     )
 }

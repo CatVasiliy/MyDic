@@ -2,6 +2,7 @@ package com.catvasiliy.mydic.domain.repository
 
 import com.catvasiliy.mydic.domain.model.settings.TranslationForSending
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
+import com.catvasiliy.mydic.domain.model.translation.Language
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.util.Resource
@@ -9,9 +10,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface TranslateRepository {
     fun getTranslationFromApi(
-        sourceLanguage: String,
-        targetLanguage: String,
-        sourceText: String
+        sourceText: String,
+        sourceLanguage: Language,
+        targetLanguage: Language
     ): Flow<Resource<Translation>>
 
     fun getTranslationsList(): Flow<List<Translation>>
@@ -19,8 +20,6 @@ interface TranslateRepository {
     suspend fun deleteTranslationById(id: Long)
 
     fun updateMissingTranslationFromApi(
-        sourceLanguage: String,
-        targetLanguage: String,
         missingTranslation: MissingTranslation
     ): Flow<Resource<Translation>>
 
