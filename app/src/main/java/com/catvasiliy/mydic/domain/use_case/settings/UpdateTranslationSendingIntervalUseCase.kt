@@ -8,6 +8,6 @@ class UpdateTranslationSendingIntervalUseCase @Inject constructor(
     private val preferencesRepository: PreferencesRepository
 ) {
     suspend operator fun invoke(interval: TranslationSendingInterval) {
-        preferencesRepository.setTranslationSendingInterval(interval)
+        preferencesRepository.updateTranslationSendingInterval(interval)
     }
 }

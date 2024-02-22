@@ -5,10 +5,10 @@ import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingPreferenc
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetPreferencesUseCase @Inject constructor(
+class GetTranslationSendingPreferencesUseCase @Inject constructor(
     private val preferencesRepository: PreferencesRepository
 ) {
     operator fun invoke(): Flow<TranslationSendingPreferences> {
-        return preferencesRepository.getPreferences()
+        return preferencesRepository.getTranslationSendingPreferences()
     }
 }

@@ -35,7 +35,7 @@ class SettingsFragment : Fragment() {
 
         override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
             val item = parent.getItemAtPosition(position) as TranslationSendingInterval
-            val currentItem = viewModel.state.value.sendTranslationPreferences.sendingInterval
+            val currentItem = viewModel.state.value.translationSendingPreferences.sendingInterval
             if (item != currentItem) {
                 viewModel.updateTranslationSendingInterval(item)
             }
@@ -86,10 +86,10 @@ class SettingsFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-                    val isSendingEnabled = state.sendTranslationPreferences.isSendingEnabled
+                    val isSendingEnabled = state.translationSendingPreferences.isSendingEnabled
                     binding.swSendTranslations.isChecked = isSendingEnabled
 
-                    val selection = state.sendTranslationPreferences.sendingInterval
+                    val selection = state.translationSendingPreferences.sendingInterval
                     val position = spinnerAdapter.getPosition(selection)
                     binding.spSendingIntervals.apply {
                         // Disable intervals spinner if translation sending enabled

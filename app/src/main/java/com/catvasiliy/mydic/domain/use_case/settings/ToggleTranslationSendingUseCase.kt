@@ -8,7 +8,7 @@ class ToggleTranslationSendingUseCase @Inject constructor(
     private val preferencesRepository: PreferencesRepository
 ) {
     suspend operator fun invoke(sendingPreferences: TranslationSendingPreferences) {
-        preferencesRepository.setIsTranslationSendingEnabled(sendingPreferences.isSendingEnabled)
-        preferencesRepository.setTranslationSendingInterval(sendingPreferences.sendingInterval)
+        preferencesRepository.updateIsTranslationSendingEnabled(sendingPreferences.isSendingEnabled)
+        preferencesRepository.updateTranslationSendingInterval(sendingPreferences.sendingInterval)
     }
 }

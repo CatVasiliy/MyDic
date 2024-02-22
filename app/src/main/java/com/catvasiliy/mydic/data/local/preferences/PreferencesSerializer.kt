@@ -1,21 +1,21 @@
 package com.catvasiliy.mydic.data.local.preferences
 
 import androidx.datastore.core.Serializer
-import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingPreferences
+import com.catvasiliy.mydic.domain.model.preferences.TranslationPreferences
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream
 
-object PreferencesSerializer : Serializer<TranslationSendingPreferences> {
+object PreferencesSerializer : Serializer<TranslationPreferences> {
 
-    override val defaultValue: TranslationSendingPreferences
-        get() = TranslationSendingPreferences()
+    override val defaultValue: TranslationPreferences
+        get() = TranslationPreferences()
 
-    override suspend fun readFrom(input: InputStream): TranslationSendingPreferences {
+    override suspend fun readFrom(input: InputStream): TranslationPreferences {
         return try {
             Json.decodeFromString(
-                deserializer = TranslationSendingPreferences.serializer(),
+                deserializer = TranslationPreferences.serializer(),
                 string = input.readBytes().decodeToString()
             )
         } catch (e: SerializationException) {
@@ -24,10 +24,10 @@ object PreferencesSerializer : Serializer<TranslationSendingPreferences> {
         }
     }
 
-    override suspend fun writeTo(t: TranslationSendingPreferences, output: OutputStream) {
+    override suspend fun writeTo(t: TranslationPreferences, output: OutputStream) {
         output.write(
             Json.encodeToString(
-                serializer = TranslationSendingPreferences.serializer(),
+                serializer = TranslationPreferences.serializer(),
                 value = t
             ).encodeToByteArray()
         )
