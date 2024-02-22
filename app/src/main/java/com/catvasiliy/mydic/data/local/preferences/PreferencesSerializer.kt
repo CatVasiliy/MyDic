@@ -1,7 +1,7 @@
 package com.catvasiliy.mydic.data.local.preferences
 
 import androidx.datastore.core.Serializer
-import com.catvasiliy.mydic.domain.model.settings.TranslationSendingPreferences
+import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingPreferences
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream

@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.domain.model.settings
+package com.catvasiliy.mydic.domain.model.preferences
 
 import kotlinx.serialization.Serializable
 

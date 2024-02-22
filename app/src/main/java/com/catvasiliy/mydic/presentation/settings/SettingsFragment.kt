@@ -17,7 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.catvasiliy.mydic.databinding.FragmentSettingsBinding
-import com.catvasiliy.mydic.domain.model.settings.TranslationSendingInterval
+import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingInterval
 import com.catvasiliy.mydic.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

@@ -5,7 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import com.catvasiliy.mydic.data.local.preferences.PreferencesSerializer
-import com.catvasiliy.mydic.domain.model.settings.TranslationSendingPreferences
+import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -2,8 +2,8 @@ package com.catvasiliy.mydic.presentation.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.catvasiliy.mydic.domain.model.settings.TranslationSendingInterval
-import com.catvasiliy.mydic.domain.model.settings.TranslationSendingPreferences
+import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingInterval
+import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingPreferences
 import com.catvasiliy.mydic.domain.use_case.settings.GetPreferencesUseCase
 import com.catvasiliy.mydic.domain.use_case.settings.ToggleTranslationSendingUseCase
 import com.catvasiliy.mydic.domain.use_case.settings.UpdateTranslationSendingIntervalUseCase
