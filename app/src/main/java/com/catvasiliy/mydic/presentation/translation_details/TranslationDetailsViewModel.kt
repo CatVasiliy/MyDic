@@ -94,7 +94,7 @@ class TranslationDetailsViewModel @Inject constructor(
     }
 
     fun updateMissingTranslation() {
-        val translation = state.value.translation ?: return
+        val translation = requireNotNull(state.value.translation)
         if (translation !is MissingTranslation)
             throw IllegalStateException("Translation is not a MissingTranslation")
 
