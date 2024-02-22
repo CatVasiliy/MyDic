@@ -19,6 +19,7 @@ import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
 import com.catvasiliy.mydic.domain.util.Resource
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
@@ -74,6 +75,9 @@ class TranslateRepositoryImpl @Inject constructor(
             translationDao.insertTranslation(cachedTranslation)
 
             emit(Resource.Success())
+
+        } catch (e: CancellationException) {
+            throw e
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -137,6 +141,9 @@ class TranslateRepositoryImpl @Inject constructor(
             translationDao.deleteMissingTranslationById(missingTranslation.id)
 
             emit(Resource.Success())
+
+        } catch (e: CancellationException) {
+            throw e
 
         } catch (e: Exception) {
             e.printStackTrace()
