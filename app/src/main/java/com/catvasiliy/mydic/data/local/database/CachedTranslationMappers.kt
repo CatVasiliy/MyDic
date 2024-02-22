@@ -8,7 +8,7 @@ import com.catvasiliy.mydic.data.local.database.model.CachedMissingTranslation
 import com.catvasiliy.mydic.data.local.database.model.CachedSynonym
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslation
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslationAggregate
-import com.catvasiliy.mydic.domain.model.settings.TranslationForSending
+import com.catvasiliy.mydic.domain.model.preferences.TranslationForSending
 import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
 import com.catvasiliy.mydic.domain.model.translation.Definition
 import com.catvasiliy.mydic.domain.model.translation.Example

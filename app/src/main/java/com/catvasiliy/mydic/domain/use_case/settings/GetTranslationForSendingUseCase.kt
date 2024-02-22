@@ -1,6 +1,6 @@
 package com.catvasiliy.mydic.domain.use_case.settings
 
-import com.catvasiliy.mydic.domain.model.settings.TranslationForSending
+import com.catvasiliy.mydic.domain.model.preferences.TranslationForSending
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
 import com.catvasiliy.mydic.domain.util.Resource
 import javax.inject.Inject

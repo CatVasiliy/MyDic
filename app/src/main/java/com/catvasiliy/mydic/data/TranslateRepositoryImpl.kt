@@ -12,7 +12,7 @@ import com.catvasiliy.mydic.data.local.database.toSimpleTranslation
 import com.catvasiliy.mydic.data.local.database.toTranslationForSending
 import com.catvasiliy.mydic.data.remote.TranslateApi
 import com.catvasiliy.mydic.data.remote.toExtendedTranslation
-import com.catvasiliy.mydic.domain.model.settings.TranslationForSending
+import com.catvasiliy.mydic.domain.model.preferences.TranslationForSending
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.domain.model.translation.Language
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
