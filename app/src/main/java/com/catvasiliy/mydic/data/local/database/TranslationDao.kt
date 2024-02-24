@@ -91,12 +91,21 @@ abstract class TranslationDao {
 
     @Transaction
     @Query("SELECT * FROM translation " +
-            "WHERE sourceText = :sourceText " +
-                "AND sourceLanguage = :sourceLanguage " +
-                "AND targetLanguage = :targetLanguage")
+                "WHERE sourceText = :sourceText " +
+                    "AND sourceLanguage = :sourceLanguage " +
+                    "AND targetLanguage = :targetLanguage")
     abstract suspend fun getUniqueTranslation(
         sourceText: String,
         sourceLanguage: Language,
+        targetLanguage: Language
+    ): CachedTranslationAggregate?
+
+    @Transaction
+    @Query("SELECT * FROM translation " +
+                "WHERE sourceText = :sourceText " +
+                    "AND targetLanguage = :targetLanguage")
+    abstract suspend fun getUniqueTranslationNoSourceLanguage(
+        sourceText: String,
         targetLanguage: Language
     ): CachedTranslationAggregate?
 

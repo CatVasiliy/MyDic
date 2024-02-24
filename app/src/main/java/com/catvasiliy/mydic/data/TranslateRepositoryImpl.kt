@@ -40,11 +40,18 @@ class TranslateRepositoryImpl @Inject constructor(
 
         emit(Resource.Loading())
 
-        val existingCachedTranslation = translationDao.getUniqueTranslation(
-            sourceText = sourceText,
-            sourceLanguage = sourceLanguage,
-            targetLanguage = targetLanguage
-        )
+        val existingCachedTranslation = if (sourceLanguage == Language.AUTO) {
+            translationDao.getUniqueTranslationNoSourceLanguage(
+                sourceText = sourceText,
+                targetLanguage = targetLanguage
+            )
+        } else {
+            translationDao.getUniqueTranslation(
+                sourceText = sourceText,
+                sourceLanguage = sourceLanguage,
+                targetLanguage = targetLanguage
+            )
+        }
 
         if (existingCachedTranslation != null) {
             emit(Resource.Success(existingCachedTranslation.toExtendedTranslation()))
@@ -68,7 +75,7 @@ class TranslateRepositoryImpl @Inject constructor(
                 sourceLanguage = sourceLanguage.code,
                 targetLanguage = targetLanguage.code
             )
-            .toExtendedTranslation(sourceLanguage, targetLanguage)
+            .toExtendedTranslation(targetLanguage)
 
             emit(Resource.Loading(domainTranslation))
 
@@ -128,7 +135,6 @@ class TranslateRepositoryImpl @Inject constructor(
                 sourceLanguage = missingTranslation.sourceLanguage.code,
                 targetLanguage = missingTranslation.targetLanguage.code
             ).toExtendedTranslation(
-                sourceLanguage = missingTranslation.sourceLanguage,
                 targetLanguage = missingTranslation.targetLanguage,
                 translatedAtMillis = missingTranslation.translatedAtMillis
             )

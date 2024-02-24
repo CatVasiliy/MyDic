@@ -1,6 +1,7 @@
 package com.catvasiliy.mydic.domain.model.translation
 
 enum class Language(val code: String) {
+    AUTO("auto"),
     ENGLISH("en"),
     RUSSIAN("ru"),
     GERMAN("de"),
@@ -10,5 +11,11 @@ enum class Language(val code: String) {
     HINDI("hi"),
     CHINESE("zh"),
     KOREAN("ko"),
-    JAPANESE("ja")
+    JAPANESE("ja");
+
+    companion object {
+        fun fromCode(code: String): Language? {
+            return entries.find { it.code == code }
+        }
+    }
 }

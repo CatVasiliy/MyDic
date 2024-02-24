@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ApiTranslation(
     @SerialName("sentences") val primaryTranslation: List<ApiPrimaryTranslation> = emptyList(),
+    @SerialName("src") val sourceLanguageCode: String,
     @SerialName("dict") val alternativeTranslations: List<ApiAlternativeTranslation> = emptyList(),
     @SerialName("definitions") val definitions: List<ApiDefinition> = emptyList(),
     @SerialName("examples") val examples: ApiExample = ApiExample()

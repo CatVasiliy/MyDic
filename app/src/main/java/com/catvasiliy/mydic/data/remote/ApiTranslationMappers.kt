@@ -12,16 +12,15 @@ import com.catvasiliy.mydic.domain.model.translation.Language
 import java.util.*
 
 fun ApiTranslation.toExtendedTranslation(
-    sourceLanguage: Language,
     targetLanguage: Language,
     translatedAtMillis: Long = Date().time
 ): ExtendedTranslation {
     return ExtendedTranslation(
         sourceText = primaryTranslation[0].sourceText,
         translationText = primaryTranslation[0].translationText,
-        sourceLanguage = sourceLanguage,
+        sourceLanguage = Language.fromCode(sourceLanguageCode) ?: Language.AUTO,
         targetLanguage = targetLanguage,
-        sourceTransliteration = primaryTranslation[1].sourceTransliteration,
+        sourceTransliteration = primaryTranslation.getOrNull(1)?.sourceTransliteration,
         alternativeTranslations = alternativeTranslations.flatMap { alternativeTranslation ->
             alternativeTranslation.toAlternativeTranslationsList()
         },

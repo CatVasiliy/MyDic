@@ -44,7 +44,7 @@ class TranslateFragment : Fragment() {
     private val tlDefaultItemSelectedListener = object :OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
             val newTargetLanguage = parent.getItemAtPosition(position) as Language
-            val currentTargetLanguage = parent.getItemAtPosition(position) as Language
+            val currentTargetLanguage = viewModel.state.value.languagePreferences.defaultTargetLanguage
             if (newTargetLanguage != currentTargetLanguage) {
                 viewModel.updateDefaultTargetLanguage(newTargetLanguage)
             }
