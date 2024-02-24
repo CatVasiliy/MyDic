@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LanguagePreferences(
-    val defaultSourceLanguage: Language = Language.ENGLISH,
-    val defaultTargetLanguage: Language = Language.RUSSIAN
+    val defaultSourceLanguage: Language = Language.AUTO,
+    val defaultTargetLanguage: Language = Language.AUTO
 )

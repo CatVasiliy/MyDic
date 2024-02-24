@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -45,20 +44,11 @@ class TranslationDetailsViewModel @Inject constructor(
         currentJob?.cancel()
         currentJob = translateUseCase(
             sourceLanguage = sourceLanguage,
-            targetLanguage = getNotAutoTargetLanguage(targetLanguage),
+            targetLanguage = targetLanguage,
             sourceText = sourceText
         )
         .onEach { processResult(it) }
         .launchIn(viewModelScope)
-    }
-
-    private fun getNotAutoTargetLanguage(targetLanguage: Language): Language {
-        return if (targetLanguage == Language.AUTO) {
-            val languageCode = Locale.getDefault().language
-            Language.fromCode(languageCode) ?: throw IllegalStateException()
-        } else {
-            targetLanguage
-        }
     }
 
     private fun processResult(result: Resource<Translation>) {
