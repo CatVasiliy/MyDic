@@ -19,12 +19,13 @@ import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
 import com.catvasiliy.mydic.domain.util.Resource
-import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
 
 class TranslateRepositoryImpl @Inject constructor(
     private val translateApi: TranslateApi,
@@ -76,10 +77,9 @@ class TranslateRepositoryImpl @Inject constructor(
 
             emit(Resource.Success())
 
-        } catch (e: CancellationException) {
-            throw e
-
         } catch (e: Exception) {
+            coroutineContext.ensureActive()
+
             e.printStackTrace()
 
             val cachedMissingTranslation = MissingTranslation
@@ -142,10 +142,9 @@ class TranslateRepositoryImpl @Inject constructor(
 
             emit(Resource.Success())
 
-        } catch (e: CancellationException) {
-            throw e
-
         } catch (e: Exception) {
+            coroutineContext.ensureActive()
+
             e.printStackTrace()
 
             emit(Resource.Error(e.localizedMessage, missingTranslation))
