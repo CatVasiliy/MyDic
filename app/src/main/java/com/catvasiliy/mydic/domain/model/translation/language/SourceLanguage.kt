@@ -1,6 +1,6 @@
-package com.catvasiliy.mydic.domain.model.translation
+package com.catvasiliy.mydic.domain.model.translation.language
 
-enum class Language(val code: String) {
+enum class SourceLanguage(val code: String) {
     AUTO("auto"),
     ENGLISH("en"),
     RUSSIAN("ru"),
@@ -14,8 +14,9 @@ enum class Language(val code: String) {
     JAPANESE("ja");
 
     companion object {
-        fun fromCode(code: String): Language? {
+        fun fromCode(code: String): SourceLanguage? {
             return entries.find { it.code == code }
         }
     }
 }
+

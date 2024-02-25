@@ -15,8 +15,9 @@ import androidx.navigation.fragment.findNavController
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslationDetailsBinding
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
-import com.catvasiliy.mydic.domain.model.translation.Language
+import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
+import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
 import com.catvasiliy.mydic.presentation.MainActivity
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.catvasiliy.mydic.presentation.util.visibleIf
@@ -96,11 +97,11 @@ class TranslationDetailsFragment : Fragment() {
 
         val sourceLanguage = arguments?.let { args ->
             TranslationDetailsFragmentArgs.fromBundle(args).sourceLanguage
-        } ?: Language.ENGLISH
+        } ?: SourceLanguage.ENGLISH
 
         val targetLanguage = arguments?.let { args ->
             TranslationDetailsFragmentArgs.fromBundle(args).targetLanguage
-        } ?: Language.ENGLISH
+        } ?: TargetLanguage.ENGLISH
 
         if (sourceText.isNotBlank()) {
             viewModel.translate(sourceText, sourceLanguage, targetLanguage)

@@ -15,21 +15,25 @@ import com.catvasiliy.mydic.domain.model.translation.Example
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.SimpleTranslation
+import com.catvasiliy.mydic.domain.model.translation.language.TranslationSourceLanguage
 
 fun CachedTranslationAggregate.toExtendedTranslation(): ExtendedTranslation {
     return ExtendedTranslation(
-        id = translation.id,
-        sourceText = translation.sourceText,
-        translationText = translation.translationText,
-        sourceLanguage = translation.sourceLanguage,
-        targetLanguage = translation.targetLanguage,
-        sourceTransliteration = translation.sourceTransliteration,
+        id = baseTranslation.id,
+        sourceText = baseTranslation.sourceText,
+        translationText = baseTranslation.translationText,
+        sourceLanguage = TranslationSourceLanguage(
+            language = baseTranslation.sourceLanguage,
+            isDetected = baseTranslation.isLanguageDetected
+        ),
+        targetLanguage = baseTranslation.targetLanguage,
+        sourceTransliteration = baseTranslation.sourceTransliteration,
         alternativeTranslations = alternativeTranslations.map(
             CachedAlternativeAggregate::toAlternativeTranslation
         ),
         definitions = definitions.map(CachedDefinition::toDefinition),
         examples = examples.map(CachedExample::toExample),
-        translatedAtMillis = translation.translatedAtMillis
+        translatedAtMillis = baseTranslation.translatedAtMillis
     )
 }
 
@@ -38,7 +42,10 @@ fun CachedTranslation.toSimpleTranslation(): SimpleTranslation {
         id = id,
         sourceText = sourceText,
         translationText = translationText,
-        sourceLanguage = sourceLanguage,
+        sourceLanguage = TranslationSourceLanguage(
+            language = sourceLanguage,
+            isDetected = isLanguageDetected
+        ),
         targetLanguage = targetLanguage,
         translatedAtMillis = translatedAtMillis
     )
@@ -49,13 +56,14 @@ fun ExtendedTranslation.toCachedTranslation(): CachedTranslationAggregate {
         id = id,
         sourceText = sourceText,
         translationText = translationText,
-        sourceLanguage = sourceLanguage,
+        sourceLanguage = sourceLanguage.language,
+        isLanguageDetected = sourceLanguage.isDetected ?: throw IllegalStateException("isDetected cannot be null at this point"),
         targetLanguage = targetLanguage,
         sourceTransliteration = sourceTransliteration,
         translatedAtMillis = translatedAtMillis
     )
     return CachedTranslationAggregate(
-        translation = cachedTranslation,
+        baseTranslation = cachedTranslation,
         alternativeTranslations = alternativeTranslations.map { domainAlternativeTranslation ->
             domainAlternativeTranslation.toCachedAlternativeTranslation(
                 translationId = id
@@ -74,7 +82,7 @@ fun CachedMissingTranslation.toMissingTranslation(): MissingTranslation {
     return MissingTranslation(
         id = id,
         sourceText = sourceText,
-        sourceLanguage = sourceLanguage,
+        sourceLanguage = TranslationSourceLanguage(sourceLanguage),
         targetLanguage = targetLanguage,
         translatedAtMillis = translatedAtMillis
     )
@@ -84,7 +92,7 @@ fun MissingTranslation.toCachedMissingTranslation(): CachedMissingTranslation {
     return CachedMissingTranslation(
         id = id,
         sourceText = sourceText,
-        sourceLanguage = sourceLanguage,
+        sourceLanguage = sourceLanguage.language,
         targetLanguage = targetLanguage,
         translatedAtMillis = translatedAtMillis
     )
@@ -92,9 +100,9 @@ fun MissingTranslation.toCachedMissingTranslation(): CachedMissingTranslation {
 
 fun CachedTranslationAggregate.toTranslationForSending(): TranslationForSending {
     return TranslationForSending(
-        id = translation.id,
-        sourceText = translation.sourceText,
-        translationText = translation.translationText
+        id = baseTranslation.id,
+        sourceText = baseTranslation.sourceText,
+        translationText = baseTranslation.translationText
     )
 }
 

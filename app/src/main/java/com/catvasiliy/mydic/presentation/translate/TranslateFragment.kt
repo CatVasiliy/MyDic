@@ -15,7 +15,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslateBinding
-import com.catvasiliy.mydic.domain.model.translation.Language
+import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -31,7 +32,7 @@ class TranslateFragment : Fragment() {
 
     private val slDefaultItemSelectedListener = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-            val newSourceLanguage = parent.getItemAtPosition(position) as Language
+            val newSourceLanguage = parent.getItemAtPosition(position) as SourceLanguage
             val currentSourceLanguage = viewModel.state.value.languagePreferences.defaultSourceLanguage
             if (newSourceLanguage != currentSourceLanguage) {
                 viewModel.updateDefaultSourceLanguage(newSourceLanguage)
@@ -43,7 +44,7 @@ class TranslateFragment : Fragment() {
 
     private val tlDefaultItemSelectedListener = object :OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-            val newTargetLanguage = parent.getItemAtPosition(position) as Language
+            val newTargetLanguage = parent.getItemAtPosition(position) as TargetLanguage
             val currentTargetLanguage = viewModel.state.value.languagePreferences.defaultTargetLanguage
             if (newTargetLanguage != currentTargetLanguage) {
                 viewModel.updateDefaultTargetLanguage(newTargetLanguage)
@@ -77,7 +78,7 @@ class TranslateFragment : Fragment() {
         val slSpinnerAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
-            Language.entries
+            SourceLanguage.entries
         ).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
@@ -89,7 +90,7 @@ class TranslateFragment : Fragment() {
         val tlSpinnerAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
-            Language.entries
+            TargetLanguage.entries
         ).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
@@ -110,8 +111,8 @@ class TranslateFragment : Fragment() {
             }
             val action = TranslateFragmentDirections.openTranslationDetailsFromTranslate(
                 binding.etSource.text.toString(),
-                binding.spSourceLanguage.selectedItem as Language,
-                binding.spTargetLanguage.selectedItem as Language
+                binding.spSourceLanguage.selectedItem as SourceLanguage,
+                binding.spTargetLanguage.selectedItem as TargetLanguage
             )
             findNavController().navigate(action)
         }

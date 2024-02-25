@@ -5,7 +5,8 @@ import com.catvasiliy.mydic.domain.model.preferences.LanguagePreferences
 import com.catvasiliy.mydic.domain.model.preferences.TranslationPreferences
 import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingInterval
 import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingPreferences
-import com.catvasiliy.mydic.domain.model.translation.Language
+import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -14,7 +15,7 @@ class PreferencesRepository @Inject constructor(
     private val preferences: DataStore<TranslationPreferences>
 ) {
 
-    suspend fun updateDefaultSourceLanguage(sourceLanguage: Language) {
+    suspend fun updateDefaultSourceLanguage(sourceLanguage: SourceLanguage) {
         preferences.updateData { preferencesData ->
             val languagePreferences = preferencesData.languagePreferences.copy(
                 defaultSourceLanguage = sourceLanguage
@@ -25,7 +26,7 @@ class PreferencesRepository @Inject constructor(
         }
     }
 
-    suspend fun updateDefaultTargetLanguage(targetLanguage: Language) {
+    suspend fun updateDefaultTargetLanguage(targetLanguage: TargetLanguage) {
         preferences.updateData { preferencesData ->
             val languagePreferences = preferencesData.languagePreferences.copy(
                 defaultTargetLanguage = targetLanguage

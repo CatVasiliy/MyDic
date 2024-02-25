@@ -14,8 +14,9 @@ import com.catvasiliy.mydic.data.remote.TranslateApi
 import com.catvasiliy.mydic.data.remote.toExtendedTranslation
 import com.catvasiliy.mydic.domain.model.preferences.TranslationForSending
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
-import com.catvasiliy.mydic.domain.model.translation.Language
+import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
+import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
 import com.catvasiliy.mydic.domain.util.Resource
@@ -34,14 +35,14 @@ class TranslateRepositoryImpl @Inject constructor(
 
     override fun getTranslationFromApi(
         sourceText: String,
-        sourceLanguage: Language,
-        targetLanguage: Language
+        sourceLanguage: SourceLanguage,
+        targetLanguage: TargetLanguage
     ): Flow<Resource<Translation>> = flow {
 
         emit(Resource.Loading())
 
-        val existingCachedTranslation = if (sourceLanguage == Language.AUTO) {
-            translationDao.getUniqueTranslationNoSourceLanguage(
+        val existingCachedTranslation = if (sourceLanguage == SourceLanguage.AUTO) {
+            translationDao.getUniqueTranslationAutoDetectLanguage(
                 sourceText = sourceText,
                 targetLanguage = targetLanguage
             )
@@ -75,7 +76,10 @@ class TranslateRepositoryImpl @Inject constructor(
                 sourceLanguage = sourceLanguage.code,
                 targetLanguage = targetLanguage.code
             )
-            .toExtendedTranslation(targetLanguage)
+            .toExtendedTranslation(
+                targetLanguage = targetLanguage,
+                isLanguageDetected = sourceLanguage == SourceLanguage.AUTO
+            )
 
             emit(Resource.Loading(domainTranslation))
 
@@ -102,6 +106,8 @@ class TranslateRepositoryImpl @Inject constructor(
             emit(Resource.Error(e.localizedMessage, missingTranslation))
         }
     }
+
+
 
     override fun getTranslationsList(): Flow<List<Translation>> {
         val translationsFlow = translationDao.getTranslations().map {
@@ -132,10 +138,11 @@ class TranslateRepositoryImpl @Inject constructor(
         try {
             val domainTranslation = translateApi.getTranslation(
                 sourceText = missingTranslation.sourceText,
-                sourceLanguage = missingTranslation.sourceLanguage.code,
+                sourceLanguage = missingTranslation.sourceLanguage.language.code,
                 targetLanguage = missingTranslation.targetLanguage.code
             ).toExtendedTranslation(
                 targetLanguage = missingTranslation.targetLanguage,
+                isLanguageDetected = missingTranslation.sourceLanguage.language == SourceLanguage.AUTO,
                 translatedAtMillis = missingTranslation.translatedAtMillis
             )
 

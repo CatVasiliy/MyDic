@@ -13,7 +13,8 @@ import com.catvasiliy.mydic.data.local.database.model.CachedSynonym
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslation
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslationAggregate
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslationForSending
-import com.catvasiliy.mydic.domain.model.translation.Language
+import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -37,10 +38,10 @@ abstract class TranslationDao {
     abstract suspend fun insertExample(example: CachedExample)
 
     @Transaction
-    open suspend fun insertTranslation(translation: CachedTranslationAggregate): Long {
-        val translationId = insertCachedTranslation(translation.translation)
+    open suspend fun insertTranslation(translationAggregate: CachedTranslationAggregate): Long {
+        val translationId = insertCachedTranslation(translationAggregate.baseTranslation)
 
-        translation.alternativeTranslations.forEach { alternativeAggregate ->
+        translationAggregate.alternativeTranslations.forEach { alternativeAggregate ->
             val alternativeTranslationWithId = alternativeAggregate
                 .alternativeTranslation
                 .copy(translationId = translationId)
@@ -57,17 +58,28 @@ abstract class TranslationDao {
             }
         }
 
-        translation.definitions.forEach { definition ->
+        translationAggregate.definitions.forEach { definition ->
             val definitionWithId = definition.copy(translationId = translationId)
             insertDefinition(definitionWithId)
         }
 
-        translation.examples.forEach { example ->
+        translationAggregate.examples.forEach { example ->
             val exampleWithId = example.copy(translationId = translationId)
             insertExample(exampleWithId)
         }
 
         insertTranslationForSending(CachedTranslationForSending(id = translationId))
+
+        if (translationAggregate.baseTranslation.isLanguageDetected) {
+            val repeatingTranslationId = getRepeatingTranslationId(
+                sourceText = translationAggregate.baseTranslation.sourceText,
+                sourceLanguage = translationAggregate.baseTranslation.sourceLanguage,
+                targetLanguage = translationAggregate.baseTranslation.targetLanguage
+            )
+            repeatingTranslationId?.let { id ->
+                deleteTranslation(id)
+            }
+        }
 
         return translationId
     }
@@ -96,22 +108,36 @@ abstract class TranslationDao {
                     "AND targetLanguage = :targetLanguage")
     abstract suspend fun getUniqueTranslation(
         sourceText: String,
-        sourceLanguage: Language,
-        targetLanguage: Language
+        sourceLanguage: SourceLanguage,
+        targetLanguage: TargetLanguage
     ): CachedTranslationAggregate?
 
     @Transaction
     @Query("SELECT * FROM translation " +
                 "WHERE sourceText = :sourceText " +
-                    "AND targetLanguage = :targetLanguage")
-    abstract suspend fun getUniqueTranslationNoSourceLanguage(
+                    "AND targetLanguage = :targetLanguage " +
+                    "AND isLanguageDetected = 1")
+    abstract suspend fun getUniqueTranslationAutoDetectLanguage(
         sourceText: String,
-        targetLanguage: Language
+        targetLanguage: TargetLanguage
     ): CachedTranslationAggregate?
 
     @Transaction
     @Query("DELETE FROM translation WHERE id = :id")
     abstract suspend fun deleteTranslationById(id: Long)
+
+    @Transaction
+    @Query("SELECT id FROM translation " +
+                "WHERE sourceText = :sourceText " +
+                    "AND sourceLanguage = :sourceLanguage " +
+                    "AND targetLanguage = :targetLanguage " +
+                    "AND isLanguageDetected = 0"
+    )
+    abstract suspend fun getRepeatingTranslationId(
+        sourceText: String,
+        sourceLanguage: SourceLanguage,
+        targetLanguage: TargetLanguage
+    ): Long?
 
     @Insert(onConflict = REPLACE)
     abstract suspend fun insertMissingTranslation(missingTranslation: CachedMissingTranslation): Long
@@ -128,8 +154,8 @@ abstract class TranslationDao {
                     "AND targetLanguage = :targetLanguage")
     abstract suspend fun getUniqueMissingTranslation(
         sourceText: String,
-        sourceLanguage: Language,
-        targetLanguage: Language
+        sourceLanguage: SourceLanguage,
+        targetLanguage: TargetLanguage
     ): CachedMissingTranslation?
 
     @Query("DELETE FROM missing_translation WHERE id = :id")

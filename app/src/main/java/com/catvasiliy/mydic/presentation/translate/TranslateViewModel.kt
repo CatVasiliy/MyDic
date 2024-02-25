@@ -2,7 +2,8 @@ package com.catvasiliy.mydic.presentation.translate
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.catvasiliy.mydic.domain.model.translation.Language
+import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
 import com.catvasiliy.mydic.domain.use_case.settings.GetLanguagePreferencesUseCase
 import com.catvasiliy.mydic.domain.use_case.settings.UpdateDefaultSourceLanguageUseCase
 import com.catvasiliy.mydic.domain.use_case.settings.UpdateDefaultTargetLanguageUseCase
@@ -32,13 +33,13 @@ class TranslateViewModel @Inject constructor(
             initialValue = TranslateState()
         )
 
-    fun updateDefaultSourceLanguage(sourceLanguage: Language) {
+    fun updateDefaultSourceLanguage(sourceLanguage: SourceLanguage) {
         viewModelScope.launch {
             updateDefaultSourceLanguageUseCase(sourceLanguage)
         }
     }
 
-    fun updateDefaultTargetLanguage(targetLanguage: Language) {
+    fun updateDefaultTargetLanguage(targetLanguage: TargetLanguage) {
         viewModelScope.launch {
             updateDefaultTargetLanguageUseCase(targetLanguage)
         }

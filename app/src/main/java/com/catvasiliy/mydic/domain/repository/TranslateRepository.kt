@@ -2,8 +2,9 @@ package com.catvasiliy.mydic.domain.repository
 
 import com.catvasiliy.mydic.domain.model.preferences.TranslationForSending
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
-import com.catvasiliy.mydic.domain.model.translation.Language
+import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
+import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -11,8 +12,8 @@ import kotlinx.coroutines.flow.Flow
 interface TranslateRepository {
     fun getTranslationFromApi(
         sourceText: String,
-        sourceLanguage: Language,
-        targetLanguage: Language
+        sourceLanguage: SourceLanguage,
+        targetLanguage: TargetLanguage
     ): Flow<Resource<Translation>>
 
     fun getTranslationsList(): Flow<List<Translation>>

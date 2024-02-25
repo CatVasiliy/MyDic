@@ -8,17 +8,23 @@ import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
 import com.catvasiliy.mydic.domain.model.translation.Definition
 import com.catvasiliy.mydic.domain.model.translation.Example
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
-import com.catvasiliy.mydic.domain.model.translation.Language
+import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.TranslationSourceLanguage
 import java.util.*
 
 fun ApiTranslation.toExtendedTranslation(
-    targetLanguage: Language,
+    targetLanguage: TargetLanguage,
+    isLanguageDetected: Boolean,
     translatedAtMillis: Long = Date().time
 ): ExtendedTranslation {
     return ExtendedTranslation(
         sourceText = primaryTranslation[0].sourceText,
         translationText = primaryTranslation[0].translationText,
-        sourceLanguage = Language.fromCode(sourceLanguageCode) ?: Language.AUTO,
+        sourceLanguage = TranslationSourceLanguage(
+            language = SourceLanguage.fromCode(sourceLanguageCode) ?: SourceLanguage.AUTO,
+            isDetected = isLanguageDetected
+        ),
         targetLanguage = targetLanguage,
         sourceTransliteration = primaryTranslation.getOrNull(1)?.sourceTransliteration,
         alternativeTranslations = alternativeTranslations.flatMap { alternativeTranslation ->

@@ -4,7 +4,8 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import com.catvasiliy.mydic.domain.model.translation.Language
+import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
 
 @Entity(tableName = "translation")
 data class CachedTranslation(
@@ -13,15 +14,16 @@ data class CachedTranslation(
 
     val sourceText: String,
     val translationText: String,
-    val sourceLanguage: Language,
-    val targetLanguage: Language,
+    val sourceLanguage: SourceLanguage,
+    val isLanguageDetected: Boolean,
+    val targetLanguage: TargetLanguage,
     val sourceTransliteration: String?,
     val translatedAtMillis: Long
 )
 
 data class CachedTranslationAggregate(
     @Embedded
-    val translation: CachedTranslation,
+    val baseTranslation: CachedTranslation,
 
     @Relation(
         parentColumn = "id",
