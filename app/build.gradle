@@ -54,7 +54,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.datastore:datastore:$datastore_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
 
     // Dagger-Hilt
     implementation "com.google.dagger:hilt-android:$dagger_hilt_version"
