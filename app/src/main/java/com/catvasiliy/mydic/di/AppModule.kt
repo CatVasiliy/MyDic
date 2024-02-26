@@ -17,6 +17,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.create
 import javax.inject.Singleton
@@ -29,8 +31,18 @@ object AppModule {
     fun provideTranslateApi(): TranslateApi {
         val mediaType = "application/json".toMediaType()
         val json = Json { ignoreUnknownKeys = true }
+
+        val loggingInterceptor = HttpLoggingInterceptor().apply {
+            setLevel(HttpLoggingInterceptor.Level.BODY)
+        }
+
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .build()
+
         return Retrofit.Builder()
             .baseUrl("https://translate.googleapis.com/")
+            .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory(mediaType))
             .build()
             .create()
