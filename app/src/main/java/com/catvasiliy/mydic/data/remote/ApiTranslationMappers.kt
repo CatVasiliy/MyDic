@@ -27,41 +27,31 @@ fun ApiTranslation.toExtendedTranslation(
         ),
         targetLanguage = targetLanguage,
         sourceTransliteration = sourceTransliteration,
-        alternativeTranslations = alternativeTranslations.flatMap { alternativeTranslation ->
-            alternativeTranslation.toAlternativeTranslationsList()
-        },
-        definitions = definitions.flatMap { definitions ->
-            definitions.toDefinitionsList()
-        },
-        examples = examples.toExamplesList(),
+        alternativeTranslations = alternativeTranslations.map(
+            ApiAlternativeTranslation::toAlternativeTranslation
+        ),
+        definitions = definitions.map(ApiDefinition::toDefinition),
+        examples = examples.map(ApiExample::toExample),
         translatedAtMillis = translatedAtMillis
     )
 }
 
-private fun ApiAlternativeTranslation.toAlternativeTranslationsList(): List<AlternativeTranslation> {
-    return entries.map { alternativeTranslation ->
-        AlternativeTranslation(
-            translationText = alternativeTranslation.translationText,
-            partOfSpeech = partOfSpeech,
-            synonyms = alternativeTranslation.synonyms
-        )
-    }
+private fun ApiAlternativeTranslation.toAlternativeTranslation(): AlternativeTranslation {
+    return AlternativeTranslation(
+        translationText = translationText,
+        partOfSpeech = partOfSpeech,
+        synonyms = synonyms
+    )
 }
 
-private fun ApiDefinition.toDefinitionsList(): List<Definition> {
-    return entries.map { definition ->
-        Definition(
-            definitionText = definition.definitionText,
-            partOfSpeech = partOfSpeech,
-            exampleText = definition.exampleText
-        )
-    }
+private fun ApiDefinition.toDefinition(): Definition {
+    return Definition(
+        definitionText = definitionText,
+        partOfSpeech = partOfSpeech,
+        exampleText = exampleText
+    )
 }
 
-private fun ApiExample.toExamplesList(): List<Example> {
-    return entries.map { example ->
-        Example(
-            exampleText = example.exampleText
-        )
-    }
+private fun ApiExample.toExample(): Example {
+    return Example(exampleText = exampleText)
 }

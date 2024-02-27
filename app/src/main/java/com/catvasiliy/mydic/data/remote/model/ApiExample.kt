@@ -5,10 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ApiExample(
-    @SerialName("example") val entries: List<ApiExampleEntry> = emptyList()
-)
-
-@Serializable
-data class ApiExampleEntry(
-    @SerialName("text") val exampleText: String = ""
+    @SerialName("text") val exampleText: String
 )
