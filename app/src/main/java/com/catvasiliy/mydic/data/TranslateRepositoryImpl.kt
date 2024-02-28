@@ -86,6 +86,17 @@ class TranslateRepositoryImpl @Inject constructor(
             val cachedTranslation = domainTranslation.toCachedTranslation()
             translationDao.insertTranslation(cachedTranslation)
 
+            if (cachedTranslation.baseTranslation.isLanguageDetected) {
+                val repeatingTranslationId = translationDao.getRepeatingTranslationId(
+                    sourceText = cachedTranslation.baseTranslation.sourceText,
+                    sourceLanguage = cachedTranslation.baseTranslation.sourceLanguage,
+                    targetLanguage = cachedTranslation.baseTranslation.targetLanguage
+                )
+                repeatingTranslationId?.let { id ->
+                    translationDao.deleteTranslation(id)
+                }
+            }
+
             emit(Resource.Success())
 
         } catch (e: Exception) {
@@ -150,6 +161,17 @@ class TranslateRepositoryImpl @Inject constructor(
 
             val cachedTranslation = domainTranslation.toCachedTranslation()
             translationDao.insertTranslation(cachedTranslation)
+
+            if (cachedTranslation.baseTranslation.isLanguageDetected) {
+                val repeatingTranslationId = translationDao.getRepeatingTranslationId(
+                    sourceText = cachedTranslation.baseTranslation.sourceText,
+                    sourceLanguage = cachedTranslation.baseTranslation.sourceLanguage,
+                    targetLanguage = cachedTranslation.baseTranslation.targetLanguage
+                )
+                repeatingTranslationId?.let { id ->
+                    translationDao.deleteTranslation(id)
+                }
+            }
 
             translationDao.deleteMissingTranslationById(missingTranslation.id)
 

@@ -70,17 +70,6 @@ abstract class TranslationDao {
 
         insertTranslationForSending(CachedTranslationForSending(id = translationId))
 
-        if (translationAggregate.baseTranslation.isLanguageDetected) {
-            val repeatingTranslationId = getRepeatingTranslationId(
-                sourceText = translationAggregate.baseTranslation.sourceText,
-                sourceLanguage = translationAggregate.baseTranslation.sourceLanguage,
-                targetLanguage = translationAggregate.baseTranslation.targetLanguage
-            )
-            repeatingTranslationId?.let { id ->
-                deleteTranslation(id)
-            }
-        }
-
         return translationId
     }
 
