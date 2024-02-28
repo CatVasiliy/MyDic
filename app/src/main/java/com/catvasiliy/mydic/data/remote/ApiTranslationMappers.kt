@@ -19,14 +19,14 @@ fun ApiTranslation.toExtendedTranslation(
     translatedAtMillis: Long = Date().time
 ): ExtendedTranslation {
     return ExtendedTranslation(
-        sourceText = sourceText,
-        translationText = translationText,
+        sourceText = baseTranslation.sourceText,
+        translationText = baseTranslation.translationText,
         sourceLanguage = TranslationSourceLanguage(
             language = SourceLanguage.fromCode(sourceLanguageCode) ?: SourceLanguage.AUTO,
             isDetected = isLanguageDetected
         ),
         targetLanguage = targetLanguage,
-        sourceTransliteration = sourceTransliteration,
+        sourceTransliteration = baseTranslation.sourceTransliteration,
         alternativeTranslations = alternativeTranslations.map(
             ApiAlternativeTranslation::toAlternativeTranslation
         ),

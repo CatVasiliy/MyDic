@@ -67,7 +67,7 @@ class DefinitionsFragment : Fragment() {
             definitionBinding.apply {
                 tvDefinitionPartOfSpeech.text = definition.partOfSpeech
                 tvDefinition.text = definition.definitionText
-                tvDefinitionExample.text = definition.exampleText
+                tvDefinitionExample.text = definition.exampleText ?: "No example"
             }
             binding.llDefinitions.addView(definitionBinding.root)
         }

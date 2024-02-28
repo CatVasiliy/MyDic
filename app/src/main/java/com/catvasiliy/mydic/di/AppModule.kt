@@ -30,7 +30,10 @@ object AppModule {
     @Singleton
     fun provideTranslateApi(): TranslateApi {
         val mediaType = "application/json".toMediaType()
-        val json = Json { ignoreUnknownKeys = true }
+        val json = Json {
+            ignoreUnknownKeys = true
+            coerceInputValues = true
+        }
 
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             setLevel(HttpLoggingInterceptor.Level.BODY)

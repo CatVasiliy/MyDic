@@ -26,5 +26,5 @@ data class CachedDefinition(
 
     val definitionText: String,
     val partOfSpeech: String,
-    val exampleText: String
+    val exampleText: String?
 )
