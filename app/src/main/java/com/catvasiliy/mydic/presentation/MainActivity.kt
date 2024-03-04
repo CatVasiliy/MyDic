@@ -3,19 +3,24 @@ package com.catvasiliy.mydic.presentation
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.findNavController
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.ActivityMainBinding
 import com.catvasiliy.mydic.presentation.util.ACTION_OPEN_TRANSLATION
 import com.catvasiliy.mydic.presentation.util.EXTRA_TRANSLATION_ID
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Pronouncer {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: MainViewModel by viewModels()
 
     private val backPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -31,11 +36,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val pronunciationSynthesizer = PronunciationSynthesizer()
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                viewModel.state.value
+            }
+            pronunciationSynthesizer.initialize(this@MainActivity) {
+                viewModel.setShowSplashScreen(false)
+            }
+        }
+
         super.onCreate(savedInstanceState)
 
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         onBackPressedDispatcher.addCallback(this, backPressedCallback)
 
@@ -82,11 +100,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
+        pronunciationSynthesizer.shutdown()
         _binding = null
+        super.onDestroy()
     }
 
-    val isNavigationDrawerOpen: Boolean get() = binding.drawerLayout.isOpen
+    override fun pronounce(text: String, locale: Locale) {
+        pronunciationSynthesizer.synthesizePronunciation(text, locale)
+    }
+
+    override fun stop() {
+        pronunciationSynthesizer.stop()
+    }
+
+    val isNavigationDrawerOpen: Boolean
+        get() = binding.drawerLayout.isOpen
 
     fun openNavigationDrawer() {
         binding.drawerLayout.open()

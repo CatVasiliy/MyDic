@@ -17,7 +17,10 @@ object ApiBaseTranslationTransformer
 
         val origPrimitive = sentencesArray[0].jsonObject["orig"] ?: JsonNull
         val transPrimitive = sentencesArray[0].jsonObject["trans"] ?: JsonNull
-        val srcTranslitPrimitive = sentencesArray[1].jsonObject["src_translit"] ?: JsonNull
+        val srcTranslitPrimitive = sentencesArray
+            .getOrNull(1)
+            ?.jsonObject
+            ?.get("src_translit") ?: JsonNull
 
         return buildJsonObject {
             put("orig", origPrimitive)

@@ -27,19 +27,31 @@
 
     <TextView
         android:id="@+id/tvSource"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
+        android:layout_marginStart="8dp"
         android:textSize="40sp"
         app:layout_constraintTop_toBottomOf="@id/piTranslation"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ivPronounceSource"
         tools:text="source" />
 
-    <LinearLayout
-        android:id="@+id/llTranslationDetails"
+    <ImageView
+        android:id="@+id/ivPronounceSource"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginHorizontal="8dp"
+        android:src="@drawable/baseline_pronounce_24"
+        app:tint="?attr/colorOnSurface"
+        app:layout_constraintTop_toBottomOf="@id/piTranslation"
+        app:layout_constraintBottom_toBottomOf="@id/tvSource"
+        app:layout_constraintStart_toEndOf="@id/tvSource"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clTranslationDetails"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:layout_marginTop="8dp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tvSource"
@@ -49,19 +61,37 @@
 
         <TextView
             android:id="@+id/tvTranslation"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:textSize="32sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivPronounceTranslation"
             tools:text="translation" />
+
+        <ImageView
+            android:id="@+id/ivPronounceTranslation"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="8dp"
+            android:src="@drawable/baseline_pronounce_24"
+            app:tint="?attr/colorOnSurface"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/tvTranslation"
+            app:layout_constraintStart_toEndOf="@id/tvTranslation"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/tvTransliteration"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginHorizontal="16dp"
             android:textSize="32sp"
+            app:layout_constraintTop_toBottomOf="@id/tvTranslation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="transliteration" />
 
         <com.google.android.material.tabs.TabLayout
@@ -69,14 +99,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabMode="fixed"
+            app:layout_constraintTop_toBottomOf="@id/tvTransliteration"
+            app:layout_constraintBottom_toTopOf="@id/viewPager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             style="@style/Widget.Material3.TabLayout.Secondary" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/llMissingTranslation"

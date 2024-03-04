@@ -16,13 +16,16 @@ import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslationDetailsBinding
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
+import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.presentation.MainActivity
+import com.catvasiliy.mydic.presentation.Pronouncer
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.catvasiliy.mydic.presentation.util.visibleIf
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @AndroidEntryPoint
 class TranslationDetailsFragment : Fragment() {
@@ -53,14 +56,15 @@ class TranslationDetailsFragment : Fragment() {
                 viewModel.state.collectLatest { state ->
                     binding.piTranslation.visibleIf { state.isLoading }
                     val translation = state.translation ?: return@collectLatest
-                    when (translation) {
-                        is ExtendedTranslation -> createTranslationView(translation)
-                        is MissingTranslation -> createMissingTranslationView(translation)
-                        else -> throw IllegalArgumentException()
-                    }
+                    createTranslationLayout(translation)
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (requireActivity() as Pronouncer).stop()
     }
 
     override fun onDestroyView() {
@@ -128,11 +132,39 @@ class TranslationDetailsFragment : Fragment() {
         viewModel.loadTranslation(translationId, isMissingTranslation)
     }
 
+    private fun createTranslationLayout(translation: Translation) {
+        binding.ivPronounceSource.setOnClickListener {
+            val sourceText = translation.sourceText
+            val languageCode = translation.sourceLanguage.language.code
+
+            pronounce(sourceText, languageCode)
+        }
+        when (translation) {
+            is ExtendedTranslation -> createTranslationView(translation)
+            is MissingTranslation -> createMissingTranslationView(translation)
+            else -> throw IllegalArgumentException()
+        }
+    }
+
+    private fun pronounce(text: String, languageCode: String) {
+        val pronouncer = requireActivity() as Pronouncer
+        val locale = Locale(languageCode)
+        pronouncer.pronounce(text, locale)
+    }
+
     private fun createTranslationView(translation: ExtendedTranslation) {
-        binding.llMissingTranslation.hideAndShowOther(binding.llTranslationDetails)
+        binding.llMissingTranslation.hideAndShowOther(binding.clTranslationDetails)
 
         setupTabLayout()
         binding.tvTranslation.text = translation.translationText
+
+        binding.ivPronounceTranslation.setOnClickListener {
+            val translationText = translation.translationText
+            val languageCode = translation.targetLanguage.code
+
+            pronounce(translationText, languageCode)
+        }
+
         binding.tvSource.text = translation.sourceText
         binding.tvTransliteration.text = translation.sourceTransliteration ?: "No transliteration"
     }
@@ -157,7 +189,7 @@ class TranslationDetailsFragment : Fragment() {
     }
 
     private fun createMissingTranslationView(missingTranslation: MissingTranslation) {
-        binding.llTranslationDetails.hideAndShowOther(binding.llMissingTranslation)
+        binding.clTranslationDetails.hideAndShowOther(binding.llMissingTranslation)
 
         binding.tvSource.text = missingTranslation.sourceText
         binding.btnRefresh.setOnClickListener {
