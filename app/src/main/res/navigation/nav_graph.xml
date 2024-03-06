@@ -50,12 +50,12 @@
 
         <argument
             android:name="sourceLanguage"
-            app:argType="com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage"
+            app:argType="com.catvasiliy.mydic.presentation.model.translation.UiSourceLanguage"
             android:defaultValue="ENGLISH" />
 
         <argument
             android:name="targetLanguage"
-            app:argType="com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage"
+            app:argType="com.catvasiliy.mydic.presentation.model.translation.UiTargetLanguage"
             android:defaultValue="ENGLISH" />
 
         <argument

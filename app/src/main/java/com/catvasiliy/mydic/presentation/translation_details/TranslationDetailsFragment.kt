@@ -14,9 +14,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslationDetailsBinding
-import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.presentation.MainActivity
 import com.catvasiliy.mydic.presentation.Pronouncer
+import com.catvasiliy.mydic.presentation.model.translation.UiTranslation
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.catvasiliy.mydic.presentation.util.visibleIf
 import com.google.android.material.tabs.TabLayoutMediator
@@ -130,7 +130,7 @@ class TranslationDetailsFragment : Fragment() {
         viewModel.loadTranslation(translationId, isMissingTranslation)
     }
 
-    private fun createTranslationLayout(translation: Translation) {
+    private fun createTranslationLayout(translation: UiTranslation) {
         binding.ivPronounceSource.setOnClickListener {
             val sourceText = translation.sourceText
             val languageCode = translation.sourceLanguageCode
@@ -143,7 +143,7 @@ class TranslationDetailsFragment : Fragment() {
         }
     }
 
-    private fun createTranslationView(translation: Translation) {
+    private fun createTranslationView(translation: UiTranslation) {
         if (translation.translationText == null)
             throw IllegalArgumentException("translationText cannot be null unless it is Missing Translation.")
 
@@ -182,7 +182,7 @@ class TranslationDetailsFragment : Fragment() {
         }.attach()
     }
 
-    private fun createMissingTranslationView(missingTranslation: Translation) {
+    private fun createMissingTranslationView(missingTranslation: UiTranslation) {
         binding.clTranslationDetails.hideAndShowOther(binding.llMissingTranslation)
 
         binding.tvSource.text = missingTranslation.sourceText

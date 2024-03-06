@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.catvasiliy.mydic.databinding.TranslationListItemBinding
-import com.catvasiliy.mydic.domain.model.translation.Translation
+import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
 import com.catvasiliy.mydic.presentation.util.showIf
 
 class TranslationsListAdapter
-    : ListAdapter<Translation, TranslationsListAdapter.TranslationViewHolder>(ITEM_COMPARATOR) {
+    : ListAdapter<UiTranslationListItem, TranslationsListAdapter.TranslationViewHolder>(ITEM_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TranslationViewHolder {
         val binding = TranslationListItemBinding
@@ -20,7 +20,7 @@ class TranslationsListAdapter
     }
 
     override fun onBindViewHolder(holder: TranslationViewHolder, position: Int) {
-        val item: Translation = getItem(position)
+        val item: UiTranslationListItem = getItem(position)
         holder.bind(item)
     }
 
@@ -28,7 +28,7 @@ class TranslationsListAdapter
         private val binding: TranslationListItemBinding
     ) : ViewHolder(binding.root) {
 
-        fun bind(item: Translation) {
+        fun bind(item: UiTranslationListItem) {
 
             val isMissingTranslation = item.translationText == null
 
@@ -46,15 +46,18 @@ class TranslationsListAdapter
     }
 }
 
-private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Translation>() {
+private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<UiTranslationListItem>() {
 
-    override fun areItemsTheSame(oldItem: Translation, newItem: Translation): Boolean {
+    override fun areItemsTheSame(
+        oldItem: UiTranslationListItem,
+        newItem: UiTranslationListItem
+    ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: Translation,
-        newItem: Translation
+        oldItem: UiTranslationListItem,
+        newItem: UiTranslationListItem
     ): Boolean {
         return oldItem == newItem
     }

@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.BottomSheetSortBinding
 import com.catvasiliy.mydic.databinding.FragmentTranslationsListBinding
-import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.presentation.MainActivity
+import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
 import com.catvasiliy.mydic.presentation.util.SortType
 import com.catvasiliy.mydic.presentation.util.TranslationSort
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
@@ -134,7 +134,7 @@ class TranslationsListFragment : Fragment() {
         _binding = null
     }
 
-    private fun showTranslations(translationsList: List<Translation>) {
+    private fun showTranslations(translationsList: List<UiTranslationListItem>) {
         if (translationsList.isNotEmpty()) {
             translationsListAdapter.submitList(translationsList)
             binding.llNoTranslations.hideAndShowOther(binding.llTranslations)

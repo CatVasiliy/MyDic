@@ -6,6 +6,10 @@ import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.use_case.translate.DeleteTranslationUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationsListUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.InsertTranslationUseCase
+import com.catvasiliy.mydic.presentation.model.translation.UiTranslation
+import com.catvasiliy.mydic.presentation.model.toTranslation
+import com.catvasiliy.mydic.presentation.model.toUiTranslation
+import com.catvasiliy.mydic.presentation.model.toUiTranslationListItem
 import com.catvasiliy.mydic.presentation.util.SortType
 import com.catvasiliy.mydic.presentation.util.TranslationSort
 import com.catvasiliy.mydic.presentation.util.sortedCustom
@@ -36,7 +40,7 @@ class TranslationsListViewModel @Inject constructor(
 
     private val _searchQuery = MutableStateFlow("")
 
-    private val _lastDeletedTranslation = MutableStateFlow<Translation?>(null)
+    private val _lastDeletedTranslation = MutableStateFlow<UiTranslation?>(null)
 
     val state: StateFlow<TranslationsListState> = combine(
         _translationsList,
@@ -52,7 +56,7 @@ class TranslationsListViewModel @Inject constructor(
         }.sortedCustom(sortInfo)
 
         TranslationsListState(
-            translations = resultTranslationsList,
+            translations = resultTranslationsList.map(Translation::toUiTranslationListItem),
             sortInfo = sortInfo,
             searchQuery = searchQuery,
             lastDeletedTranslation = lastDeletedTranslation
@@ -95,7 +99,7 @@ class TranslationsListViewModel @Inject constructor(
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
             _lastDeletedTranslation.update {
-                deleteTranslationUseCase(id, isMissingTranslation)
+                deleteTranslationUseCase(id, isMissingTranslation).toUiTranslation()
             }
             _eventFlow.emit(TranslationsListUiEvent.ShowUndoDeleteSnackbar)
         }
@@ -104,7 +108,7 @@ class TranslationsListViewModel @Inject constructor(
     fun undoRemoveTranslation() {
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
-            _lastDeletedTranslation.value?.let { insertTranslationUseCase(it) }
+            _lastDeletedTranslation.value?.let { insertTranslationUseCase(it.toTranslation()) }
             _lastDeletedTranslation.update { null }
         }
     }

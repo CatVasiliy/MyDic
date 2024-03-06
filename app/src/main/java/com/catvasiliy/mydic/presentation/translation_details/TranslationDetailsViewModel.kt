@@ -3,12 +3,16 @@ package com.catvasiliy.mydic.presentation.translation_details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.catvasiliy.mydic.domain.model.translation.Translation
-import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
-import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
 import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.TranslateUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.UpdateMissingTranslationUseCase
 import com.catvasiliy.mydic.domain.util.Resource
+import com.catvasiliy.mydic.presentation.model.toSourceLanguage
+import com.catvasiliy.mydic.presentation.model.toTargetLanguage
+import com.catvasiliy.mydic.presentation.model.toTranslation
+import com.catvasiliy.mydic.presentation.model.toUiTranslation
+import com.catvasiliy.mydic.presentation.model.translation.UiSourceLanguage
+import com.catvasiliy.mydic.presentation.model.translation.UiTargetLanguage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,13 +42,13 @@ class TranslationDetailsViewModel @Inject constructor(
 
     fun translate(
         sourceText: String,
-        sourceLanguage: SourceLanguage,
-        targetLanguage: TargetLanguage
+        sourceLanguage: UiSourceLanguage,
+        targetLanguage: UiTargetLanguage
     ) {
         currentJob?.cancel()
         currentJob = translateUseCase(
-            sourceLanguage = sourceLanguage,
-            targetLanguage = targetLanguage,
+            sourceLanguage = sourceLanguage.toSourceLanguage(),
+            targetLanguage = targetLanguage.toTargetLanguage(),
             sourceText = sourceText
         )
         .onEach { processResult(it) }
@@ -55,14 +59,14 @@ class TranslationDetailsViewModel @Inject constructor(
         val newState = when(result) {
             is Resource.Loading -> {
                 state.value.copy(
-                    translation = result.data,
+                    translation = result.data?.toUiTranslation(),
                     isLoading = true
                 )
             }
             is Resource.Success -> {
                 if (result.data != null) {
                     state.value.copy(
-                        translation = result.data,
+                        translation = result.data.toUiTranslation(),
                         isLoading = false
                     )
                 } else {
@@ -73,7 +77,7 @@ class TranslationDetailsViewModel @Inject constructor(
             }
             is Resource.Error -> {
                 state.value.copy(
-                    translation = result.data,
+                    translation = result.data?.toUiTranslation(),
                     isLoading = false,
                     errorMessage = result.message ?: "Something went wrong!"
                 )
@@ -87,7 +91,7 @@ class TranslationDetailsViewModel @Inject constructor(
         currentJob = viewModelScope.launch {
             _state.update {
                 state.value.copy(
-                    translation = getTranslationUseCase(id, isMissingTranslation)
+                    translation = getTranslationUseCase(id, isMissingTranslation).toUiTranslation()
                 )
             }
         }
@@ -100,7 +104,7 @@ class TranslationDetailsViewModel @Inject constructor(
 
         currentJob?.cancel()
         currentJob = updateMissingTranslationUseCase(
-            missingTranslation = translation
+            missingTranslation = translation.toTranslation()
         )
         .onEach { processResult(it) }
         .launchIn(viewModelScope)

@@ -1,7 +1,7 @@
 package com.catvasiliy.mydic.presentation.translate
 
-import com.catvasiliy.mydic.domain.model.preferences.LanguagePreferences
+import com.catvasiliy.mydic.presentation.model.preferences.UiLanguagePreferences
 
 data class TranslateState(
-    val languagePreferences: LanguagePreferences = LanguagePreferences()
+    val languagePreferences: UiLanguagePreferences = UiLanguagePreferences()
 )
