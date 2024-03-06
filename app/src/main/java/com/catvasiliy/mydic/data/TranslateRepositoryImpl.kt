@@ -151,7 +151,7 @@ class TranslateRepositoryImpl @Inject constructor(
         try {
             val domainTranslation = translateApi.getTranslation(
                 sourceText = missingTranslation.sourceText,
-                sourceLanguage = missingTranslation.sourceLanguage.language.code,
+                sourceLanguage = missingTranslation.sourceLanguageCode,
                 targetLanguage = missingTranslation.targetLanguage.code
             ).toTranslation(
                 targetLanguage = missingTranslation.targetLanguage,

@@ -11,7 +11,7 @@ data class Translation private constructor(
     val translationText: String?,
     val sourceLanguage: TranslationSourceLanguage,
     val targetLanguage: TargetLanguage,
-    val sourceTransliteration: String? = null,
+    val sourceTransliteration: String?,
     val translatedAtMillis: Long,
     val alternativeTranslations: List<AlternativeTranslation> = emptyList(),
     val definitions: List<Definition> = emptyList(),
@@ -20,6 +20,16 @@ data class Translation private constructor(
 
     val isMissingTranslation: Boolean
         get() = translationText == null
+
+    val sourceLanguageCode: String
+        // Missing Translation only have sourceLanguage.language, other fields undefined (null)
+        get() = if (isMissingTranslation) {
+            sourceLanguage.language.code
+        } else if (sourceLanguage.language == SourceLanguage.AUTO) {
+            requireNotNull(sourceLanguage.autoLanguageCode)
+        } else {
+            sourceLanguage.language.code
+        }
 
     companion object {
 
@@ -37,6 +47,7 @@ data class Translation private constructor(
                 translationText = translationText,
                 sourceLanguage = sourceLanguage,
                 targetLanguage = targetLanguage,
+                sourceTransliteration = null,
                 translatedAtMillis = translatedAtMillis
             )
         }
@@ -80,6 +91,7 @@ data class Translation private constructor(
                 translationText = null,
                 sourceLanguage = sourceLanguage,
                 targetLanguage = targetLanguage,
+                sourceTransliteration = null,
                 translatedAtMillis = translatedAtMillis
             )
         }
@@ -94,8 +106,13 @@ data class Translation private constructor(
                 id = id,
                 sourceText = sourceText,
                 translationText = null,
-                sourceLanguage = TranslationSourceLanguage(sourceLanguage),
+                sourceLanguage = TranslationSourceLanguage(
+                    language = sourceLanguage,
+                    isDetected = null,
+                    autoLanguageCode = null
+                ),
                 targetLanguage = targetLanguage,
+                sourceTransliteration = null,
                 translatedAtMillis = Date().time
             )
         }

@@ -16,6 +16,7 @@ data class CachedTranslation(
     val translationText: String,
     val sourceLanguage: SourceLanguage,
     val isLanguageDetected: Boolean,
+    val autoSourceLanguageCode: String?,
     val targetLanguage: TargetLanguage,
     val sourceTransliteration: String?,
     val translatedAtMillis: Long

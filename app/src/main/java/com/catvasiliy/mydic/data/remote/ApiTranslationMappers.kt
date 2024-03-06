@@ -18,12 +18,15 @@ fun ApiTranslation.toTranslation(
     isLanguageDetected: Boolean,
     translatedAtMillis: Long = Date().time
 ): Translation {
+    val sourceLanguage = SourceLanguage.fromCode(sourceLanguageCode) ?: SourceLanguage.AUTO
+
     return Translation.createExtendedTranslation(
         sourceText = baseTranslation.sourceText,
         translationText = baseTranslation.translationText,
         sourceLanguage = TranslationSourceLanguage(
-            language = SourceLanguage.fromCode(sourceLanguageCode) ?: SourceLanguage.AUTO,
-            isDetected = isLanguageDetected
+            language = sourceLanguage,
+            isDetected = isLanguageDetected,
+            autoLanguageCode = if (sourceLanguage == SourceLanguage.AUTO) sourceLanguageCode else null
         ),
         targetLanguage = targetLanguage,
         sourceTransliteration = baseTranslation.sourceTransliteration,

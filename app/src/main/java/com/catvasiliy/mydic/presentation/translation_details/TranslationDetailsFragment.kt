@@ -133,7 +133,7 @@ class TranslationDetailsFragment : Fragment() {
     private fun createTranslationLayout(translation: Translation) {
         binding.ivPronounceSource.setOnClickListener {
             val sourceText = translation.sourceText
-            val languageCode = translation.sourceLanguage.language.code
+            val languageCode = translation.sourceLanguageCode
 
             pronounce(sourceText, languageCode)
         }

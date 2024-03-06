@@ -22,7 +22,8 @@ fun CachedTranslationAggregate.toExtendedTranslation(): Translation {
         translationText = baseTranslation.translationText,
         sourceLanguage = TranslationSourceLanguage(
             language = baseTranslation.sourceLanguage,
-            isDetected = baseTranslation.isLanguageDetected
+            isDetected = baseTranslation.isLanguageDetected,
+            autoLanguageCode = baseTranslation.autoSourceLanguageCode
         ),
         targetLanguage = baseTranslation.targetLanguage,
         sourceTransliteration = baseTranslation.sourceTransliteration,
@@ -42,7 +43,8 @@ fun CachedTranslation.toSimpleTranslation(): Translation {
         translationText = translationText,
         sourceLanguage = TranslationSourceLanguage(
             language = sourceLanguage,
-            isDetected = isLanguageDetected
+            isDetected = isLanguageDetected,
+            autoLanguageCode = autoSourceLanguageCode
         ),
         targetLanguage = targetLanguage,
         translatedAtMillis = translatedAtMillis
@@ -56,6 +58,7 @@ fun Translation.toCachedTranslation(): CachedTranslationAggregate {
         translationText = translationText ?: throw IllegalStateException("translationText cannot be null unless it is Missing Translation"),
         sourceLanguage = sourceLanguage.language,
         isLanguageDetected = sourceLanguage.isDetected ?: throw IllegalStateException("isDetected cannot be null at this point"),
+        autoSourceLanguageCode = sourceLanguage.autoLanguageCode,
         targetLanguage = targetLanguage,
         sourceTransliteration = sourceTransliteration,
         translatedAtMillis = translatedAtMillis
@@ -80,7 +83,11 @@ fun CachedMissingTranslation.toMissingTranslation(): Translation {
     return Translation.createMissingTranslation(
         id = id,
         sourceText = sourceText,
-        sourceLanguage = TranslationSourceLanguage(sourceLanguage),
+        sourceLanguage = TranslationSourceLanguage(
+            language = sourceLanguage,
+            isDetected = null,
+            autoLanguageCode = null
+        ),
         targetLanguage = targetLanguage,
         translatedAtMillis = translatedAtMillis
     )
