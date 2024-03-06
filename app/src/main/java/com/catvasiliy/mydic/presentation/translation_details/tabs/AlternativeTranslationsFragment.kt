@@ -12,7 +12,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.catvasiliy.mydic.databinding.AlternativeTranslationItemBinding
 import com.catvasiliy.mydic.databinding.FragmentAlternativeTranslationsBinding
 import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
-import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.catvasiliy.mydic.presentation.util.show
@@ -39,11 +38,7 @@ class AlternativeTranslationsFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-                    val alternativeTranslations = if (state.translation is ExtendedTranslation) {
-                        state.translation.alternativeTranslations
-                    } else {
-                        emptyList()
-                    }
+                    val alternativeTranslations = state.translation?.alternativeTranslations ?: emptyList()
                     createAlternativeTranslationsViews(alternativeTranslations)
                 }
             }

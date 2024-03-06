@@ -12,13 +12,11 @@ import com.catvasiliy.mydic.domain.model.preferences.TranslationForSending
 import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
 import com.catvasiliy.mydic.domain.model.translation.Definition
 import com.catvasiliy.mydic.domain.model.translation.Example
-import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
-import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
-import com.catvasiliy.mydic.domain.model.translation.SimpleTranslation
+import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.model.translation.language.TranslationSourceLanguage
 
-fun CachedTranslationAggregate.toExtendedTranslation(): ExtendedTranslation {
-    return ExtendedTranslation(
+fun CachedTranslationAggregate.toExtendedTranslation(): Translation {
+    return Translation.createExtendedTranslation(
         id = baseTranslation.id,
         sourceText = baseTranslation.sourceText,
         translationText = baseTranslation.translationText,
@@ -37,8 +35,8 @@ fun CachedTranslationAggregate.toExtendedTranslation(): ExtendedTranslation {
     )
 }
 
-fun CachedTranslation.toSimpleTranslation(): SimpleTranslation {
-    return SimpleTranslation(
+fun CachedTranslation.toSimpleTranslation(): Translation {
+    return Translation.createSimpleTranslation(
         id = id,
         sourceText = sourceText,
         translationText = translationText,
@@ -51,11 +49,11 @@ fun CachedTranslation.toSimpleTranslation(): SimpleTranslation {
     )
 }
 
-fun ExtendedTranslation.toCachedTranslation(): CachedTranslationAggregate {
+fun Translation.toCachedTranslation(): CachedTranslationAggregate {
     val cachedTranslation = CachedTranslation(
         id = id,
         sourceText = sourceText,
-        translationText = translationText,
+        translationText = translationText ?: throw IllegalStateException("translationText cannot be null unless it is Missing Translation"),
         sourceLanguage = sourceLanguage.language,
         isLanguageDetected = sourceLanguage.isDetected ?: throw IllegalStateException("isDetected cannot be null at this point"),
         targetLanguage = targetLanguage,
@@ -78,8 +76,8 @@ fun ExtendedTranslation.toCachedTranslation(): CachedTranslationAggregate {
     )
 }
 
-fun CachedMissingTranslation.toMissingTranslation(): MissingTranslation {
-    return MissingTranslation(
+fun CachedMissingTranslation.toMissingTranslation(): Translation {
+    return Translation.createMissingTranslation(
         id = id,
         sourceText = sourceText,
         sourceLanguage = TranslationSourceLanguage(sourceLanguage),
@@ -88,7 +86,7 @@ fun CachedMissingTranslation.toMissingTranslation(): MissingTranslation {
     )
 }
 
-fun MissingTranslation.toCachedMissingTranslation(): CachedMissingTranslation {
+fun Translation.toCachedMissingTranslation(): CachedMissingTranslation {
     return CachedMissingTranslation(
         id = id,
         sourceText = sourceText,

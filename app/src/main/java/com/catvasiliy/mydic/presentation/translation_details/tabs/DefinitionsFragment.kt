@@ -12,7 +12,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.catvasiliy.mydic.databinding.DefinitionItemBinding
 import com.catvasiliy.mydic.databinding.FragmentDefinitionsBinding
 import com.catvasiliy.mydic.domain.model.translation.Definition
-import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.catvasiliy.mydic.presentation.util.show
@@ -39,11 +38,7 @@ class DefinitionsFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-                    val definitions = if (state.translation is ExtendedTranslation) {
-                        state.translation.definitions
-                    } else {
-                        emptyList()
-                    }
+                    val definitions = state.translation?.definitions ?: emptyList()
                     createDefinitionViews(definitions)
                 }
             }

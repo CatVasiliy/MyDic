@@ -13,8 +13,8 @@ enum class TargetLanguage(val code: String) {
     JAPANESE("ja");
 
     companion object {
-        fun fromCode(code: String): TargetLanguage? {
-            return entries.find { it.code == code }
+        fun fromCode(code: String): TargetLanguage {
+            return entries.find { it.code == code } ?: throw LanguageCodeNotFoundException(code)
         }
     }
 }

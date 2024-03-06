@@ -14,7 +14,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.catvasiliy.mydic.databinding.ExampleItemBinding
 import com.catvasiliy.mydic.databinding.FragmentExamplesBinding
 import com.catvasiliy.mydic.domain.model.translation.Example
-import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.catvasiliy.mydic.presentation.util.show
@@ -41,11 +40,7 @@ class ExamplesFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-                    val examples = if (state.translation is ExtendedTranslation) {
-                        state.translation.examples
-                    } else {
-                        emptyList()
-                    }
+                    val examples = state.translation?.examples ?: emptyList()
                     createExamplesViews(examples)
                 }
             }

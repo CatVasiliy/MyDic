@@ -2,9 +2,8 @@ package com.catvasiliy.mydic.presentation.translation_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
-import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
+import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
 import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
 import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.TranslateUseCase
@@ -96,8 +95,8 @@ class TranslationDetailsViewModel @Inject constructor(
 
     fun updateMissingTranslation() {
         val translation = requireNotNull(state.value.translation)
-        if (translation !is MissingTranslation)
-            throw IllegalStateException("Translation is not a MissingTranslation")
+        if (translation.translationText != null)
+            throw IllegalStateException("Translation is not a Missing Translation")
 
         currentJob?.cancel()
         currentJob = updateMissingTranslationUseCase(

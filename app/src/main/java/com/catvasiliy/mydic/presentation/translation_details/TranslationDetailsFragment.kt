@@ -14,8 +14,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslationDetailsBinding
-import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
-import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.presentation.MainActivity
 import com.catvasiliy.mydic.presentation.Pronouncer
@@ -139,20 +137,16 @@ class TranslationDetailsFragment : Fragment() {
 
             pronounce(sourceText, languageCode)
         }
-        when (translation) {
-            is ExtendedTranslation -> createTranslationView(translation)
-            is MissingTranslation -> createMissingTranslationView(translation)
-            else -> throw IllegalArgumentException()
+        when (translation.translationText) {
+            null -> createMissingTranslationView(translation)
+            else -> createTranslationView(translation)
         }
     }
 
-    private fun pronounce(text: String, languageCode: String) {
-        val pronouncer = requireActivity() as Pronouncer
-        val locale = Locale(languageCode)
-        pronouncer.pronounce(text, locale)
-    }
+    private fun createTranslationView(translation: Translation) {
+        if (translation.translationText == null)
+            throw IllegalArgumentException("translationText cannot be null unless it is Missing Translation.")
 
-    private fun createTranslationView(translation: ExtendedTranslation) {
         binding.llMissingTranslation.hideAndShowOther(binding.clTranslationDetails)
 
         setupTabLayout()
@@ -188,12 +182,18 @@ class TranslationDetailsFragment : Fragment() {
         }.attach()
     }
 
-    private fun createMissingTranslationView(missingTranslation: MissingTranslation) {
+    private fun createMissingTranslationView(missingTranslation: Translation) {
         binding.clTranslationDetails.hideAndShowOther(binding.llMissingTranslation)
 
         binding.tvSource.text = missingTranslation.sourceText
         binding.btnRefresh.setOnClickListener {
             viewModel.updateMissingTranslation()
         }
+    }
+
+    private fun pronounce(text: String, languageCode: String) {
+        val pronouncer = requireActivity() as Pronouncer
+        val locale = Locale(languageCode)
+        pronouncer.pronounce(text, locale)
     }
 }

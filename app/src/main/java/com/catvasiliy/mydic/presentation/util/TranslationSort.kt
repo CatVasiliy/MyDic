@@ -1,6 +1,5 @@
 package com.catvasiliy.mydic.presentation.util
 
-import com.catvasiliy.mydic.domain.model.translation.SimpleTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
 
 sealed class TranslationSort(var sortType: SortType) {
@@ -23,9 +22,7 @@ private fun List<Translation>.sortedCustomAscending(
     return when(sortInfo) {
         is TranslationSort.Date -> this.sortedBy { it.translatedAtMillis }
         is TranslationSort.SourceText -> this.sortedBy { it.sourceText }
-        is TranslationSort.TranslationText -> this.sortedBy {
-            if (it is SimpleTranslation) it.translationText else ""
-        }
+        is TranslationSort.TranslationText -> this.sortedBy { it.translationText }
     }
 }
 
@@ -36,8 +33,6 @@ private fun List<Translation>.sortedCustomDescending(
     return when(sortInfo) {
         is TranslationSort.Date -> this.sortedByDescending { it.translatedAtMillis }
         is TranslationSort.SourceText -> this.sortedByDescending { it.sourceText }
-        is TranslationSort.TranslationText -> this.sortedByDescending {
-            if (it is SimpleTranslation) it.translationText else ""
-        }
+        is TranslationSort.TranslationText -> this.sortedByDescending { it.translationText }
     }
 }

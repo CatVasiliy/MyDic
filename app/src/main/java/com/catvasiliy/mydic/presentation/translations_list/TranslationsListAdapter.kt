@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.catvasiliy.mydic.databinding.TranslationListItemBinding
-import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
-import com.catvasiliy.mydic.domain.model.translation.SimpleTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.presentation.util.showIf
 
@@ -31,16 +29,19 @@ class TranslationsListAdapter
     ) : ViewHolder(binding.root) {
 
         fun bind(item: Translation) {
+
+            val isMissingTranslation = item.translationText == null
+
             binding.root.setOnClickListener { view ->
                 val action = TranslationsListFragmentDirections.openTranslationDetailsFromList(
                     translationId = item.id,
-                    isMissingTranslation = item is MissingTranslation
+                    isMissingTranslation = isMissingTranslation
                 )
                 view.findNavController().navigate(action)
             }
             binding.tvSource.text = item.sourceText
-            binding.tvTranslation.text = if (item is SimpleTranslation) item.translationText else ""
-            binding.ivProblem.showIf { item is MissingTranslation }
+            binding.tvTranslation.text = item.translationText ?: ""
+            binding.ivProblem.showIf { isMissingTranslation }
         }
     }
 }

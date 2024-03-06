@@ -11,13 +11,11 @@ import com.catvasiliy.mydic.data.local.database.toMissingTranslation
 import com.catvasiliy.mydic.data.local.database.toSimpleTranslation
 import com.catvasiliy.mydic.data.local.database.toTranslationForSending
 import com.catvasiliy.mydic.data.remote.TranslateApi
-import com.catvasiliy.mydic.data.remote.toExtendedTranslation
+import com.catvasiliy.mydic.data.remote.toTranslation
 import com.catvasiliy.mydic.domain.model.preferences.TranslationForSending
-import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
-import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
-import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
-import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
 import com.catvasiliy.mydic.domain.model.translation.Translation
+import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
 import com.catvasiliy.mydic.domain.util.Resource
 import kotlinx.coroutines.ensureActive
@@ -76,7 +74,7 @@ class TranslateRepositoryImpl @Inject constructor(
                 sourceLanguage = sourceLanguage.code,
                 targetLanguage = targetLanguage.code
             )
-            .toExtendedTranslation(
+            .toTranslation(
                 targetLanguage = targetLanguage,
                 isLanguageDetected = sourceLanguage == SourceLanguage.AUTO
             )
@@ -104,8 +102,12 @@ class TranslateRepositoryImpl @Inject constructor(
 
             e.printStackTrace()
 
-            val cachedMissingTranslation = MissingTranslation
-                .fromSourceText(sourceText, sourceLanguage, targetLanguage)
+            val cachedMissingTranslation = Translation
+                .createMissingTranslation(
+                    sourceText = sourceText,
+                    sourceLanguage = sourceLanguage,
+                    targetLanguage = targetLanguage
+                )
                 .toCachedMissingTranslation()
 
             val missingTranslationId = translationDao.insertMissingTranslation(cachedMissingTranslation)
@@ -132,7 +134,7 @@ class TranslateRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getExtendedTranslationById(id: Long): ExtendedTranslation {
+    override suspend fun getExtendedTranslationById(id: Long): Translation {
         return translationDao.getTranslationById(id).toExtendedTranslation()
     }
 
@@ -141,7 +143,7 @@ class TranslateRepositoryImpl @Inject constructor(
     }
 
     override fun updateMissingTranslationFromApi(
-        missingTranslation: MissingTranslation
+        missingTranslation: Translation
     ): Flow<Resource<Translation>> = flow {
 
         emit(Resource.Loading())
@@ -151,7 +153,7 @@ class TranslateRepositoryImpl @Inject constructor(
                 sourceText = missingTranslation.sourceText,
                 sourceLanguage = missingTranslation.sourceLanguage.language.code,
                 targetLanguage = missingTranslation.targetLanguage.code
-            ).toExtendedTranslation(
+            ).toTranslation(
                 targetLanguage = missingTranslation.targetLanguage,
                 isLanguageDetected = missingTranslation.sourceLanguage.language == SourceLanguage.AUTO,
                 translatedAtMillis = missingTranslation.translatedAtMillis
@@ -186,7 +188,7 @@ class TranslateRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMissingTranslationById(id: Long): MissingTranslation {
+    override suspend fun getMissingTranslationById(id: Long): Translation {
         return translationDao.getMissingTranslationById(id).toMissingTranslation()
     }
 
@@ -194,11 +196,11 @@ class TranslateRepositoryImpl @Inject constructor(
         translationDao.deleteMissingTranslationById(id)
     }
 
-    override suspend fun insertExtendedTranslation(extendedTranslation: ExtendedTranslation) {
+    override suspend fun insertExtendedTranslation(extendedTranslation: Translation) {
         translationDao.insertTranslation(extendedTranslation.toCachedTranslation())
     }
 
-    override suspend fun insertMissingTranslation(missingTranslation: MissingTranslation) {
+    override suspend fun insertMissingTranslation(missingTranslation: Translation) {
         translationDao.insertMissingTranslation(missingTranslation.toCachedMissingTranslation())
     }
 

@@ -25,14 +25,12 @@ class PronunciationSynthesizer {
 
         textToSpeech.language = locale
 
-        val result = textToSpeech.speak(
+        textToSpeech.speak(
             text,
             TextToSpeech.QUEUE_FLUSH,
             null,
             utteranceId
         )
-
-        println(result)
     }
 
     fun stop() {

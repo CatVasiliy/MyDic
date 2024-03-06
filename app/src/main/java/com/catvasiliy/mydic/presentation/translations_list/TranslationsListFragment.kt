@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.BottomSheetSortBinding
 import com.catvasiliy.mydic.databinding.FragmentTranslationsListBinding
-import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.presentation.MainActivity
 import com.catvasiliy.mydic.presentation.util.SortType
@@ -69,7 +68,7 @@ class TranslationsListFragment : Fragment() {
                     val translationsList = viewModel.state.value.translations
 
                     val id = translationsList[itemPosition].id
-                    val isMissingTranslation = translationsList[itemPosition] is MissingTranslation
+                    val isMissingTranslation = translationsList[itemPosition].isMissingTranslation
                     viewModel.removeTranslation(id, isMissingTranslation)
                 }
             }
