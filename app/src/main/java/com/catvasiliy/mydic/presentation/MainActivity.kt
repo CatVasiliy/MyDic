@@ -11,6 +11,8 @@ import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.ActivityMainBinding
 import com.catvasiliy.mydic.presentation.util.ACTION_OPEN_TRANSLATION
 import com.catvasiliy.mydic.presentation.util.EXTRA_TRANSLATION_ID
+import com.catvasiliy.mydic.presentation.util.pronounce.Pronouncer
+import com.catvasiliy.mydic.presentation.util.pronounce.PronunciationSynthesizer
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 

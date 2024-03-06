@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.presentation
+package com.catvasiliy.mydic.presentation.util.pronounce
 
 import java.util.Locale
 

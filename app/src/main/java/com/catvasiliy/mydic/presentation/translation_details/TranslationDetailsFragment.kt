@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslationDetailsBinding
 import com.catvasiliy.mydic.presentation.MainActivity
-import com.catvasiliy.mydic.presentation.Pronouncer
+import com.catvasiliy.mydic.presentation.util.pronounce.Pronouncer
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslation
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.catvasiliy.mydic.presentation.util.visibleIf
