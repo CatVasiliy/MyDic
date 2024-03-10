@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslationDetailsBinding
 import com.catvasiliy.mydic.presentation.MainActivity
+import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
 import com.catvasiliy.mydic.presentation.util.pronounce.Pronouncer
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslation
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
@@ -95,9 +96,11 @@ class TranslationDetailsFragment : Fragment() {
             TranslationDetailsFragmentArgs.fromBundle(args).sourceText
         } ?: ""
 
-        val sourceLanguage = arguments?.let { args ->
-            TranslationDetailsFragmentArgs.fromBundle(args).sourceLanguage
-        }
+        val sourceLanguageOrdinal = arguments?.let { args ->
+            TranslationDetailsFragmentArgs.fromBundle(args).sourceLanguageOrdinal
+        } ?: -1
+
+        val sourceLanguage = UiLanguage.entries.getOrNull(sourceLanguageOrdinal)
 
         val targetLanguage = arguments?.let { args ->
             TranslationDetailsFragmentArgs.fromBundle(args).targetLanguage
@@ -106,7 +109,7 @@ class TranslationDetailsFragment : Fragment() {
         if (sourceText.isNotBlank()) {
             viewModel.translate(
                 sourceText = sourceText,
-                sourceLanguage = requireNotNull(sourceLanguage),
+                sourceLanguage = sourceLanguage,
                 targetLanguage = requireNotNull(targetLanguage)
             )
             return
@@ -131,12 +134,12 @@ class TranslationDetailsFragment : Fragment() {
     }
 
     private fun createTranslationLayout(translation: UiTranslation) {
-        binding.ivPronounceSource.setOnClickListener {
-            val sourceText = translation.sourceText
-            val languageCode = translation.sourceLanguageCode
-
-            pronounce(sourceText, languageCode)
-        }
+//        binding.ivPronounceSource.setOnClickListener {
+//            val sourceText = translation.sourceText
+//            val languageCode = translation.sourceLanguageCode
+//
+//            pronounce(sourceText, languageCode)
+//        }
         when (translation.translationText) {
             null -> createMissingTranslationView(translation)
             else -> createTranslationView(translation)

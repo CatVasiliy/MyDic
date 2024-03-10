@@ -3,7 +3,7 @@ package com.catvasiliy.mydic.data.local.preferences
 import androidx.datastore.core.Serializer
 import com.catvasiliy.mydic.domain.model.preferences.LanguagePreferences
 import com.catvasiliy.mydic.domain.model.preferences.TranslationPreferences
-import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.Language
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream
@@ -15,7 +15,7 @@ object PreferencesSerializer : Serializer<TranslationPreferences> {
     override val defaultValue: TranslationPreferences
         get() {
             val deviceLanguageCode = Locale.getDefault().language
-            val defaultTargetLanguage = TargetLanguage.fromCode(deviceLanguageCode) ?: TargetLanguage.RUSSIAN
+            val defaultTargetLanguage = Language.fromCode(deviceLanguageCode) ?: Language.ENGLISH
 
             val languagePreferences = LanguagePreferences(defaultTargetLanguage = defaultTargetLanguage)
 

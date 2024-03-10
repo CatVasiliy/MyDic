@@ -7,27 +7,28 @@ import com.catvasiliy.mydic.data.remote.model.ApiTranslation
 import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
 import com.catvasiliy.mydic.domain.model.translation.Definition
 import com.catvasiliy.mydic.domain.model.translation.Example
-import com.catvasiliy.mydic.domain.model.translation.Translation
-import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
-import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
-import com.catvasiliy.mydic.domain.model.translation.language.TranslationSourceLanguage
-import java.util.Date
+import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
+import com.catvasiliy.mydic.domain.model.translation.language.ExtendedLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.Language
 
 fun ApiTranslation.toTranslation(
-    targetLanguage: TargetLanguage,
+    targetLanguage: Language,
     isLanguageDetected: Boolean,
-    translatedAtMillis: Long = Date().time
-): Translation {
-    val sourceLanguage = SourceLanguage.fromCode(sourceLanguageCode) ?: SourceLanguage.AUTO
+    translatedAtMillis: Long
+): ExtendedTranslation {
 
-    return Translation.createExtendedTranslation(
+    val language = Language.fromCode(sourceLanguageCode)
+
+    val sourceLanguage = if (language != null) {
+        ExtendedLanguage.Known(language, isLanguageDetected)
+    } else {
+        ExtendedLanguage.Unknown(sourceLanguageCode)
+    }
+
+    return ExtendedTranslation.createExtendedTranslation(
         sourceText = baseTranslation.sourceText,
         translationText = baseTranslation.translationText,
-        sourceLanguage = TranslationSourceLanguage(
-            language = sourceLanguage,
-            isDetected = isLanguageDetected,
-            autoLanguageCode = if (sourceLanguage == SourceLanguage.AUTO) sourceLanguageCode else null
-        ),
+        sourceLanguage = sourceLanguage,
         targetLanguage = targetLanguage,
         sourceTransliteration = baseTranslation.sourceTransliteration,
         alternativeTranslations = alternativeTranslations.map(

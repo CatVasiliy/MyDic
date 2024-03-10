@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.domain.use_case.settings
+package com.catvasiliy.mydic.domain.use_case.preferences
 
 import com.catvasiliy.mydic.domain.model.preferences.TranslationForSending
 import com.catvasiliy.mydic.domain.repository.TranslateRepository

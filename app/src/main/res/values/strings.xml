@@ -31,5 +31,18 @@
     <string name="btn_refresh">Refresh</string>
     <string name="search">Search</string>
 
+    <string name="language_any">Any</string>
+    <string name="language_auto">Auto</string>
+    <string name="language_english">English</string>
+    <string name="language_russian">Russian</string>
+    <string name="language_german">German</string>
+    <string name="language_french">French</string>
+    <string name="language_italian">Italian</string>
+    <string name="language_spanish">Spanish</string>
+    <string name="language_hindi">Hindi</string>
+    <string name="language_chinese">Chinese</string>
+    <string name="language_korean">Korean</string>
+    <string name="language_japanese">Japanese</string>
+
     <string name="settings">Settings</string>
 </resources>

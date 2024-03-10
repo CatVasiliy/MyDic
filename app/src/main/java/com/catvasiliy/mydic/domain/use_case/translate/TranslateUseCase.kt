@@ -1,8 +1,7 @@
 package com.catvasiliy.mydic.domain.use_case.translate
 
-import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
 import com.catvasiliy.mydic.domain.model.translation.Translation
-import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.Language
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
 import com.catvasiliy.mydic.domain.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -13,8 +12,8 @@ class TranslateUseCase @Inject constructor(
 ) {
 
     operator fun invoke(
-        sourceLanguage: SourceLanguage,
-        targetLanguage: TargetLanguage,
+        sourceLanguage: Language?,
+        targetLanguage: Language,
         sourceText: String
     ): Flow<Resource<Translation>> = translateRepository.getTranslationFromApi(
         sourceText,

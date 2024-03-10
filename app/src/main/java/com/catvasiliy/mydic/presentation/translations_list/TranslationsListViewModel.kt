@@ -6,12 +6,15 @@ import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.use_case.translate.DeleteTranslationUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationsListUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.InsertTranslationUseCase
-import com.catvasiliy.mydic.presentation.model.translation.UiTranslation
 import com.catvasiliy.mydic.presentation.model.toTranslation
 import com.catvasiliy.mydic.presentation.model.toUiTranslation
 import com.catvasiliy.mydic.presentation.model.toUiTranslationListItem
+import com.catvasiliy.mydic.presentation.model.translation.SourceLanguageFilterInfo
+import com.catvasiliy.mydic.presentation.model.translation.UiTranslation
 import com.catvasiliy.mydic.presentation.util.SortType
 import com.catvasiliy.mydic.presentation.util.TranslationSort
+import com.catvasiliy.mydic.presentation.util.filterBySourceLanguage
+import com.catvasiliy.mydic.presentation.util.filterBySourceTextContains
 import com.catvasiliy.mydic.presentation.util.sortedCustom
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -22,6 +25,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -34,9 +38,13 @@ class TranslationsListViewModel @Inject constructor(
     private val deleteTranslationUseCase: DeleteTranslationUseCase
 ) : ViewModel() {
 
-    private val _translationsList = getTranslationsListUseCase()
+    private val _translationsList = getTranslationsListUseCase().map { domainTranslations ->
+        domainTranslations.map(Translation::toUiTranslationListItem)
+    }
 
     private val _sortInfo = MutableStateFlow<TranslationSort>(TranslationSort.Date(SortType.Descending))
+
+    private val _filterInfo = MutableStateFlow<SourceLanguageFilterInfo?>(null)
 
     private val _searchQuery = MutableStateFlow("")
 
@@ -45,19 +53,20 @@ class TranslationsListViewModel @Inject constructor(
     val state: StateFlow<TranslationsListState> = combine(
         _translationsList,
         _sortInfo,
+        _filterInfo,
         _searchQuery,
         _lastDeletedTranslation
-    ) { translationsList, sortInfo, searchQuery, lastDeletedTranslation ->
+    ) { translationsList, sortInfo, filterInfo, searchQuery, lastDeletedTranslation ->
 
-        val resultTranslationsList = if (searchQuery.isNotBlank()) {
-            translationsList.filter { it.sourceText.contains(searchQuery) }
-        } else {
-            translationsList
-        }.sortedCustom(sortInfo)
+        val resultTranslationsList = translationsList
+            .filterBySourceTextContains(searchQuery)
+            .filterBySourceLanguage(filterInfo)
+            .sortedCustom(sortInfo)
 
         TranslationsListState(
-            translations = resultTranslationsList.map(Translation::toUiTranslationListItem),
+            translations = resultTranslationsList,
             sortInfo = sortInfo,
+            filterInfo = filterInfo,
             searchQuery = searchQuery,
             lastDeletedTranslation = lastDeletedTranslation
         )
@@ -93,6 +102,10 @@ class TranslationsListViewModel @Inject constructor(
 
     fun sortTranslations(sortInfo: TranslationSort) {
         _sortInfo.update { sortInfo }
+    }
+
+    fun filterTranslations(sourceLanguageFilterInfo: SourceLanguageFilterInfo?) {
+        _filterInfo.update { sourceLanguageFilterInfo }
     }
 
     fun removeTranslation(id: Long, isMissingTranslation: Boolean) {

@@ -9,7 +9,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.catvasiliy.mydic.di.TranslationNotifierQualifier
-import com.catvasiliy.mydic.domain.use_case.settings.GetTranslationForSendingUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.GetTranslationForSendingUseCase
 import com.catvasiliy.mydic.domain.util.Resource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject

@@ -2,8 +2,7 @@ package com.catvasiliy.mydic.data.local.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
-import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.Language
 
 @Entity(tableName = "missing_translation")
 data class CachedMissingTranslation(
@@ -11,7 +10,7 @@ data class CachedMissingTranslation(
     val id: Long = 0,
 
     val sourceText: String,
-    val sourceLanguage: SourceLanguage,
-    val targetLanguage: TargetLanguage,
+    val sourceLanguage: Language?,
+    val targetLanguage: Language,
     val translatedAtMillis: Long
 )

@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingInterval
 import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingPreferences
-import com.catvasiliy.mydic.domain.use_case.settings.GetTranslationSendingPreferencesUseCase
-import com.catvasiliy.mydic.domain.use_case.settings.ToggleTranslationSendingUseCase
-import com.catvasiliy.mydic.domain.use_case.settings.UpdateTranslationSendingIntervalUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.GetTranslationSendingPreferencesUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.ToggleTranslationSendingUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.UpdateTranslationSendingIntervalUseCase
 import com.catvasiliy.mydic.presentation.settings.translation_sending.TranslationSendingAlarmScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted

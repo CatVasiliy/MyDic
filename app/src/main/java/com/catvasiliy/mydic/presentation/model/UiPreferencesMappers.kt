@@ -5,7 +5,7 @@ import com.catvasiliy.mydic.presentation.model.preferences.UiLanguagePreferences
 
 fun LanguagePreferences.toUiLanguagePreferences(): UiLanguagePreferences {
     return UiLanguagePreferences(
-        defaultSourceLanguage = defaultSourceLanguage.toUiSourceLanguage(),
-        defaultTargetLanguage = defaultTargetLanguage.toUiTargetLanguage()
+        defaultSourceLanguage = defaultSourceLanguage?.toUiLanguage(),
+        defaultTargetLanguage = defaultTargetLanguage.toUiLanguageNotNull()
     )
 }

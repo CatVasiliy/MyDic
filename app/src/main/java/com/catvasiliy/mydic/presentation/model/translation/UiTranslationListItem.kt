@@ -4,8 +4,8 @@ data class UiTranslationListItem(
     val id: Long,
     val sourceText: String,
     val translationText: String?,
-    val sourceLanguage: UiTranslationSourceLanguage,
-    val targetLanguage: UiTargetLanguage,
+    val sourceLanguage: UiExtendedLanguage?,
+    val targetLanguage: UiLanguage,
     val translatedAtMillis: Long
 ) {
     val isMissingTranslation: Boolean

@@ -1,14 +1,14 @@
-package com.catvasiliy.mydic.domain.use_case.settings
+package com.catvasiliy.mydic.domain.use_case.preferences
 
 import com.catvasiliy.mydic.data.local.preferences.PreferencesRepository
-import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.Language
 import javax.inject.Inject
 
 class UpdateDefaultTargetLanguageUseCase @Inject constructor(
     private val preferencesRepository: PreferencesRepository
 ) {
 
-    suspend operator fun invoke(targetLanguage: TargetLanguage) {
+    suspend operator fun invoke(targetLanguage: Language) {
         preferencesRepository.updateDefaultTargetLanguage(targetLanguage)
     }
 }

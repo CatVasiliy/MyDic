@@ -31,6 +31,19 @@
     <string name="btn_refresh">Обновить</string>
     <string name="search">Поиск</string>
 
+    <string name="language_any">Любой</string>
+    <string name="language_auto">Авто</string>
+    <string name="language_english">Английский</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_german">Немецкий</string>
+    <string name="language_french">Французский</string>
+    <string name="language_italian">Итальянский</string>
+    <string name="language_spanish">Испанский</string>
+    <string name="language_hindi">Хинди</string>
+    <string name="language_chinese">Китайский</string>
+    <string name="language_korean">Корейский</string>
+    <string name="language_japanese">Японский</string>
+
     <string name="settings">Настройки</string>
 
 </resources>

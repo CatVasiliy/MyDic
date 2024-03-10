@@ -2,14 +2,13 @@ package com.catvasiliy.mydic.presentation.translate
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.catvasiliy.mydic.domain.use_case.settings.GetLanguagePreferencesUseCase
-import com.catvasiliy.mydic.domain.use_case.settings.UpdateDefaultSourceLanguageUseCase
-import com.catvasiliy.mydic.domain.use_case.settings.UpdateDefaultTargetLanguageUseCase
-import com.catvasiliy.mydic.presentation.model.translation.UiSourceLanguage
-import com.catvasiliy.mydic.presentation.model.translation.UiTargetLanguage
-import com.catvasiliy.mydic.presentation.model.toSourceLanguage
-import com.catvasiliy.mydic.presentation.model.toTargetLanguage
+import com.catvasiliy.mydic.domain.use_case.preferences.GetLanguagePreferencesUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.UpdateDefaultSourceLanguageUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.UpdateDefaultTargetLanguageUseCase
+import com.catvasiliy.mydic.presentation.model.toLanguage
+import com.catvasiliy.mydic.presentation.model.toLanguageNotNull
 import com.catvasiliy.mydic.presentation.model.toUiLanguagePreferences
+import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -36,15 +35,15 @@ class TranslateViewModel @Inject constructor(
             initialValue = TranslateState()
         )
 
-    fun updateDefaultSourceLanguage(sourceLanguage: UiSourceLanguage) {
+    fun updateDefaultSourceLanguage(sourceLanguage: UiLanguage?) {
         viewModelScope.launch {
-            updateDefaultSourceLanguageUseCase(sourceLanguage.toSourceLanguage())
+            updateDefaultSourceLanguageUseCase(sourceLanguage?.toLanguage())
         }
     }
 
-    fun updateDefaultTargetLanguage(targetLanguage: UiTargetLanguage) {
+    fun updateDefaultTargetLanguage(targetLanguage: UiLanguage) {
         viewModelScope.launch {
-            updateDefaultTargetLanguageUseCase(targetLanguage.toTargetLanguage())
+            updateDefaultTargetLanguageUseCase(targetLanguage.toLanguageNotNull())
         }
     }
 }

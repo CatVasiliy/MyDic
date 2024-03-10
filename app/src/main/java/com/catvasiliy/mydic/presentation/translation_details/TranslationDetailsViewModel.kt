@@ -7,12 +7,11 @@ import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.TranslateUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.UpdateMissingTranslationUseCase
 import com.catvasiliy.mydic.domain.util.Resource
-import com.catvasiliy.mydic.presentation.model.toSourceLanguage
-import com.catvasiliy.mydic.presentation.model.toTargetLanguage
-import com.catvasiliy.mydic.presentation.model.toTranslation
+import com.catvasiliy.mydic.presentation.model.toLanguage
+import com.catvasiliy.mydic.presentation.model.toLanguageNotNull
+import com.catvasiliy.mydic.presentation.model.toMissingTranslation
 import com.catvasiliy.mydic.presentation.model.toUiTranslation
-import com.catvasiliy.mydic.presentation.model.translation.UiSourceLanguage
-import com.catvasiliy.mydic.presentation.model.translation.UiTargetLanguage
+import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,13 +41,13 @@ class TranslationDetailsViewModel @Inject constructor(
 
     fun translate(
         sourceText: String,
-        sourceLanguage: UiSourceLanguage,
-        targetLanguage: UiTargetLanguage
+        sourceLanguage: UiLanguage?,
+        targetLanguage: UiLanguage
     ) {
         currentJob?.cancel()
         currentJob = translateUseCase(
-            sourceLanguage = sourceLanguage.toSourceLanguage(),
-            targetLanguage = targetLanguage.toTargetLanguage(),
+            sourceLanguage = sourceLanguage?.toLanguage(),
+            targetLanguage = targetLanguage.toLanguageNotNull(),
             sourceText = sourceText
         )
         .onEach { processResult(it) }
@@ -99,12 +98,9 @@ class TranslationDetailsViewModel @Inject constructor(
 
     fun updateMissingTranslation() {
         val translation = requireNotNull(state.value.translation)
-        if (translation.translationText != null)
-            throw IllegalStateException("Translation is not a Missing Translation")
-
         currentJob?.cancel()
         currentJob = updateMissingTranslationUseCase(
-            missingTranslation = translation.toTranslation()
+            missingTranslation = translation.toMissingTranslation()
         )
         .onEach { processResult(it) }
         .launchIn(viewModelScope)

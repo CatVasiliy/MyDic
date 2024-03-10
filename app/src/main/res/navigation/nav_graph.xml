@@ -49,13 +49,13 @@
             android:defaultValue="" />
 
         <argument
-            android:name="sourceLanguage"
-            app:argType="com.catvasiliy.mydic.presentation.model.translation.UiSourceLanguage"
-            android:defaultValue="ENGLISH" />
+            android:name="sourceLanguageOrdinal"
+            app:argType="integer"
+            android:defaultValue="-1" />
 
         <argument
             android:name="targetLanguage"
-            app:argType="com.catvasiliy.mydic.presentation.model.translation.UiTargetLanguage"
+            app:argType="com.catvasiliy.mydic.presentation.model.translation.UiLanguage"
             android:defaultValue="ENGLISH" />
 
         <argument

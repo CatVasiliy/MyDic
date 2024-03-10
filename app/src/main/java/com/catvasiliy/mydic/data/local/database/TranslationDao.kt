@@ -13,8 +13,7 @@ import com.catvasiliy.mydic.data.local.database.model.CachedSynonym
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslation
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslationAggregate
 import com.catvasiliy.mydic.data.local.database.model.CachedTranslationForSending
-import com.catvasiliy.mydic.domain.model.translation.language.SourceLanguage
-import com.catvasiliy.mydic.domain.model.translation.language.TargetLanguage
+import com.catvasiliy.mydic.domain.model.translation.language.Language
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -97,8 +96,8 @@ abstract class TranslationDao {
                     "AND targetLanguage = :targetLanguage")
     abstract suspend fun getUniqueTranslation(
         sourceText: String,
-        sourceLanguage: SourceLanguage,
-        targetLanguage: TargetLanguage
+        sourceLanguage: Language,
+        targetLanguage: Language
     ): CachedTranslationAggregate?
 
     @Transaction
@@ -108,7 +107,7 @@ abstract class TranslationDao {
                     "AND isLanguageDetected = 1")
     abstract suspend fun getUniqueTranslationAutoDetectLanguage(
         sourceText: String,
-        targetLanguage: TargetLanguage
+        targetLanguage: Language
     ): CachedTranslationAggregate?
 
     @Transaction
@@ -124,8 +123,8 @@ abstract class TranslationDao {
     )
     abstract suspend fun getRepeatingTranslationId(
         sourceText: String,
-        sourceLanguage: SourceLanguage,
-        targetLanguage: TargetLanguage
+        sourceLanguage: Language?,
+        targetLanguage: Language
     ): Long?
 
     @Insert(onConflict = REPLACE)
@@ -143,8 +142,8 @@ abstract class TranslationDao {
                     "AND targetLanguage = :targetLanguage")
     abstract suspend fun getUniqueMissingTranslation(
         sourceText: String,
-        sourceLanguage: SourceLanguage,
-        targetLanguage: TargetLanguage
+        sourceLanguage: Language?,
+        targetLanguage: Language
     ): CachedMissingTranslation?
 
     @Query("DELETE FROM missing_translation WHERE id = :id")

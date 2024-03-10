@@ -1,5 +1,6 @@
 package com.catvasiliy.mydic.domain.use_case.translate
 
+import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.repository.TranslateRepository
 import com.catvasiliy.mydic.domain.util.Resource
@@ -11,7 +12,7 @@ class UpdateMissingTranslationUseCase @Inject constructor(
 ) {
 
     operator fun invoke(
-        missingTranslation: Translation
+        missingTranslation: MissingTranslation
     ): Flow<Resource<Translation>> = translateRepository.updateMissingTranslationFromApi(
         missingTranslation
     )
