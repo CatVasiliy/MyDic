@@ -202,8 +202,8 @@ class TranslationsListFragment : Fragment() {
         }
 
         binding.chipDescending.setOnCheckedChangeListener { _, isChecked ->
-            val sortInfo = viewModel.state.value.sortInfo
-            sortInfo.sortType = if (isChecked) SortType.Descending else SortType.Ascending
+            val sortType = if (isChecked) SortType.Descending else SortType.Ascending
+            val sortInfo = viewModel.state.value.sortInfo.copy(sortType)
             viewModel.sortTranslations(sortInfo)
         }
     }

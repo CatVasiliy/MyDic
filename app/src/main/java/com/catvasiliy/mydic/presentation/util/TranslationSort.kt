@@ -2,10 +2,16 @@ package com.catvasiliy.mydic.presentation.util
 
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
 
-sealed class TranslationSort(var sortType: SortType) {
+sealed class TranslationSort(val sortType: SortType) {
     class Date(sortType: SortType) : TranslationSort(sortType)
     class SourceText(sortType: SortType) : TranslationSort(sortType)
     class TranslationText(sortType: SortType) : TranslationSort(sortType)
+
+    fun copy(sortType: SortType): TranslationSort = when (this) {
+        is Date -> Date(sortType)
+        is SourceText -> SourceText(sortType)
+        is TranslationText -> TranslationText(sortType)
+    }
 }
 
 fun List<UiTranslationListItem>.sortedCustom(sortInfo: TranslationSort): List<UiTranslationListItem> {
