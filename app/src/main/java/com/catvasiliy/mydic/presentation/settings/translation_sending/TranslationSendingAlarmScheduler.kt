@@ -4,7 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingInterval
+import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingInterval
 import javax.inject.Inject
 
 class TranslationSendingAlarmScheduler @Inject constructor(

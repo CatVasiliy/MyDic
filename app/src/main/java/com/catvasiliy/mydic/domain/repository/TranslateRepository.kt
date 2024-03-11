@@ -1,6 +1,6 @@
 package com.catvasiliy.mydic.domain.repository
 
-import com.catvasiliy.mydic.domain.model.preferences.TranslationForSending
+import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationForSending
 import com.catvasiliy.mydic.domain.model.translation.ExtendedTranslation
 import com.catvasiliy.mydic.domain.model.translation.MissingTranslation
 import com.catvasiliy.mydic.domain.model.translation.Translation

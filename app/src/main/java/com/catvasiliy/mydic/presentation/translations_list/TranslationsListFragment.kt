@@ -19,13 +19,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.BottomSheetSortBinding
 import com.catvasiliy.mydic.databinding.FragmentTranslationsListBinding
+import com.catvasiliy.mydic.domain.model.preferences.translation_sorting.SortingOrder
+import com.catvasiliy.mydic.domain.model.preferences.translation_sorting.TranslationSortingInfo
 import com.catvasiliy.mydic.presentation.MainActivity
 import com.catvasiliy.mydic.presentation.model.translation.SourceLanguageFilterInfo
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
 import com.catvasiliy.mydic.presentation.translations_list.spinner.SourceLanguageFilterSpinnerAdapter
 import com.catvasiliy.mydic.presentation.translations_list.spinner.SourceLanguageFilterSpinnerItem
-import com.catvasiliy.mydic.presentation.util.SortType
-import com.catvasiliy.mydic.presentation.util.TranslationSort
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -103,6 +103,7 @@ class TranslationsListFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
+                    state.sortingInfo?.let { updateSorting(it) }
                     showTranslations(state.translations)
                 }
             }
@@ -163,25 +164,39 @@ class TranslationsListFragment : Fragment() {
         }
     }
 
+    private fun updateSorting(sortingInfo: TranslationSortingInfo) {
+        binding.chipDescending.isChecked = sortingInfo.sortingOrder == SortingOrder.Descending
+
+        val idToCheck = when (sortingInfo) {
+            is TranslationSortingInfo.Date -> R.id.rbDate
+            is TranslationSortingInfo.SourceText -> R.id.rbSourceText
+            is TranslationSortingInfo.TranslationText -> R.id.rbTranslationText
+        }
+        bottomSheetSortBinding.radioGroup.check(idToCheck)
+    }
+
     private fun setupAndGetBottomSheetSort(): BottomSheetDialog {
         val bottomSheetSort = BottomSheetDialog(requireContext()).apply {
             setContentView(bottomSheetSortBinding.root)
         }
 
         bottomSheetSortBinding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            val sortType = viewModel.state.value.sortInfo.sortType
-            val sortInfo = when (checkedId) {
-                R.id.rbDate -> TranslationSort.Date(sortType)
-                R.id.rbSourceText -> TranslationSort.SourceText(sortType)
-                R.id.rbTranslationText -> TranslationSort.TranslationText(sortType)
+            val sortingOrder = viewModel.state.value.sortingInfo?.sortingOrder
+                ?: return@setOnCheckedChangeListener
+            val newSortingInfo = when (checkedId) {
+                R.id.rbDate -> TranslationSortingInfo.Date(sortingOrder)
+                R.id.rbSourceText -> TranslationSortingInfo.SourceText(sortingOrder)
+                R.id.rbTranslationText -> TranslationSortingInfo.TranslationText(sortingOrder)
                 else -> {
                     bottomSheetSort.dismiss()
                     return@setOnCheckedChangeListener
                 }
             }
-            viewModel.sortTranslations(sortInfo)
-            changeSortByChipText()
-            bottomSheetSort.dismiss()
+            val currentSortingInfo = viewModel.state.value.sortingInfo
+            if (newSortingInfo != currentSortingInfo) {
+                viewModel.sortTranslations(newSortingInfo)
+                changeSortByChipText()
+            }
         }
 
 
@@ -202,9 +217,14 @@ class TranslationsListFragment : Fragment() {
         }
 
         binding.chipDescending.setOnCheckedChangeListener { _, isChecked ->
-            val sortType = if (isChecked) SortType.Descending else SortType.Ascending
-            val sortInfo = viewModel.state.value.sortInfo.copy(sortType)
-            viewModel.sortTranslations(sortInfo)
+            val currentSortingInfo = viewModel.state.value.sortingInfo
+                ?: return@setOnCheckedChangeListener
+            val newSortingOrder = if (isChecked) SortingOrder.Descending else SortingOrder.Ascending
+            val currentSortingOrder = currentSortingInfo.sortingOrder
+            if (newSortingOrder != currentSortingOrder) {
+                val sortingInfo = currentSortingInfo.copyChangeSortingOrder(newSortingOrder)
+                viewModel.sortTranslations(sortingInfo)
+            }
         }
     }
 

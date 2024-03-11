@@ -3,8 +3,9 @@ package com.catvasiliy.mydic.data.local.preferences
 import androidx.datastore.core.DataStore
 import com.catvasiliy.mydic.domain.model.preferences.LanguagePreferences
 import com.catvasiliy.mydic.domain.model.preferences.TranslationPreferences
-import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingInterval
-import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingPreferences
+import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingInterval
+import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingPreferences
+import com.catvasiliy.mydic.domain.model.preferences.translation_sorting.TranslationSortingInfo
 import com.catvasiliy.mydic.domain.model.translation.language.Language
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,9 +20,7 @@ class PreferencesRepository @Inject constructor(
             val languagePreferences = preferencesData.languagePreferences.copy(
                 defaultSourceLanguage = sourceLanguage
             )
-            preferencesData.copy(
-                languagePreferences = languagePreferences
-            )
+            preferencesData.copy(languagePreferences = languagePreferences)
         }
     }
 
@@ -30,9 +29,7 @@ class PreferencesRepository @Inject constructor(
             val languagePreferences = preferencesData.languagePreferences.copy(
                 defaultTargetLanguage = targetLanguage
             )
-            preferencesData.copy(
-                languagePreferences = languagePreferences
-            )
+            preferencesData.copy(languagePreferences = languagePreferences)
         }
     }
 
@@ -42,14 +39,24 @@ class PreferencesRepository @Inject constructor(
         }
     }
 
+    suspend fun updateTranslationSortingInfo(sortingInfo: TranslationSortingInfo) {
+        preferences.updateData { preferencesData ->
+            preferencesData.copy(sortingInfo = sortingInfo)
+        }
+    }
+
+    fun getTranslationSortingInfo(): Flow<TranslationSortingInfo> {
+        return preferences.data.map { translationPreferences ->
+            translationPreferences.sortingInfo
+        }
+    }
+
     suspend fun updateIsTranslationSendingEnabled(isSendingEnabled: Boolean) {
         preferences.updateData { preferencesData ->
             val translationSendingPreferences = preferencesData.translationSendingPreferences.copy(
                 isSendingEnabled = isSendingEnabled
             )
-            preferencesData.copy(
-                translationSendingPreferences = translationSendingPreferences
-            )
+            preferencesData.copy(translationSendingPreferences = translationSendingPreferences)
         }
     }
 
@@ -58,9 +65,7 @@ class PreferencesRepository @Inject constructor(
             val translationSendingPreferences = preferencesData.translationSendingPreferences.copy(
                 sendingInterval = interval
             )
-            preferencesData.copy(
-                translationSendingPreferences = translationSendingPreferences
-            )
+            preferencesData.copy(translationSendingPreferences = translationSendingPreferences)
         }
     }
 

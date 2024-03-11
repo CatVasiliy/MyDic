@@ -2,7 +2,10 @@ package com.catvasiliy.mydic.presentation.translations_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.catvasiliy.mydic.domain.model.preferences.translation_sorting.TranslationSortingInfo
 import com.catvasiliy.mydic.domain.model.translation.Translation
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_sorting.GetTranslationSortingInfoUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_sorting.UpdateTranslationSortingInfoUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.DeleteTranslationUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationsListUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.InsertTranslationUseCase
@@ -11,8 +14,6 @@ import com.catvasiliy.mydic.presentation.model.toUiTranslation
 import com.catvasiliy.mydic.presentation.model.toUiTranslationListItem
 import com.catvasiliy.mydic.presentation.model.translation.SourceLanguageFilterInfo
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslation
-import com.catvasiliy.mydic.presentation.util.SortType
-import com.catvasiliy.mydic.presentation.util.TranslationSort
 import com.catvasiliy.mydic.presentation.util.filterBySourceLanguage
 import com.catvasiliy.mydic.presentation.util.filterBySourceTextContains
 import com.catvasiliy.mydic.presentation.util.sortedCustom
@@ -35,14 +36,16 @@ import javax.inject.Inject
 class TranslationsListViewModel @Inject constructor(
     getTranslationsListUseCase: GetTranslationsListUseCase,
     private val insertTranslationUseCase: InsertTranslationUseCase,
-    private val deleteTranslationUseCase: DeleteTranslationUseCase
+    private val deleteTranslationUseCase: DeleteTranslationUseCase,
+    getTranslationSortingInfoUseCase: GetTranslationSortingInfoUseCase,
+    private val updateTranslationSortingInfoUseCase: UpdateTranslationSortingInfoUseCase
 ) : ViewModel() {
 
     private val _translationsList = getTranslationsListUseCase().map { domainTranslations ->
         domainTranslations.map(Translation::toUiTranslationListItem)
     }
 
-    private val _sortInfo = MutableStateFlow<TranslationSort>(TranslationSort.Date(SortType.Descending))
+    private val _sortingInfo = getTranslationSortingInfoUseCase()
 
     private val _filterInfo = MutableStateFlow<SourceLanguageFilterInfo?>(null)
 
@@ -52,20 +55,20 @@ class TranslationsListViewModel @Inject constructor(
 
     val state: StateFlow<TranslationsListState> = combine(
         _translationsList,
-        _sortInfo,
+        _sortingInfo,
         _filterInfo,
         _searchQuery,
         _lastDeletedTranslation
-    ) { translationsList, sortInfo, filterInfo, searchQuery, lastDeletedTranslation ->
+    ) { translationsList, sortingInfo, filterInfo, searchQuery, lastDeletedTranslation ->
 
         val resultTranslationsList = translationsList
             .filterBySourceTextContains(searchQuery)
             .filterBySourceLanguage(filterInfo)
-            .sortedCustom(sortInfo)
+            .sortedCustom(sortingInfo)
 
         TranslationsListState(
             translations = resultTranslationsList,
-            sortInfo = sortInfo,
+            sortingInfo = sortingInfo,
             filterInfo = filterInfo,
             searchQuery = searchQuery,
             lastDeletedTranslation = lastDeletedTranslation
@@ -100,8 +103,10 @@ class TranslationsListViewModel @Inject constructor(
         }
     }
 
-    fun sortTranslations(sortInfo: TranslationSort) {
-        _sortInfo.update { sortInfo }
+    fun sortTranslations(sortingInfo: TranslationSortingInfo) {
+        viewModelScope.launch {
+            updateTranslationSortingInfoUseCase(sortingInfo)
+        }
     }
 
     fun filterTranslations(sourceLanguageFilterInfo: SourceLanguageFilterInfo?) {

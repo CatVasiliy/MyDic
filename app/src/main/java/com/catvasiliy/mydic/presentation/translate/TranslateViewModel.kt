@@ -2,9 +2,9 @@ package com.catvasiliy.mydic.presentation.translate
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.catvasiliy.mydic.domain.use_case.preferences.GetLanguagePreferencesUseCase
-import com.catvasiliy.mydic.domain.use_case.preferences.UpdateDefaultSourceLanguageUseCase
-import com.catvasiliy.mydic.domain.use_case.preferences.UpdateDefaultTargetLanguageUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_language.GetLanguagePreferencesUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_language.UpdateDefaultSourceLanguageUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_language.UpdateDefaultTargetLanguageUseCase
 import com.catvasiliy.mydic.presentation.model.toLanguage
 import com.catvasiliy.mydic.presentation.model.toLanguageNotNull
 import com.catvasiliy.mydic.presentation.model.toUiLanguagePreferences

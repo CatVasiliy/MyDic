@@ -2,11 +2,11 @@ package com.catvasiliy.mydic.presentation.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingInterval
-import com.catvasiliy.mydic.domain.model.preferences.TranslationSendingPreferences
-import com.catvasiliy.mydic.domain.use_case.preferences.GetTranslationSendingPreferencesUseCase
-import com.catvasiliy.mydic.domain.use_case.preferences.ToggleTranslationSendingUseCase
-import com.catvasiliy.mydic.domain.use_case.preferences.UpdateTranslationSendingIntervalUseCase
+import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingInterval
+import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingPreferences
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_sending.GetTranslationSendingPreferencesUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_sending.ToggleTranslationSendingUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_sending.UpdateTranslationSendingIntervalUseCase
 import com.catvasiliy.mydic.presentation.settings.translation_sending.TranslationSendingAlarmScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted

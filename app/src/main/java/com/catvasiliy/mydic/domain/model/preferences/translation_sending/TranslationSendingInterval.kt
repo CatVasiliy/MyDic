@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.domain.model.preferences
+package com.catvasiliy.mydic.domain.model.preferences.translation_sending
 
 import java.time.Duration
 import java.time.ZonedDateTime
