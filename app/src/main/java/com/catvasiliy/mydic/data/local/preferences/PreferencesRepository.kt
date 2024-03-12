@@ -5,6 +5,7 @@ import com.catvasiliy.mydic.domain.model.preferences.LanguagePreferences
 import com.catvasiliy.mydic.domain.model.preferences.TranslationPreferences
 import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingInterval
 import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingPreferences
+import com.catvasiliy.mydic.domain.model.preferences.translation_sorting.SourceLanguageFilteringInfo
 import com.catvasiliy.mydic.domain.model.preferences.translation_sorting.TranslationSortingInfo
 import com.catvasiliy.mydic.domain.model.translation.language.Language
 import kotlinx.coroutines.flow.Flow
@@ -48,6 +49,18 @@ class PreferencesRepository @Inject constructor(
     fun getTranslationSortingInfo(): Flow<TranslationSortingInfo> {
         return preferences.data.map { translationPreferences ->
             translationPreferences.sortingInfo
+        }
+    }
+
+    suspend fun updateSourceLanguageFilteringInfo(filteringInfo: SourceLanguageFilteringInfo) {
+        preferences.updateData { translationPreferences ->
+            translationPreferences.copy(sourceLanguageFilteringInfo = filteringInfo)
+        }
+    }
+
+    fun getSourceLanguageFilteringInfo(): Flow<SourceLanguageFilteringInfo> {
+        return preferences.data.map { translationPreferences ->
+            translationPreferences.sourceLanguageFilteringInfo
         }
     }
 

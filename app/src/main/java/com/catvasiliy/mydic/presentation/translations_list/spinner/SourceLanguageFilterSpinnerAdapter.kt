@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.catvasiliy.mydic.R
+import com.catvasiliy.mydic.presentation.model.preferences.UiSourceLanguageFilteringInfo
 import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
 
 class SourceLanguageFilterSpinnerAdapter(private val context: Context) : BaseAdapter() {
@@ -35,6 +36,21 @@ class SourceLanguageFilterSpinnerAdapter(private val context: Context) : BaseAda
         view.findViewById<TextView>(R.id.tvLanguageItemText).text = context.getString(item.stringResourceId)
 
         return view
+    }
+
+    fun getPosition(filteringInfo: UiSourceLanguageFilteringInfo): Int {
+        val spinnerItem = when (filteringInfo) {
+            is UiSourceLanguageFilteringInfo.LanguageAny ->
+                SourceLanguageFilterSpinnerItem.LanguageAny
+            is UiSourceLanguageFilteringInfo.LanguageUnknown ->
+                SourceLanguageFilterSpinnerItem.LanguageUnknown
+            is UiSourceLanguageFilteringInfo.LanguageKnown ->
+                SourceLanguageFilterSpinnerItem.LanguageKnown(filteringInfo.language)
+        }
+
+        return items.indexOfFirst { filteringSpinnerItem ->
+            filteringSpinnerItem == spinnerItem
+        }
     }
 
     private fun createLanguageKnownItemList(): List<SourceLanguageFilterSpinnerItem.LanguageKnown> {

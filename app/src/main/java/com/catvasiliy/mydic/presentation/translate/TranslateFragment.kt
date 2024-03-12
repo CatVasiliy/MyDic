@@ -18,6 +18,7 @@ import com.catvasiliy.mydic.presentation.translate.spinners.SourceLanguageSpinne
 import com.catvasiliy.mydic.presentation.translate.spinners.SourceLanguageSpinnerItem
 import com.catvasiliy.mydic.presentation.translate.spinners.TargetLanguageSpinnerAdapter
 import com.catvasiliy.mydic.presentation.translate.spinners.TargetLanguageSpinnerItem
+import com.catvasiliy.mydic.presentation.util.setSelectionWithTag
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -34,10 +35,8 @@ class TranslateFragment : Fragment() {
     private val slDefaultItemSelectedListener = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
             val newSourceLanguageItem = parent.getItemAtPosition(position) as SourceLanguageSpinnerItem
-
             val newSourceLanguage = newSourceLanguageItem.language
-            val currentSourceLanguage = viewModel.state.value.languagePreferences.defaultSourceLanguage
-            if (newSourceLanguage != currentSourceLanguage) {
+            if (binding.spSourceLanguage.tag != position) {
                 viewModel.updateDefaultSourceLanguage(newSourceLanguage)
             }
         }
@@ -48,11 +47,8 @@ class TranslateFragment : Fragment() {
     private val tlDefaultItemSelectedListener = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
             val newTargetLanguageItem = parent.getItemAtPosition(position) as TargetLanguageSpinnerItem
-
             val newTargetLanguage = newTargetLanguageItem.language
-
-            val currentTargetLanguage = viewModel.state.value.languagePreferences.defaultTargetLanguage
-            if (newTargetLanguage != currentTargetLanguage) {
+            if (binding.spTargetLanguage.tag != position) {
                 viewModel.updateDefaultTargetLanguage(newTargetLanguage)
             }
         }
@@ -121,14 +117,13 @@ class TranslateFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-
                     val slSelection = state.languagePreferences.defaultSourceLanguage
                     val slPosition = slSpinnerAdapter.getPosition(slSelection)
-                    binding.spSourceLanguage.setSelection(slPosition)
+                    binding.spSourceLanguage.setSelectionWithTag(slPosition)
 
                     val tlSelection = state.languagePreferences.defaultTargetLanguage
                     val tlPosition = tlSpinnerAdapter.getPosition(tlSelection)
-                    binding.spTargetLanguage.setSelection(tlPosition)
+                    binding.spTargetLanguage.setSelectionWithTag(tlPosition)
                 }
             }
         }

@@ -1,9 +1,8 @@
 package com.catvasiliy.mydic.presentation.util
 
-import com.catvasiliy.mydic.presentation.model.translation.SourceLanguageFilterInfo
-import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
+import com.catvasiliy.mydic.presentation.model.preferences.UiSourceLanguageFilteringInfo
 import com.catvasiliy.mydic.presentation.model.translation.UiExtendedLanguage
-
+import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
 
 fun List<UiTranslationListItem>.filterBySourceTextContains(
@@ -17,16 +16,19 @@ fun List<UiTranslationListItem>.filterBySourceTextContains(
 }
 
 fun List<UiTranslationListItem>.filterBySourceLanguage(
-    filterInfo: SourceLanguageFilterInfo?
+    filteringInfo: UiSourceLanguageFilteringInfo
 ): List<UiTranslationListItem> {
-    return filterInfo?.run {
-        when (filterInfo) {
-            is SourceLanguageFilterInfo.LanguageKnown ->
-                this@filterBySourceLanguage.filterByKnownSourceLanguage(filterInfo.language)
-            is SourceLanguageFilterInfo.LanguageUnknown ->
+    return filteringInfo.run {
+        when (filteringInfo) {
+            is UiSourceLanguageFilteringInfo.LanguageAny ->
+                this@filterBySourceLanguage
+            is UiSourceLanguageFilteringInfo.LanguageUnknown ->
                 this@filterBySourceLanguage.filterByUnknownSourceLanguage()
+
+            is UiSourceLanguageFilteringInfo.LanguageKnown ->
+                this@filterBySourceLanguage.filterByKnownSourceLanguage(filteringInfo.language)
         }
-    } ?: this
+    }
 }
 
 private fun List<UiTranslationListItem>.filterByKnownSourceLanguage(
