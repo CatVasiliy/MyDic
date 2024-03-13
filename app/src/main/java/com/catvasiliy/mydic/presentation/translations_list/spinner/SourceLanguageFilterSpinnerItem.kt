@@ -2,10 +2,26 @@ package com.catvasiliy.mydic.presentation.translations_list.spinner
 
 import androidx.annotation.StringRes
 import com.catvasiliy.mydic.R
-import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
+import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiSourceLanguageFilteringInfo
 
-sealed class SourceLanguageFilterSpinnerItem(@StringRes val stringResourceId: Int) {
-    object LanguageAny : SourceLanguageFilterSpinnerItem(R.string.language_any)
-    object LanguageUnknown : SourceLanguageFilterSpinnerItem(R.string.language_auto)
-    data class LanguageKnown(val language: UiLanguage) : SourceLanguageFilterSpinnerItem(language.stringResourceId)
+sealed class SourceLanguageFilterSpinnerItem(
+    @StringRes val stringResourceId: Int,
+    val filteringInfo: UiSourceLanguageFilteringInfo
+) {
+    object LanguageAny : SourceLanguageFilterSpinnerItem(
+        stringResourceId = R.string.language_any,
+        filteringInfo = UiSourceLanguageFilteringInfo.LanguageAny
+    )
+
+    object LanguageUnknown : SourceLanguageFilterSpinnerItem(
+        stringResourceId = R.string.language_auto,
+        filteringInfo = UiSourceLanguageFilteringInfo.LanguageUnknown
+    )
+
+    class LanguageKnown(
+        knownFilteringInfo: UiSourceLanguageFilteringInfo.LanguageKnown
+    ) : SourceLanguageFilterSpinnerItem(
+        stringResourceId = knownFilteringInfo.language.stringResourceId,
+        filteringInfo = knownFilteringInfo
+    )
 }

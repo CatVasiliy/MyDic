@@ -48,8 +48,8 @@ class SourceLanguageSpinnerAdapter(private val context: Context) : BaseAdapter()
     }
 
     private fun createItemListFromUiLanguageEntries(): List<SourceLanguageSpinnerItem> {
-        return UiLanguage.entries.map { entry ->
-            SourceLanguageSpinnerItem(entry)
+        return UiLanguage.entries.map { language ->
+            SourceLanguageSpinnerItem(language)
         }
     }
 }

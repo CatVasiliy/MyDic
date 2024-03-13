@@ -39,23 +39,15 @@ class SourceLanguageFilterSpinnerAdapter(private val context: Context) : BaseAda
     }
 
     fun getPosition(filteringInfo: UiSourceLanguageFilteringInfo): Int {
-        val spinnerItem = when (filteringInfo) {
-            is UiSourceLanguageFilteringInfo.LanguageAny ->
-                SourceLanguageFilterSpinnerItem.LanguageAny
-            is UiSourceLanguageFilteringInfo.LanguageUnknown ->
-                SourceLanguageFilterSpinnerItem.LanguageUnknown
-            is UiSourceLanguageFilteringInfo.LanguageKnown ->
-                SourceLanguageFilterSpinnerItem.LanguageKnown(filteringInfo.language)
-        }
-
         return items.indexOfFirst { filteringSpinnerItem ->
-            filteringSpinnerItem == spinnerItem
+            filteringSpinnerItem.filteringInfo == filteringInfo
         }
     }
 
     private fun createLanguageKnownItemList(): List<SourceLanguageFilterSpinnerItem.LanguageKnown> {
-        return UiLanguage.entries.map { entry ->
-            SourceLanguageFilterSpinnerItem.LanguageKnown(entry)
+        return UiLanguage.entries.map { language ->
+            val filteringInfo = UiSourceLanguageFilteringInfo.LanguageKnown(language)
+            SourceLanguageFilterSpinnerItem.LanguageKnown(filteringInfo)
         }
     }
 }

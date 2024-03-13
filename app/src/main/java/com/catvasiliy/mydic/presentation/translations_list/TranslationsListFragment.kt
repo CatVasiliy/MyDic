@@ -23,8 +23,6 @@ import com.catvasiliy.mydic.databinding.FragmentTranslationsListBinding
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting.SortingOrder
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting.TranslationSortingInfo
 import com.catvasiliy.mydic.presentation.MainActivity
-import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiSourceLanguageFilteringInfo
-import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiTargetLanguageFilteringInfo
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
 import com.catvasiliy.mydic.presentation.translations_list.spinner.SourceLanguageFilterSpinnerAdapter
 import com.catvasiliy.mydic.presentation.translations_list.spinner.SourceLanguageFilterSpinnerItem
@@ -58,8 +56,8 @@ class TranslationsListFragment : Fragment() {
             if (bottomSheetSortBinding.spSourceLanguage.tag == position) return
 
             val spinnerItem = parent.getItemAtPosition(position) as SourceLanguageFilterSpinnerItem
-            val newSourceLanguageFilterInfo = getSourceLanguageFilterInfoFromSpinnerItem(spinnerItem)
-            viewModel.filterTranslationsBySourceLanguage(newSourceLanguageFilterInfo)
+            val newSourceLanguageFilteringInfo = spinnerItem.filteringInfo
+            viewModel.filterTranslationsBySourceLanguage(newSourceLanguageFilteringInfo)
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) { }
@@ -71,8 +69,8 @@ class TranslationsListFragment : Fragment() {
             if (bottomSheetSortBinding.spTargetLanguage.tag == position) return
 
             val spinnerItem = parent.getItemAtPosition(position) as TargetLanguageFilterSpinnerItem
-            val newTargetLanguageFilterInfo = getTargetLanguageFilterInfoFromSpinnerItem(spinnerItem)
-            viewModel.filterTranslationsByTargetLanguage(newTargetLanguageFilterInfo)
+            val newTargetLanguageFilteringInfo = spinnerItem.filteringInfo
+            viewModel.filterTranslationsByTargetLanguage(newTargetLanguageFilteringInfo)
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) { }
@@ -274,29 +272,5 @@ class TranslationsListFragment : Fragment() {
             else -> return
         }
         binding.chipSortBy.text = getString(R.string.sort_by_chip, radioButtonText)
-    }
-
-    private fun getSourceLanguageFilterInfoFromSpinnerItem(
-        item: SourceLanguageFilterSpinnerItem
-    ): UiSourceLanguageFilteringInfo {
-        return when (item) {
-            is SourceLanguageFilterSpinnerItem.LanguageAny ->
-                UiSourceLanguageFilteringInfo.LanguageAny
-            is SourceLanguageFilterSpinnerItem.LanguageUnknown ->
-                UiSourceLanguageFilteringInfo.LanguageUnknown
-            is SourceLanguageFilterSpinnerItem.LanguageKnown ->
-                UiSourceLanguageFilteringInfo.LanguageKnown(language = item.language)
-        }
-    }
-
-    private fun getTargetLanguageFilterInfoFromSpinnerItem(
-        item: TargetLanguageFilterSpinnerItem
-    ): UiTargetLanguageFilteringInfo {
-        return when (item) {
-            is TargetLanguageFilterSpinnerItem.LanguageAny ->
-                UiTargetLanguageFilteringInfo.LanguageAny
-            is TargetLanguageFilterSpinnerItem.LanguageKnown ->
-                UiTargetLanguageFilteringInfo.LanguageKnown(language = item.language)
-        }
     }
 }
