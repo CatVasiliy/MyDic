@@ -8,12 +8,12 @@ sealed class SourceLanguageFilterSpinnerItem(
     @StringRes val stringResourceId: Int,
     val filteringInfo: UiSourceLanguageFilteringInfo
 ) {
-    object LanguageAny : SourceLanguageFilterSpinnerItem(
+    data object LanguageAny : SourceLanguageFilterSpinnerItem(
         stringResourceId = R.string.language_any,
         filteringInfo = UiSourceLanguageFilteringInfo.LanguageAny
     )
 
-    object LanguageUnknown : SourceLanguageFilterSpinnerItem(
+    data object LanguageUnknown : SourceLanguageFilterSpinnerItem(
         stringResourceId = R.string.language_auto,
         filteringInfo = UiSourceLanguageFilteringInfo.LanguageUnknown
     )

@@ -3,7 +3,7 @@ package com.catvasiliy.mydic.presentation.model.preferences.translation_organizi
 import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
 
 sealed interface UiSourceLanguageFilteringInfo {
-    object LanguageAny : UiSourceLanguageFilteringInfo
-    object LanguageUnknown : UiSourceLanguageFilteringInfo
+    data object LanguageAny : UiSourceLanguageFilteringInfo
+    data object LanguageUnknown : UiSourceLanguageFilteringInfo
     data class LanguageKnown(val language: UiLanguage) : UiSourceLanguageFilteringInfo
 }

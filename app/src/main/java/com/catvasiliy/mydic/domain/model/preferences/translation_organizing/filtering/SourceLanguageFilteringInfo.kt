@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed interface SourceLanguageFilteringInfo {
-    @Serializable object LanguageAny : SourceLanguageFilteringInfo
-    @Serializable object LanguageUnknown : SourceLanguageFilteringInfo
+    @Serializable data object LanguageAny : SourceLanguageFilteringInfo
+    @Serializable data object LanguageUnknown : SourceLanguageFilteringInfo
     @Serializable data class LanguageKnown(val language: Language) : SourceLanguageFilteringInfo
 }

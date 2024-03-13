@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 sealed interface SortingOrder {
-    @Serializable object Ascending : SortingOrder
-    @Serializable object Descending : SortingOrder
+    @Serializable data object Ascending : SortingOrder
+    @Serializable data object Descending : SortingOrder
 }

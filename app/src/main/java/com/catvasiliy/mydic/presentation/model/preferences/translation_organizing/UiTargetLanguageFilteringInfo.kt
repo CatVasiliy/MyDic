@@ -3,6 +3,6 @@ package com.catvasiliy.mydic.presentation.model.preferences.translation_organizi
 import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
 
 sealed interface UiTargetLanguageFilteringInfo {
-    object LanguageAny : UiTargetLanguageFilteringInfo
+    data object LanguageAny : UiTargetLanguageFilteringInfo
     data class LanguageKnown (val language: UiLanguage) : UiTargetLanguageFilteringInfo
 }
