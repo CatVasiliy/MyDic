@@ -1,7 +1,7 @@
-package com.catvasiliy.mydic.domain.use_case.preferences.translation_sorting
+package com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing
 
 import com.catvasiliy.mydic.data.local.preferences.PreferencesRepository
-import com.catvasiliy.mydic.domain.model.preferences.translation_sorting.SourceLanguageFilteringInfo
+import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.filtering.SourceLanguageFilteringInfo
 import javax.inject.Inject
 
 class UpdateSourceLanguageFilteringInfoUseCase @Inject constructor(

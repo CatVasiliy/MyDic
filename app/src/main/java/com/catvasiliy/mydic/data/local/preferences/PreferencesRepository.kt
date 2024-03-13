@@ -3,10 +3,12 @@ package com.catvasiliy.mydic.data.local.preferences
 import androidx.datastore.core.DataStore
 import com.catvasiliy.mydic.domain.model.preferences.LanguagePreferences
 import com.catvasiliy.mydic.domain.model.preferences.TranslationPreferences
+import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.TranslationOrganizingPreferences
 import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingInterval
 import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingPreferences
-import com.catvasiliy.mydic.domain.model.preferences.translation_sorting.SourceLanguageFilteringInfo
-import com.catvasiliy.mydic.domain.model.preferences.translation_sorting.TranslationSortingInfo
+import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.filtering.SourceLanguageFilteringInfo
+import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.filtering.TargetLanguageFilteringInfo
+import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting.TranslationSortingInfo
 import com.catvasiliy.mydic.domain.model.translation.language.Language
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -17,20 +19,20 @@ class PreferencesRepository @Inject constructor(
 ) {
 
     suspend fun updateDefaultSourceLanguage(sourceLanguage: Language?) {
-        preferences.updateData { preferencesData ->
-            val languagePreferences = preferencesData.languagePreferences.copy(
+        preferences.updateData { translationPreferences ->
+            val languagePreferences = translationPreferences.languagePreferences.copy(
                 defaultSourceLanguage = sourceLanguage
             )
-            preferencesData.copy(languagePreferences = languagePreferences)
+            translationPreferences.copy(languagePreferences = languagePreferences)
         }
     }
 
     suspend fun updateDefaultTargetLanguage(targetLanguage: Language) {
-        preferences.updateData { preferencesData ->
-            val languagePreferences = preferencesData.languagePreferences.copy(
+        preferences.updateData { translationPreferences ->
+            val languagePreferences = translationPreferences.languagePreferences.copy(
                 defaultTargetLanguage = targetLanguage
             )
-            preferencesData.copy(languagePreferences = languagePreferences)
+            translationPreferences.copy(languagePreferences = languagePreferences)
         }
     }
 
@@ -41,44 +43,53 @@ class PreferencesRepository @Inject constructor(
     }
 
     suspend fun updateTranslationSortingInfo(sortingInfo: TranslationSortingInfo) {
-        preferences.updateData { preferencesData ->
-            preferencesData.copy(sortingInfo = sortingInfo)
-        }
-    }
-
-    fun getTranslationSortingInfo(): Flow<TranslationSortingInfo> {
-        return preferences.data.map { translationPreferences ->
-            translationPreferences.sortingInfo
+        preferences.updateData { translationPreferences ->
+            val organizingPreferences = translationPreferences.organizingPreferences.copy(
+                sortingInfo = sortingInfo
+            )
+            translationPreferences.copy(organizingPreferences = organizingPreferences)
         }
     }
 
     suspend fun updateSourceLanguageFilteringInfo(filteringInfo: SourceLanguageFilteringInfo) {
         preferences.updateData { translationPreferences ->
-            translationPreferences.copy(sourceLanguageFilteringInfo = filteringInfo)
+            val organizingPreferences = translationPreferences.organizingPreferences.copy(
+                sourceLanguageFilteringInfo = filteringInfo
+            )
+            translationPreferences.copy(organizingPreferences = organizingPreferences)
         }
     }
 
-    fun getSourceLanguageFilteringInfo(): Flow<SourceLanguageFilteringInfo> {
+    suspend fun updateTargetLanguageFilteringInfo(filteringInfo: TargetLanguageFilteringInfo) {
+        preferences.updateData { translationPreferences ->
+            val organizingPreferences = translationPreferences.organizingPreferences.copy(
+                targetLanguageFilteringInfo = filteringInfo
+            )
+            translationPreferences.copy(organizingPreferences = organizingPreferences)
+        }
+    }
+
+    fun getTranslationOrganizingPreferences(): Flow<TranslationOrganizingPreferences> {
         return preferences.data.map { translationPreferences ->
-            translationPreferences.sourceLanguageFilteringInfo
+            translationPreferences.organizingPreferences
         }
     }
 
     suspend fun updateIsTranslationSendingEnabled(isSendingEnabled: Boolean) {
-        preferences.updateData { preferencesData ->
-            val translationSendingPreferences = preferencesData.translationSendingPreferences.copy(
+        preferences.updateData { translationPreferences ->
+            val translationSendingPreferences = translationPreferences.translationSendingPreferences.copy(
                 isSendingEnabled = isSendingEnabled
             )
-            preferencesData.copy(translationSendingPreferences = translationSendingPreferences)
+            translationPreferences.copy(translationSendingPreferences = translationSendingPreferences)
         }
     }
 
     suspend fun updateTranslationSendingInterval(interval: TranslationSendingInterval) {
-        preferences.updateData { preferencesData ->
-            val translationSendingPreferences = preferencesData.translationSendingPreferences.copy(
+        preferences.updateData { translationPreferences ->
+            val translationSendingPreferences = translationPreferences.translationSendingPreferences.copy(
                 sendingInterval = interval
             )
-            preferencesData.copy(translationSendingPreferences = translationSendingPreferences)
+            translationPreferences.copy(translationSendingPreferences = translationSendingPreferences)
         }
     }
 

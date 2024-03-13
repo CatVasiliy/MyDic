@@ -1,11 +1,23 @@
 package com.catvasiliy.mydic.presentation.model
 
 import com.catvasiliy.mydic.domain.model.preferences.LanguagePreferences
-import com.catvasiliy.mydic.domain.model.preferences.translation_sorting.SourceLanguageFilteringInfo
+import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.TranslationOrganizingPreferences
+import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.filtering.SourceLanguageFilteringInfo
+import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.filtering.TargetLanguageFilteringInfo
 import com.catvasiliy.mydic.presentation.model.preferences.UiLanguagePreferences
-import com.catvasiliy.mydic.presentation.model.preferences.UiSourceLanguageFilteringInfo
+import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiSourceLanguageFilteringInfo
+import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiTargetLanguageFilteringInfo
+import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiTranslationOrganizingPreferences
 
-fun SourceLanguageFilteringInfo.toUiSourceLanguageFilteringInfo(): UiSourceLanguageFilteringInfo {
+fun TranslationOrganizingPreferences.toUiTranslationOrganizingPreferences(): UiTranslationOrganizingPreferences {
+    return UiTranslationOrganizingPreferences(
+        sortingInfo = sortingInfo,
+        sourceLanguageFilteringInfo = sourceLanguageFilteringInfo.toUiSourceLanguageFilteringInfo(),
+        targetLanguageFilteringInfo = targetLanguageFilteringInfo.toUiTargetLanguageFilteringInfo()
+    )
+}
+
+private fun SourceLanguageFilteringInfo.toUiSourceLanguageFilteringInfo(): UiSourceLanguageFilteringInfo {
     return when (this) {
         is SourceLanguageFilteringInfo.LanguageAny ->
             UiSourceLanguageFilteringInfo.LanguageAny
@@ -24,6 +36,24 @@ fun UiSourceLanguageFilteringInfo.toSourceLanguageFilteringInfo(): SourceLanguag
             SourceLanguageFilteringInfo.LanguageUnknown
         is UiSourceLanguageFilteringInfo.LanguageKnown ->
             SourceLanguageFilteringInfo.LanguageKnown(language.toLanguageNotNull())
+    }
+}
+
+private fun TargetLanguageFilteringInfo.toUiTargetLanguageFilteringInfo(): UiTargetLanguageFilteringInfo {
+    return when (this) {
+        is TargetLanguageFilteringInfo.LanguageAny ->
+            UiTargetLanguageFilteringInfo.LanguageAny
+        is TargetLanguageFilteringInfo.LanguageKnown ->
+            UiTargetLanguageFilteringInfo.LanguageKnown(language.toUiLanguageNotNull())
+    }
+}
+
+fun UiTargetLanguageFilteringInfo.toTargetLanguageFilteringInfo(): TargetLanguageFilteringInfo {
+    return when (this) {
+        is UiTargetLanguageFilteringInfo.LanguageAny ->
+            TargetLanguageFilteringInfo.LanguageAny
+        is UiTargetLanguageFilteringInfo.LanguageKnown ->
+            TargetLanguageFilteringInfo.LanguageKnown(language.toLanguageNotNull())
     }
 }
 

@@ -2,25 +2,28 @@ package com.catvasiliy.mydic.presentation.translations_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.catvasiliy.mydic.domain.model.preferences.translation_sorting.TranslationSortingInfo
+import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting.TranslationSortingInfo
 import com.catvasiliy.mydic.domain.model.translation.Translation
-import com.catvasiliy.mydic.domain.use_case.preferences.translation_sorting.GetSourceLanguageFilteringInfoUseCase
-import com.catvasiliy.mydic.domain.use_case.preferences.translation_sorting.GetTranslationSortingInfoUseCase
-import com.catvasiliy.mydic.domain.use_case.preferences.translation_sorting.UpdateSourceLanguageFilteringInfoUseCase
-import com.catvasiliy.mydic.domain.use_case.preferences.translation_sorting.UpdateTranslationSortingInfoUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.GetTranslationOrganizingPreferencesUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.UpdateSourceLanguageFilteringInfoUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.UpdateTargetLanguageFilteringInfoUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.UpdateTranslationSortingInfoUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.DeleteTranslationUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.GetTranslationsListUseCase
 import com.catvasiliy.mydic.domain.use_case.translate.InsertTranslationUseCase
-import com.catvasiliy.mydic.presentation.model.preferences.UiSourceLanguageFilteringInfo
+import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiSourceLanguageFilteringInfo
+import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiTargetLanguageFilteringInfo
 import com.catvasiliy.mydic.presentation.model.toSourceLanguageFilteringInfo
+import com.catvasiliy.mydic.presentation.model.toTargetLanguageFilteringInfo
 import com.catvasiliy.mydic.presentation.model.toTranslation
-import com.catvasiliy.mydic.presentation.model.toUiSourceLanguageFilteringInfo
 import com.catvasiliy.mydic.presentation.model.toUiTranslation
 import com.catvasiliy.mydic.presentation.model.toUiTranslationListItem
+import com.catvasiliy.mydic.presentation.model.toUiTranslationOrganizingPreferences
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslation
-import com.catvasiliy.mydic.presentation.util.filterBySourceLanguage
-import com.catvasiliy.mydic.presentation.util.filterBySourceTextContains
-import com.catvasiliy.mydic.presentation.util.sortedCustom
+import com.catvasiliy.mydic.presentation.translations_list.translation_organizing.filterBySourceLanguage
+import com.catvasiliy.mydic.presentation.translations_list.translation_organizing.filterBySourceTextContains
+import com.catvasiliy.mydic.presentation.translations_list.translation_organizing.filterByTargetLanguage
+import com.catvasiliy.mydic.presentation.translations_list.translation_organizing.sortedCustom
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -41,21 +44,20 @@ class TranslationsListViewModel @Inject constructor(
     getTranslationsListUseCase: GetTranslationsListUseCase,
     private val insertTranslationUseCase: InsertTranslationUseCase,
     private val deleteTranslationUseCase: DeleteTranslationUseCase,
-    getTranslationSortingInfoUseCase: GetTranslationSortingInfoUseCase,
+    getTranslationOrganizingPreferencesUseCase: GetTranslationOrganizingPreferencesUseCase,
     private val updateTranslationSortingInfoUseCase: UpdateTranslationSortingInfoUseCase,
-    getSourceLanguageFilteringInfoUseCase: GetSourceLanguageFilteringInfoUseCase,
-    private val updateSourceLanguageFilteringInfoUseCase: UpdateSourceLanguageFilteringInfoUseCase
+    private val updateSourceLanguageFilteringInfoUseCase: UpdateSourceLanguageFilteringInfoUseCase,
+    private val updateTargetLanguageFilteringInfoUseCase: UpdateTargetLanguageFilteringInfoUseCase
 ) : ViewModel() {
 
     private val _translationsList = getTranslationsListUseCase().map { domainTranslations ->
         domainTranslations.map(Translation::toUiTranslationListItem)
     }
 
-    private val _sortingInfo = getTranslationSortingInfoUseCase()
-
-    private val _filterInfo = getSourceLanguageFilteringInfoUseCase().map { domainFilteringInfo ->
-        domainFilteringInfo.toUiSourceLanguageFilteringInfo()
-    }
+    private val _translationOrganizingPreferences = getTranslationOrganizingPreferencesUseCase()
+        .map { domainOrganizingPreferences ->
+            domainOrganizingPreferences.toUiTranslationOrganizingPreferences()
+        }
 
     private val _searchQuery = MutableStateFlow("")
 
@@ -63,21 +65,20 @@ class TranslationsListViewModel @Inject constructor(
 
     val state: StateFlow<TranslationsListState> = combine(
         _translationsList,
-        _sortingInfo,
-        _filterInfo,
+        _translationOrganizingPreferences,
         _searchQuery,
         _lastDeletedTranslation
-    ) { translationsList, sortingInfo, filterInfo, searchQuery, lastDeletedTranslation ->
+    ) { translationsList, organizingPreferences, searchQuery, lastDeletedTranslation ->
 
         val resultTranslationsList = translationsList
             .filterBySourceTextContains(searchQuery)
-            .filterBySourceLanguage(filterInfo)
-            .sortedCustom(sortingInfo)
+            .filterBySourceLanguage(organizingPreferences.sourceLanguageFilteringInfo)
+            .filterByTargetLanguage(organizingPreferences.targetLanguageFilteringInfo)
+            .sortedCustom(organizingPreferences.sortingInfo)
 
         TranslationsListState(
             translations = resultTranslationsList,
-            sortingInfo = sortingInfo,
-            filterInfo = filterInfo,
+            organizingPreferences = organizingPreferences,
             searchQuery = searchQuery,
             lastDeletedTranslation = lastDeletedTranslation
         )
@@ -117,9 +118,15 @@ class TranslationsListViewModel @Inject constructor(
         }
     }
 
-    fun filterTranslations(filteringInfo: UiSourceLanguageFilteringInfo) {
+    fun filterTranslationsBySourceLanguage(filteringInfo: UiSourceLanguageFilteringInfo) {
         viewModelScope.launch {
             updateSourceLanguageFilteringInfoUseCase(filteringInfo.toSourceLanguageFilteringInfo())
+        }
+    }
+
+    fun filterTranslationsByTargetLanguage(filteringInfo: UiTargetLanguageFilteringInfo) {
+        viewModelScope.launch {
+            updateTargetLanguageFilteringInfoUseCase(filteringInfo.toTargetLanguageFilteringInfo())
         }
     }
 

@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.domain.model.preferences.translation_sorting
+package com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting
 
 import kotlinx.serialization.Serializable
 

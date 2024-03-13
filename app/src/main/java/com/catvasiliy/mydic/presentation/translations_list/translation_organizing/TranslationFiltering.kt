@@ -1,6 +1,7 @@
-package com.catvasiliy.mydic.presentation.util
+package com.catvasiliy.mydic.presentation.translations_list.translation_organizing
 
-import com.catvasiliy.mydic.presentation.model.preferences.UiSourceLanguageFilteringInfo
+import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiSourceLanguageFilteringInfo
+import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiTargetLanguageFilteringInfo
 import com.catvasiliy.mydic.presentation.model.translation.UiExtendedLanguage
 import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
@@ -18,16 +19,10 @@ fun List<UiTranslationListItem>.filterBySourceTextContains(
 fun List<UiTranslationListItem>.filterBySourceLanguage(
     filteringInfo: UiSourceLanguageFilteringInfo
 ): List<UiTranslationListItem> {
-    return filteringInfo.run {
-        when (filteringInfo) {
-            is UiSourceLanguageFilteringInfo.LanguageAny ->
-                this@filterBySourceLanguage
-            is UiSourceLanguageFilteringInfo.LanguageUnknown ->
-                this@filterBySourceLanguage.filterByUnknownSourceLanguage()
-
-            is UiSourceLanguageFilteringInfo.LanguageKnown ->
-                this@filterBySourceLanguage.filterByKnownSourceLanguage(filteringInfo.language)
-        }
+    return when (filteringInfo) {
+        is UiSourceLanguageFilteringInfo.LanguageAny -> this
+        is UiSourceLanguageFilteringInfo.LanguageUnknown -> this.filterByUnknownSourceLanguage()
+        is UiSourceLanguageFilteringInfo.LanguageKnown -> this.filterByKnownSourceLanguage(filteringInfo.language)
     }
 }
 
@@ -48,3 +43,13 @@ private fun List<UiTranslationListItem>.filterByUnknownSourceLanguage(): List<Ui
         translation.sourceLanguage !is UiExtendedLanguage.Known
     }
 }
+
+fun List<UiTranslationListItem>.filterByTargetLanguage(
+    filteringInfo: UiTargetLanguageFilteringInfo
+): List<UiTranslationListItem> {
+    return when(filteringInfo) {
+        is UiTargetLanguageFilteringInfo.LanguageAny -> this
+        is UiTargetLanguageFilteringInfo.LanguageKnown -> this.filter { it.targetLanguage == filteringInfo.language }
+    }
+}
+

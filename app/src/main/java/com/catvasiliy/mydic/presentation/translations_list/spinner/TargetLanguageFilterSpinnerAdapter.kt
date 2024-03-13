@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.catvasiliy.mydic.R
-import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiSourceLanguageFilteringInfo
+import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiTargetLanguageFilteringInfo
 import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
 
-class SourceLanguageFilterSpinnerAdapter(private val context: Context) : BaseAdapter() {
+class TargetLanguageFilterSpinnerAdapter(private val context: Context) : BaseAdapter() {
 
     private val items = buildList {
-        add(SourceLanguageFilterSpinnerItem.LanguageAny)
-        add(SourceLanguageFilterSpinnerItem.LanguageUnknown)
+        add(TargetLanguageFilterSpinnerItem.LanguageAny)
         addAll(createLanguageKnownItemList())
     }
 
@@ -38,24 +37,22 @@ class SourceLanguageFilterSpinnerAdapter(private val context: Context) : BaseAda
         return view
     }
 
-    fun getPosition(filteringInfo: UiSourceLanguageFilteringInfo): Int {
-        val spinnerItem = when (filteringInfo) {
-            is UiSourceLanguageFilteringInfo.LanguageAny ->
-                SourceLanguageFilterSpinnerItem.LanguageAny
-            is UiSourceLanguageFilteringInfo.LanguageUnknown ->
-                SourceLanguageFilterSpinnerItem.LanguageUnknown
-            is UiSourceLanguageFilteringInfo.LanguageKnown ->
-                SourceLanguageFilterSpinnerItem.LanguageKnown(filteringInfo.language)
+    fun getPosition(filteringInfo: UiTargetLanguageFilteringInfo): Int {
+        val spinnerItem = when(filteringInfo) {
+            is UiTargetLanguageFilteringInfo.LanguageAny ->
+                TargetLanguageFilterSpinnerItem.LanguageAny
+            is UiTargetLanguageFilteringInfo.LanguageKnown ->
+                TargetLanguageFilterSpinnerItem.LanguageKnown(filteringInfo.language)
         }
 
-        return items.indexOfFirst { filteringSpinnerItem ->
-            filteringSpinnerItem == spinnerItem
+        return items.indexOfFirst { filterSpinnerItem ->
+            filterSpinnerItem == spinnerItem
         }
     }
 
-    private fun createLanguageKnownItemList(): List<SourceLanguageFilterSpinnerItem.LanguageKnown> {
+    private fun createLanguageKnownItemList(): List<TargetLanguageFilterSpinnerItem> {
         return UiLanguage.entries.map { entry ->
-            SourceLanguageFilterSpinnerItem.LanguageKnown(entry)
+            TargetLanguageFilterSpinnerItem.LanguageKnown(entry)
         }
     }
 }

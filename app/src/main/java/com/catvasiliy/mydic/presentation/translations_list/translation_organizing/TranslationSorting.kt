@@ -1,7 +1,7 @@
-package com.catvasiliy.mydic.presentation.util
+package com.catvasiliy.mydic.presentation.translations_list.translation_organizing
 
-import com.catvasiliy.mydic.domain.model.preferences.translation_sorting.SortingOrder
-import com.catvasiliy.mydic.domain.model.preferences.translation_sorting.TranslationSortingInfo
+import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting.SortingOrder
+import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting.TranslationSortingInfo
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
 
 fun List<UiTranslationListItem>.sortedCustom(
