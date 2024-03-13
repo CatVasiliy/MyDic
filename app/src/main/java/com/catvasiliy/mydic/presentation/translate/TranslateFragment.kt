@@ -33,24 +33,26 @@ class TranslateFragment : Fragment() {
     private val viewModel: TranslateViewModel by viewModels()
 
     private val slDefaultItemSelectedListener = object : OnItemSelectedListener {
+
         override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            if (binding.spSourceLanguage.tag == position) return
+
             val newSourceLanguageItem = parent.getItemAtPosition(position) as SourceLanguageSpinnerItem
             val newSourceLanguage = newSourceLanguageItem.language
-            if (binding.spSourceLanguage.tag != position) {
-                viewModel.updateDefaultSourceLanguage(newSourceLanguage)
-            }
+            viewModel.updateDefaultSourceLanguage(newSourceLanguage)
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) { }
     }
 
     private val tlDefaultItemSelectedListener = object : OnItemSelectedListener {
+
         override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            if (binding.spTargetLanguage.tag == position) return
+
             val newTargetLanguageItem = parent.getItemAtPosition(position) as TargetLanguageSpinnerItem
             val newTargetLanguage = newTargetLanguageItem.language
-            if (binding.spTargetLanguage.tag != position) {
-                viewModel.updateDefaultTargetLanguage(newTargetLanguage)
-            }
+            viewModel.updateDefaultTargetLanguage(newTargetLanguage)
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) { }

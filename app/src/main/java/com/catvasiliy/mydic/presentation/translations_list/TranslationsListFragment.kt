@@ -222,6 +222,8 @@ class TranslationsListFragment : Fragment() {
         }
 
         bottomSheetSortBinding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            if (bottomSheetSortBinding.radioGroup.tag == checkedId) return@setOnCheckedChangeListener
+
             val sortingOrder = viewModel.state.value.organizingPreferences.sortingInfo.sortingOrder
             val newSortingInfo = when (checkedId) {
                 R.id.rbDate -> TranslationSortingInfo.Date(sortingOrder)
@@ -230,9 +232,7 @@ class TranslationsListFragment : Fragment() {
                 else -> return@setOnCheckedChangeListener
             }
 
-            if (bottomSheetSortBinding.radioGroup.tag != checkedId) {
-                viewModel.sortTranslations(newSortingInfo)
-            }
+            viewModel.sortTranslations(newSortingInfo)
             changeSortByChipText()
         }
 
