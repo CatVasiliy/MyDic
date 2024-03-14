@@ -91,13 +91,11 @@ class TranslationsListViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<TranslationsListUiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    private var currentJob: Job? = null
     private var searchJob: Job? = null
 
     private val searchDelayMillis: Long = 300
 
     override fun onCleared() {
-        currentJob = null
         searchJob = null
         super.onCleared()
     }
@@ -131,8 +129,7 @@ class TranslationsListViewModel @Inject constructor(
     }
 
     fun removeTranslation(id: Long, isMissingTranslation: Boolean) {
-        currentJob?.cancel()
-        currentJob = viewModelScope.launch {
+        viewModelScope.launch {
             _lastDeletedTranslation.update {
                 deleteTranslationUseCase(id, isMissingTranslation).toUiTranslation()
             }
@@ -141,8 +138,7 @@ class TranslationsListViewModel @Inject constructor(
     }
 
     fun undoRemoveTranslation() {
-        currentJob?.cancel()
-        currentJob = viewModelScope.launch {
+        viewModelScope.launch {
             _lastDeletedTranslation.value?.let { insertTranslationUseCase(it.toTranslation()) }
             _lastDeletedTranslation.update { null }
         }
