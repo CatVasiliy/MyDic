@@ -9,6 +9,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.findNavController
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.ActivityMainBinding
+import com.catvasiliy.mydic.presentation.translate.KEY_EXTERNAL_SOURCE_TEXT
 import com.catvasiliy.mydic.presentation.util.ACTION_OPEN_TRANSLATION
 import com.catvasiliy.mydic.presentation.util.EXTRA_TRANSLATION_ID
 import com.catvasiliy.mydic.presentation.util.pronounce.Pronouncer
@@ -93,7 +94,7 @@ class MainActivity : AppCompatActivity(), Pronouncer {
         } else if (intent.type == "text/plain") {
             intent.getStringExtra(Intent.EXTRA_TEXT)?.let { text ->
                 val args = Bundle().apply {
-                    putString("sourceText", text.trim().trim('"'))
+                    putString(KEY_EXTERNAL_SOURCE_TEXT, text.trim().trim('"'))
                 }
                 binding.navHostFragment.findNavController().navigate(R.id.fragmentTranslate, args)
                 intent.removeExtra(Intent.EXTRA_TEXT)

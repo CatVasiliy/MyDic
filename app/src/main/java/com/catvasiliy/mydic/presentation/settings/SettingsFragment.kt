@@ -41,10 +41,9 @@ class SettingsFragment : Fragment() {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
     }
-
     private val spinnerItemSelectedListener = object : OnItemSelectedListener {
 
-        override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
             val item = parent.getItemAtPosition(position) as TranslationSendingInterval
             val currentItem = viewModel.state.value.sendingPreferences.sendingInterval
             if (item != currentItem) {

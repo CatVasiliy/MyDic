@@ -11,9 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslateBinding
+import com.catvasiliy.mydic.presentation.model.preferences.UiLanguagePreferences
 import com.catvasiliy.mydic.presentation.translate.spinners.SourceLanguageSpinnerAdapter
 import com.catvasiliy.mydic.presentation.translate.spinners.SourceLanguageSpinnerItem
 import com.catvasiliy.mydic.presentation.translate.spinners.TargetLanguageSpinnerAdapter
@@ -24,6 +26,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+const val KEY_EXTERNAL_SOURCE_TEXT = "EXTERNAL_SOURCE_TEXT"
+
 @AndroidEntryPoint
 class TranslateFragment : Fragment() {
 
@@ -32,9 +36,10 @@ class TranslateFragment : Fragment() {
 
     private val viewModel: TranslateViewModel by viewModels()
 
-    private val slDefaultItemSelectedListener = object : OnItemSelectedListener {
+    private val sourceLanguageAdapter by lazy { SourceLanguageSpinnerAdapter(requireContext()) }
+    private val slItemSelectedListener = object : OnItemSelectedListener {
 
-        override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
             if (binding.spSourceLanguage.tag == position) return
 
             val newSourceLanguageItem = parent.getItemAtPosition(position) as SourceLanguageSpinnerItem
@@ -45,9 +50,11 @@ class TranslateFragment : Fragment() {
         override fun onNothingSelected(parent: AdapterView<*>?) { }
     }
 
-    private val tlDefaultItemSelectedListener = object : OnItemSelectedListener {
 
-        override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+    private val targetLanguageAdapter by lazy { TargetLanguageSpinnerAdapter(requireContext()) }
+    private val tlItemSelectedListener = object : OnItemSelectedListener {
+
+        override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
             if (binding.spTargetLanguage.tag == position) return
 
             val newTargetLanguageItem = parent.getItemAtPosition(position) as TargetLanguageSpinnerItem
@@ -70,62 +77,13 @@ class TranslateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tbTranslation.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        arguments?.getString("sourceText")?.let { sourceText ->
-            binding.etSource.setText(sourceText)
-        }
-        arguments?.remove("sourceText")
-
-        val slSpinnerAdapter = SourceLanguageSpinnerAdapter(requireContext())
-        binding.spSourceLanguage.apply {
-            adapter = slSpinnerAdapter
-            onItemSelectedListener = slDefaultItemSelectedListener
-        }
-
-        val tlSpinnerAdapter = TargetLanguageSpinnerAdapter(requireContext())
-        binding.spTargetLanguage.apply {
-            adapter = tlSpinnerAdapter
-            onItemSelectedListener = tlDefaultItemSelectedListener
-        }
-
-        binding.btnTranslate.setOnClickListener {
-            val sourceText = binding.etSource.text.toString()
-            if (sourceText.isBlank()) {
-                Snackbar.make(
-                    binding.root,
-                    R.string.empty_source_snackbar,
-                    Snackbar.LENGTH_LONG
-                ).show()
-                return@setOnClickListener
-            }
-
-            val slSelectedItem = binding.spSourceLanguage.selectedItem as SourceLanguageSpinnerItem
-            val tlSelectedItem = binding.spTargetLanguage.selectedItem as TargetLanguageSpinnerItem
-
-            val sourceLanguage = slSelectedItem.language
-            val targetLanguage = tlSelectedItem.language
-
-            val action = TranslateFragmentDirections.openTranslationDetailsFromTranslate(
-                sourceText = binding.etSource.text.toString(),
-                sourceLanguageOrdinal = sourceLanguage?.ordinal ?: -1,
-                targetLanguage = targetLanguage
-            )
-            findNavController().navigate(action)
-        }
+        setupView()
+        handleNavArgs()
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-                    val slSelection = state.languagePreferences.defaultSourceLanguage
-                    val slPosition = slSpinnerAdapter.getPosition(slSelection)
-                    binding.spSourceLanguage.setSelectionWithTag(slPosition)
-
-                    val tlSelection = state.languagePreferences.defaultTargetLanguage
-                    val tlPosition = tlSpinnerAdapter.getPosition(tlSelection)
-                    binding.spTargetLanguage.setSelectionWithTag(tlPosition)
+                    updateLanguagesView(state.languagePreferences)
                 }
             }
         }
@@ -134,5 +92,72 @@ class TranslateFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setupView() {
+        binding.tbTranslation.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding.spSourceLanguage.apply {
+            adapter = sourceLanguageAdapter
+            onItemSelectedListener = slItemSelectedListener
+        }
+
+        binding.spTargetLanguage.apply {
+            adapter = targetLanguageAdapter
+            onItemSelectedListener = tlItemSelectedListener
+        }
+
+        binding.btnTranslate.setOnClickListener {
+            getOpenTranslationDetailsAction()?.let { action ->
+                findNavController().navigate(action)
+            }
+        }
+    }
+
+    private fun getOpenTranslationDetailsAction(): NavDirections? {
+        val sourceText = binding.etSource.text.toString()
+        if (sourceText.isBlank()) {
+            showEmptySourceTextSnackbar()
+            return null
+        }
+
+        val slSelectedItem = binding.spSourceLanguage.selectedItem as SourceLanguageSpinnerItem
+        val tlSelectedItem = binding.spTargetLanguage.selectedItem as TargetLanguageSpinnerItem
+
+        val sourceLanguage = slSelectedItem.language
+        val targetLanguage = tlSelectedItem.language
+
+        return TranslateFragmentDirections.openTranslationDetailsFromTranslate(
+            sourceText = binding.etSource.text.toString(),
+            sourceLanguageOrdinal = sourceLanguage?.ordinal ?: -1,
+            targetLanguage = targetLanguage
+        )
+    }
+
+    private fun showEmptySourceTextSnackbar() {
+        Snackbar.make(
+            binding.root,
+            R.string.empty_source_snackbar,
+            Snackbar.LENGTH_LONG
+        ).show()
+    }
+
+    private fun handleNavArgs() {
+        arguments?.getString(KEY_EXTERNAL_SOURCE_TEXT)?.let { sourceText ->
+            binding.etSource.setText(sourceText)
+        }
+        arguments?.remove(KEY_EXTERNAL_SOURCE_TEXT)
+    }
+
+    private fun updateLanguagesView(languagePreferences: UiLanguagePreferences) {
+        val slSelection = languagePreferences.defaultSourceLanguage
+        val slPosition = sourceLanguageAdapter.getPosition(slSelection)
+        binding.spSourceLanguage.setSelectionWithTag(slPosition)
+
+        val tlSelection = languagePreferences.defaultTargetLanguage
+        val tlPosition = targetLanguageAdapter.getPosition(tlSelection)
+        binding.spTargetLanguage.setSelectionWithTag(tlPosition)
     }
 }

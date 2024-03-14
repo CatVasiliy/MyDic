@@ -52,7 +52,7 @@ class TranslationsListFragment : Fragment() {
 
     private val slItemSelectedListener = object : OnItemSelectedListener {
 
-        override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
             if (bottomSheetSortBinding.spSourceLanguage.tag == position) return
 
             val spinnerItem = parent.getItemAtPosition(position) as SourceLanguageFilterSpinnerItem
@@ -65,7 +65,7 @@ class TranslationsListFragment : Fragment() {
 
     private val tlItemSelectedListener = object : OnItemSelectedListener {
 
-        override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
             if (bottomSheetSortBinding.spTargetLanguage.tag == position) return
 
             val spinnerItem = parent.getItemAtPosition(position) as TargetLanguageFilterSpinnerItem
