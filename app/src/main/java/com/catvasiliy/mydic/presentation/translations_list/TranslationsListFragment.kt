@@ -18,11 +18,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.catvasiliy.mydic.R
-import com.catvasiliy.mydic.databinding.BottomSheetSortBinding
+import com.catvasiliy.mydic.databinding.BottomSheetOrganizeBinding
 import com.catvasiliy.mydic.databinding.FragmentTranslationsListBinding
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting.SortingOrder
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting.TranslationSortingInfo
 import com.catvasiliy.mydic.presentation.MainActivity
+import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiTranslationOrganizingPreferences
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
 import com.catvasiliy.mydic.presentation.translations_list.spinner.SourceLanguageFilterSpinnerAdapter
 import com.catvasiliy.mydic.presentation.translations_list.spinner.SourceLanguageFilterSpinnerItem
@@ -45,15 +46,22 @@ class TranslationsListFragment : Fragment() {
 
     private val viewModel: TranslationsListViewModel by viewModels()
 
-    private var _bottomSheetSortBinding: BottomSheetSortBinding? = null
-    private val bottomSheetSortBinding get() = _bottomSheetSortBinding!!
+    private var _bottomSheetOrganizeBinding: BottomSheetOrganizeBinding? = null
+    private val bottomSheetOrganizeBinding get() = _bottomSheetOrganizeBinding!!
 
     private val translationsListAdapter = TranslationsListAdapter()
 
+    private val bottomSheetOrganize by lazy {
+        BottomSheetDialog(requireContext()).apply {
+            setContentView(bottomSheetOrganizeBinding.root)
+        }
+    }
+
+    private val slFilterAdapter by lazy { SourceLanguageFilterSpinnerAdapter(requireContext()) }
     private val slItemSelectedListener = object : OnItemSelectedListener {
 
         override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-            if (bottomSheetSortBinding.spSourceLanguage.tag == position) return
+            if (bottomSheetOrganizeBinding.spSourceLanguage.tag == position) return
 
             val spinnerItem = parent.getItemAtPosition(position) as SourceLanguageFilterSpinnerItem
             val newSourceLanguageFilteringInfo = spinnerItem.filteringInfo
@@ -63,10 +71,11 @@ class TranslationsListFragment : Fragment() {
         override fun onNothingSelected(parent: AdapterView<*>?) { }
     }
 
+    private val tlFilterAdapter by lazy { TargetLanguageFilterSpinnerAdapter(requireContext()) }
     private val tlItemSelectedListener = object : OnItemSelectedListener {
 
         override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-            if (bottomSheetSortBinding.spTargetLanguage.tag == position) return
+            if (bottomSheetOrganizeBinding.spTargetLanguage.tag == position) return
 
             val spinnerItem = parent.getItemAtPosition(position) as TargetLanguageFilterSpinnerItem
             val newTargetLanguageFilteringInfo = spinnerItem.filteringInfo
@@ -76,72 +85,42 @@ class TranslationsListFragment : Fragment() {
         override fun onNothingSelected(parent: AdapterView<*>?) { }
     }
 
+    private val swipeToDeleteCallback by lazy {
+        object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                if (direction != ItemTouchHelper.LEFT) {
+                    return
+                }
+                val itemPosition = viewHolder.adapterPosition
+                val translationsList = viewModel.state.value.translations
+
+                val id = translationsList[itemPosition].id
+                val isMissingTranslation = translationsList[itemPosition].isMissingTranslation
+                viewModel.removeTranslation(id, isMissingTranslation)
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTranslationsListBinding.inflate(inflater, container, false)
-        _bottomSheetSortBinding = BottomSheetSortBinding.inflate(inflater, container, false)
+        _bottomSheetOrganizeBinding = BottomSheetOrganizeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tbTranslations.setNavigationOnClickListener {
-            (requireActivity() as MainActivity).openNavigationDrawer()
-        }
-
-        val slFilterSpinnerAdapter = SourceLanguageFilterSpinnerAdapter(requireContext())
-        val tlFilterSpinnerAdapter = TargetLanguageFilterSpinnerAdapter(requireContext())
-
-        val bottomSheetSort = setupAndGetBottomSheetSort(
-            slFilterSpinnerAdapter,
-            tlFilterSpinnerAdapter
-        )
-
-        setupChips(bottomSheetSort)
-
-        val swipeHelper = ItemTouchHelper(
-            object : SwipeToDeleteCallback(requireContext()) {
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    if (direction != ItemTouchHelper.LEFT) {
-                        return
-                    }
-                    val itemPosition = viewHolder.adapterPosition
-                    val translationsList = viewModel.state.value.translations
-
-                    val id = translationsList[itemPosition].id
-                    val isMissingTranslation = translationsList[itemPosition].isMissingTranslation
-                    viewModel.removeTranslation(id, isMissingTranslation)
-                }
-            }
-        )
-
-        binding.rvTranslations.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = translationsListAdapter
-            swipeHelper.attachToRecyclerView(this)
-        }
+        setupView()
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-
-                    val organizingPreferences = state.organizingPreferences
-                    updateSorting(organizingPreferences.sortingInfo)
-
-                    val slFilteringPosition = slFilterSpinnerAdapter.getPosition(
-                        organizingPreferences.sourceLanguageFilteringInfo
-                    )
-
-                    val tlFilteringPosition = tlFilterSpinnerAdapter.getPosition(
-                        organizingPreferences.targetLanguageFilteringInfo
-                    )
-                    bottomSheetSortBinding.spSourceLanguage.setSelectionWithTag(slFilteringPosition)
-                    bottomSheetSortBinding.spTargetLanguage.setSelectionWithTag(tlFilteringPosition)
-                    showTranslations(state.translations)
+                    updateOrganizingPreferences(state.organizingPreferences)
+                    updateTranslations(state.translations)
                 }
             }
         }
@@ -149,20 +128,43 @@ class TranslationsListFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.eventFlow.collectLatest { event ->
-                    when (event) {
-                        is TranslationsListUiEvent.ShowUndoDeleteSnackbar -> {
-                            Snackbar.make(
-                                binding.root,
-                                R.string.delete_translation_snackbar,
-                                Snackbar.LENGTH_LONG
-                            ).setAction(R.string.undo) {
-                                viewModel.undoRemoveTranslation()
-                            }.show()
-                        }
-                    }
+                    onEvent(event)
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        _bottomSheetOrganizeBinding = null
+        _binding = null
+    }
+
+    private fun setupView() {
+        binding.tbTranslations.setNavigationOnClickListener {
+            (requireActivity() as MainActivity).openNavigationDrawer()
+        }
+
+        setupSearch()
+        setupBottomSheetOrganize()
+        setupChips()
+
+        val swipeHelper = ItemTouchHelper(swipeToDeleteCallback)
+
+        binding.rvTranslations.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = translationsListAdapter
+            swipeHelper.attachToRecyclerView(this)
+        }
+
+        binding.fabTranslate.setOnClickListener {
+            val action = TranslationsListFragmentDirections.openTranslate()
+            findNavController().navigate(action)
+        }
+    }
+
+    private fun setupSearch() {
         val searchView = binding.tbTranslations.menu.findItem(R.id.miSearch).actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -174,53 +176,12 @@ class TranslationsListFragment : Fragment() {
                 return true
             }
         })
-
-        binding.fabTranslate.setOnClickListener {
-            val action = TranslationsListFragmentDirections.openTranslate()
-            findNavController().navigate(action)
-        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    private fun setupBottomSheetOrganize() {
 
-        _bottomSheetSortBinding = null
-        _binding = null
-    }
-
-    private fun showTranslations(translationsList: List<UiTranslationListItem>) {
-        if (translationsList.isNotEmpty()) {
-            translationsListAdapter.submitList(translationsList)
-            binding.llNoTranslations.hideAndShowOther(binding.llTranslations)
-        } else {
-            binding.llTranslations.hideAndShowOther(binding.llNoTranslations)
-        }
-    }
-
-    private fun updateSorting(sortingInfo: TranslationSortingInfo) {
-        binding.chipDescending.isChecked = sortingInfo.sortingOrder == SortingOrder.Descending
-
-        @IdRes
-        val idToCheck = when (sortingInfo) {
-            is TranslationSortingInfo.Date -> R.id.rbDate
-            is TranslationSortingInfo.SourceText -> R.id.rbSourceText
-            is TranslationSortingInfo.TranslationText -> R.id.rbTranslationText
-        }
-        bottomSheetSortBinding.radioGroup.checkWithTag(idToCheck)
-
-
-    }
-
-    private fun setupAndGetBottomSheetSort(
-        slFilterSpinnerAdapter: SourceLanguageFilterSpinnerAdapter,
-        tlFilterSpinnerAdapter: TargetLanguageFilterSpinnerAdapter
-    ): BottomSheetDialog {
-        val bottomSheetSort = BottomSheetDialog(requireContext()).apply {
-            setContentView(bottomSheetSortBinding.root)
-        }
-
-        bottomSheetSortBinding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            if (bottomSheetSortBinding.radioGroup.tag == checkedId) return@setOnCheckedChangeListener
+        bottomSheetOrganizeBinding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            if (bottomSheetOrganizeBinding.radioGroup.tag == checkedId) return@setOnCheckedChangeListener
 
             val sortingOrder = viewModel.state.value.organizingPreferences.sortingInfo.sortingOrder
             val newSortingInfo = when (checkedId) {
@@ -234,23 +195,22 @@ class TranslationsListFragment : Fragment() {
             changeSortByChipText()
         }
 
-        bottomSheetSortBinding.spSourceLanguage.apply {
-            adapter = slFilterSpinnerAdapter
+        bottomSheetOrganizeBinding.spSourceLanguage.apply {
+            adapter = slFilterAdapter
             onItemSelectedListener = slItemSelectedListener
         }
 
-        bottomSheetSortBinding.spTargetLanguage.apply {
-            adapter = tlFilterSpinnerAdapter
+        bottomSheetOrganizeBinding.spTargetLanguage.apply {
+            adapter = tlFilterAdapter
             onItemSelectedListener = tlItemSelectedListener
         }
-
-        return bottomSheetSort
     }
 
-    private fun setupChips(bottomSheetSort: BottomSheetDialog) {
+    private fun setupChips() {
         changeSortByChipText()
+
         binding.chipSortBy.setOnClickListener {
-            bottomSheetSort.show()
+            bottomSheetOrganize.show()
         }
 
         binding.chipDescending.setOnCheckedChangeListener { _, isChecked ->
@@ -265,12 +225,65 @@ class TranslationsListFragment : Fragment() {
     }
 
     private fun changeSortByChipText() {
-        val radioButtonText = when (bottomSheetSortBinding.radioGroup.checkedRadioButtonId) {
+        val radioButtonText = when (bottomSheetOrganizeBinding.radioGroup.checkedRadioButtonId) {
             R.id.rbDate -> getString(R.string.date)
             R.id.rbSourceText -> getString(R.string.source_text)
             R.id.rbTranslationText -> getString(R.string.translation_text)
             else -> return
         }
         binding.chipSortBy.text = getString(R.string.sort_by_chip, radioButtonText)
+    }
+
+    private fun updateTranslations(translationsList: List<UiTranslationListItem>) {
+        if (translationsList.isNotEmpty()) {
+            translationsListAdapter.submitList(translationsList)
+            binding.llNoTranslations.hideAndShowOther(binding.llTranslations)
+        } else {
+            binding.llTranslations.hideAndShowOther(binding.llNoTranslations)
+        }
+    }
+
+    private fun updateOrganizingPreferences(
+        organizingPreferences: UiTranslationOrganizingPreferences
+    ) {
+        updateSorting(organizingPreferences.sortingInfo)
+
+        val slFilteringPosition = slFilterAdapter.getPosition(
+            organizingPreferences.sourceLanguageFilteringInfo
+        )
+
+        val tlFilteringPosition = tlFilterAdapter.getPosition(
+            organizingPreferences.targetLanguageFilteringInfo
+        )
+        bottomSheetOrganizeBinding.spSourceLanguage.setSelectionWithTag(slFilteringPosition)
+        bottomSheetOrganizeBinding.spTargetLanguage.setSelectionWithTag(tlFilteringPosition)
+    }
+
+    private fun updateSorting(sortingInfo: TranslationSortingInfo) {
+        binding.chipDescending.isChecked = sortingInfo.sortingOrder == SortingOrder.Descending
+
+        @IdRes
+        val idToCheck = when (sortingInfo) {
+            is TranslationSortingInfo.Date -> R.id.rbDate
+            is TranslationSortingInfo.SourceText -> R.id.rbSourceText
+            is TranslationSortingInfo.TranslationText -> R.id.rbTranslationText
+        }
+        bottomSheetOrganizeBinding.radioGroup.checkWithTag(idToCheck)
+    }
+
+    private fun onEvent(event: TranslationsListUiEvent) {
+        when (event) {
+            is TranslationsListUiEvent.ShowUndoDeleteSnackbar -> showUndoSnackbar()
+        }
+    }
+
+    private fun showUndoSnackbar() {
+        Snackbar.make(
+            binding.root,
+            R.string.delete_translation_snackbar,
+            Snackbar.LENGTH_LONG
+        ).setAction(R.string.undo) {
+            viewModel.undoRemoveTranslation()
+        }.show()
     }
 }
