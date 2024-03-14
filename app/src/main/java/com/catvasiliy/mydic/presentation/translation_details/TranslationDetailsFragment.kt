@@ -48,14 +48,14 @@ class TranslationDetailsFragment : Fragment() {
 
         setupBackAction()
 
-        handleNavigationArguments()
+        handleNavArgs()
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
                     binding.piTranslation.visibleIf { state.isLoading }
                     val translation = state.translation ?: return@collectLatest
-                    createTranslationLayout(translation)
+                    setupTranslationLayout(translation)
                 }
             }
         }
@@ -91,10 +91,17 @@ class TranslationDetailsFragment : Fragment() {
         findNavController().popBackStack(R.id.fragmentTranslationsList, false)
     }
 
-    private fun handleNavigationArguments() {
+    private fun handleNavArgs() {
+        if (handleSourceTextNavArgs()) return
+        if (handleIdNavArgs()) return
+    }
+
+    private fun handleSourceTextNavArgs(): Boolean {
         val sourceText = arguments?.let { args ->
             TranslationDetailsFragmentArgs.fromBundle(args).sourceText
         } ?: ""
+
+        if (sourceText.isBlank()) return false
 
         val sourceLanguageOrdinal = arguments?.let { args ->
             TranslationDetailsFragmentArgs.fromBundle(args).sourceLanguageOrdinal
@@ -106,57 +113,67 @@ class TranslationDetailsFragment : Fragment() {
             TranslationDetailsFragmentArgs.fromBundle(args).targetLanguage
         }
 
-        if (sourceText.isNotBlank()) {
-            viewModel.translate(
-                sourceText = sourceText,
-                sourceLanguage = sourceLanguage,
-                targetLanguage = requireNotNull(targetLanguage)
-            )
-            return
+        arguments?.apply {
+            remove("sourceText")
+            remove("sourceLanguageOrdinal")
+            remove("targetLanguage")
         }
 
+        viewModel.translate(
+            sourceText = sourceText,
+            sourceLanguage = sourceLanguage,
+            targetLanguage = requireNotNull(targetLanguage)
+        )
+        return true
+    }
+
+    private fun handleIdNavArgs(): Boolean {
         val translationId = arguments?.let { args ->
             TranslationDetailsFragmentArgs.fromBundle(args).translationId
-        } ?: arguments?.getLong("translationId", -1L) ?: -1L
+        } ?: -1L
 
-        if (translationId == -1L) {
-            return
-        }
+        if (translationId == -1L) return false
 
         val isMissingTranslation = arguments?.let { args ->
             TranslationDetailsFragmentArgs.fromBundle(args).isMissingTranslation
         } ?: false
 
-        arguments?.remove("translationId")
-        arguments?.remove("isMissingTranslation")
+        arguments?.apply {
+            remove("translationId")
+            remove("isMissingTranslation")
+        }
 
         viewModel.loadTranslation(translationId, isMissingTranslation)
+        return true
     }
 
-    private fun createTranslationLayout(translation: UiTranslation) {
+    private fun setupTranslationLayout(translation: UiTranslation) {
         binding.ivPronounceSource.setOnClickListener {
             val sourceText = translation.sourceText
             val languageCode = translation.sourceLanguageCode ?: UiLanguage.ENGLISH.code
 
             pronounce(sourceText, languageCode)
         }
-        when (translation.translationText) {
-            null -> createMissingTranslationView(translation)
-            else -> createTranslationView(translation)
+        if (translation.isMissingTranslation) {
+            setupMissingTranslationLayout(translation)
+        } else {
+            setupExtendedTranslationLayout(translation)
         }
     }
 
-    private fun createTranslationView(translation: UiTranslation) {
-        if (translation.translationText == null)
-            throw IllegalArgumentException("translationText cannot be null unless it is Missing Translation.")
+    private fun setupExtendedTranslationLayout(translation: UiTranslation) {
+        if (translation.isMissingTranslation)
+            throw IllegalArgumentException("Translation is not an ExtendedTranslation")
+
+        val translationText = translation.translationText!!
 
         binding.llMissingTranslation.hideAndShowOther(binding.clTranslationDetails)
 
         setupTabLayout()
-        binding.tvTranslation.text = translation.translationText
+
+        binding.tvTranslation.text = translationText
 
         binding.ivPronounceTranslation.setOnClickListener {
-            val translationText = translation.translationText
             val languageCode = translation.targetLanguage.code
 
             pronounce(translationText, languageCode)
@@ -164,6 +181,18 @@ class TranslationDetailsFragment : Fragment() {
 
         binding.tvSource.text = translation.sourceText
         binding.tvTransliteration.text = translation.sourceTransliteration ?: "No transliteration"
+    }
+
+    private fun setupMissingTranslationLayout(missingTranslation: UiTranslation) {
+        if (!missingTranslation.isMissingTranslation)
+            throw IllegalArgumentException("Translation is not a MissingTranslation")
+
+        binding.clTranslationDetails.hideAndShowOther(binding.llMissingTranslation)
+
+        binding.tvSource.text = missingTranslation.sourceText
+        binding.btnRefresh.setOnClickListener {
+            viewModel.updateMissingTranslation()
+        }
     }
 
     private fun pronounce(text: String, languageCode: String) {
@@ -189,14 +218,5 @@ class TranslationDetailsFragment : Fragment() {
             }
             tab.text = getString(id)
         }.attach()
-    }
-
-    private fun createMissingTranslationView(missingTranslation: UiTranslation) {
-        binding.clTranslationDetails.hideAndShowOther(binding.llMissingTranslation)
-
-        binding.tvSource.text = missingTranslation.sourceText
-        binding.btnRefresh.setOnClickListener {
-            viewModel.updateMissingTranslation()
-        }
     }
 }
