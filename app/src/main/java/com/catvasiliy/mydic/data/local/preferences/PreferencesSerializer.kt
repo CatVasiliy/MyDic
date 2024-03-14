@@ -2,6 +2,8 @@ package com.catvasiliy.mydic.data.local.preferences
 
 import androidx.datastore.core.Serializer
 import com.catvasiliy.mydic.domain.model.preferences.TranslationPreferences
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream
@@ -23,13 +25,14 @@ object PreferencesSerializer : Serializer<TranslationPreferences> {
         }
     }
 
-    override suspend fun writeTo(t: TranslationPreferences, output: OutputStream) {
-        output.write(
-            Json.encodeToString(
-                serializer = TranslationPreferences.serializer(),
-                value = t
-            ).encodeToByteArray()
-        )
-    }
+    override suspend fun writeTo(t: TranslationPreferences, output: OutputStream) =
+        withContext(Dispatchers.IO) {
+            output.write(
+                Json.encodeToString(
+                    serializer = TranslationPreferences.serializer(),
+                    value = t
+                ).encodeToByteArray()
+            )
+        }
 
 }
