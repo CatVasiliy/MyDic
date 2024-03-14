@@ -134,12 +134,12 @@ class TranslationDetailsFragment : Fragment() {
     }
 
     private fun createTranslationLayout(translation: UiTranslation) {
-//        binding.ivPronounceSource.setOnClickListener {
-//            val sourceText = translation.sourceText
-//            val languageCode = translation.sourceLanguageCode
-//
-//            pronounce(sourceText, languageCode)
-//        }
+        binding.ivPronounceSource.setOnClickListener {
+            val sourceText = translation.sourceText
+            val languageCode = translation.sourceLanguageCode ?: UiLanguage.ENGLISH.code
+
+            pronounce(sourceText, languageCode)
+        }
         when (translation.translationText) {
             null -> createMissingTranslationView(translation)
             else -> createTranslationView(translation)
@@ -164,6 +164,12 @@ class TranslationDetailsFragment : Fragment() {
 
         binding.tvSource.text = translation.sourceText
         binding.tvTransliteration.text = translation.sourceTransliteration ?: "No transliteration"
+    }
+
+    private fun pronounce(text: String, languageCode: String) {
+        val pronouncer = requireActivity() as Pronouncer
+        val locale = Locale(languageCode)
+        pronouncer.pronounce(text, locale)
     }
 
     private fun setupTabLayout() {
@@ -192,11 +198,5 @@ class TranslationDetailsFragment : Fragment() {
         binding.btnRefresh.setOnClickListener {
             viewModel.updateMissingTranslation()
         }
-    }
-
-    private fun pronounce(text: String, languageCode: String) {
-        val pronouncer = requireActivity() as Pronouncer
-        val locale = Locale(languageCode)
-        pronouncer.pronounce(text, locale)
     }
 }

@@ -18,4 +18,11 @@ data class UiTranslation(
 ) {
     val isMissingTranslation: Boolean
         get() = translationText == null
+
+    val sourceLanguageCode: String?
+        get() = when (sourceLanguage) {
+            null -> null
+            is UiExtendedLanguage.Unknown -> sourceLanguage.languageCode
+            is UiExtendedLanguage.Known -> sourceLanguage.language.code
+        }
 }
