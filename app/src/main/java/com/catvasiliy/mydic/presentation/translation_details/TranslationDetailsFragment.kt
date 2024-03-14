@@ -47,7 +47,6 @@ class TranslationDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupBackAction()
-
         handleNavArgs()
 
         lifecycleScope.launch {
@@ -55,7 +54,7 @@ class TranslationDetailsFragment : Fragment() {
                 viewModel.state.collectLatest { state ->
                     binding.piTranslation.visibleIf { state.isLoading }
                     val translation = state.translation ?: return@collectLatest
-                    setupTranslationLayout(translation)
+                    updateView(translation)
                 }
             }
         }
@@ -147,7 +146,7 @@ class TranslationDetailsFragment : Fragment() {
         return true
     }
 
-    private fun setupTranslationLayout(translation: UiTranslation) {
+    private fun updateView(translation: UiTranslation) {
         binding.ivPronounceSource.setOnClickListener {
             val sourceText = translation.sourceText
             val languageCode = translation.sourceLanguageCode ?: UiLanguage.ENGLISH.code
@@ -155,15 +154,15 @@ class TranslationDetailsFragment : Fragment() {
             pronounce(sourceText, languageCode)
         }
         if (translation.isMissingTranslation) {
-            setupMissingTranslationLayout(translation)
+            updateMissingTranslationView(translation)
         } else {
-            setupExtendedTranslationLayout(translation)
+            updateTranslationView(translation)
         }
     }
 
-    private fun setupExtendedTranslationLayout(translation: UiTranslation) {
+    private fun updateTranslationView(translation: UiTranslation) {
         if (translation.isMissingTranslation)
-            throw IllegalArgumentException("Translation is not an ExtendedTranslation")
+            throw IllegalArgumentException("Translation cannot be a MissingTranslation")
 
         val translationText = translation.translationText!!
 
@@ -183,7 +182,7 @@ class TranslationDetailsFragment : Fragment() {
         binding.tvTransliteration.text = translation.sourceTransliteration ?: "No transliteration"
     }
 
-    private fun setupMissingTranslationLayout(missingTranslation: UiTranslation) {
+    private fun updateMissingTranslationView(missingTranslation: UiTranslation) {
         if (!missingTranslation.isMissingTranslation)
             throw IllegalArgumentException("Translation is not a MissingTranslation")
 

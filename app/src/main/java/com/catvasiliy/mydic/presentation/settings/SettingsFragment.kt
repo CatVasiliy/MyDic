@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.catvasiliy.mydic.databinding.FragmentSettingsBinding
 import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingInterval
+import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingPreferences
 import com.catvasiliy.mydic.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -30,6 +31,16 @@ class SettingsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: SettingsViewModel by viewModels()
+
+    private val sendingIntervalAdapter by lazy {
+        ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            TranslationSendingInterval.entries
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+    }
 
     private val spinnerItemSelectedListener = object : OnItemSelectedListener {
 
@@ -51,13 +62,29 @@ class SettingsFragment : Fragment() {
     ): View {
 
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
-        postponeEnterTransition()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupView()
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collectLatest { state ->
+                    updateSendingPreferencesView(state.sendingPreferences)
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun setupView() {
         binding.tbSettings.setNavigationOnClickListener {
             (requireActivity() as MainActivity).openNavigationDrawer()
         }
@@ -70,41 +97,23 @@ class SettingsFragment : Fragment() {
             )
         }
 
-        val spinnerAdapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            TranslationSendingInterval.entries
-        ).apply {
-            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        }
-
         binding.spSendingIntervals.apply {
-            adapter = spinnerAdapter
+            adapter = sendingIntervalAdapter
             onItemSelectedListener = spinnerItemSelectedListener
         }
-
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collectLatest { state ->
-                    val isSendingEnabled = state.sendingPreferences.isSendingEnabled
-                    binding.swSendTranslations.isChecked = isSendingEnabled
-
-                    val selection = state.sendingPreferences.sendingInterval
-                    val position = spinnerAdapter.getPosition(selection)
-                    binding.spSendingIntervals.apply {
-                        // Disable intervals spinner if translation sending enabled
-                        isEnabled = !isSendingEnabled
-                        setSelection(position)
-                    }
-                }
-            }
-        }
-        startPostponedEnterTransition()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun updateSendingPreferencesView(sendingPreferences: TranslationSendingPreferences) {
+        val isSendingEnabled = sendingPreferences.isSendingEnabled
+        binding.swSendTranslations.isChecked = isSendingEnabled
+
+        val selection = sendingPreferences.sendingInterval
+        val position = sendingIntervalAdapter.getPosition(selection)
+        binding.spSendingIntervals.apply {
+            // Disable intervals spinner if translation sending enabled
+            isEnabled = !isSendingEnabled
+            setSelection(position)
+        }
     }
 
     private fun checkAndRequestNotificationPermission() {
