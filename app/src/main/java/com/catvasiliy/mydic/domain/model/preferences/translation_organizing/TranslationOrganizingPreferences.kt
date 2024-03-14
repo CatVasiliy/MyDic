@@ -8,7 +8,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TranslationOrganizingPreferences(
-    val sortingInfo: TranslationSortingInfo = TranslationSortingInfo.Date(SortingOrder.Descending),
-    val sourceLanguageFilteringInfo: SourceLanguageFilteringInfo = SourceLanguageFilteringInfo.LanguageAny,
-    val targetLanguageFilteringInfo: TargetLanguageFilteringInfo = TargetLanguageFilteringInfo.LanguageAny
-)
+    val sortingInfo: TranslationSortingInfo,
+    val sourceLanguageFilteringInfo: SourceLanguageFilteringInfo,
+    val targetLanguageFilteringInfo: TargetLanguageFilteringInfo
+) {
+    companion object {
+        fun getDefault(): TranslationOrganizingPreferences =
+            TranslationOrganizingPreferences(
+                sortingInfo = TranslationSortingInfo.Date(SortingOrder.Descending),
+                sourceLanguageFilteringInfo = SourceLanguageFilteringInfo.LanguageAny,
+                targetLanguageFilteringInfo = TargetLanguageFilteringInfo.LanguageAny
+            )
+    }
+}

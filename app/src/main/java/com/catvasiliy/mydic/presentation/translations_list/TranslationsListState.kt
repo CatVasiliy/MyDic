@@ -6,7 +6,7 @@ import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
 
 data class TranslationsListState(
     val translations: List<UiTranslationListItem> = emptyList(),
-    val organizingPreferences: UiTranslationOrganizingPreferences = UiTranslationOrganizingPreferences(),
+    val organizingPreferences: UiTranslationOrganizingPreferences = UiTranslationOrganizingPreferences.getDefault(),
     val searchQuery: String = "",
     val lastDeletedTranslation: UiTranslation? = null
 )

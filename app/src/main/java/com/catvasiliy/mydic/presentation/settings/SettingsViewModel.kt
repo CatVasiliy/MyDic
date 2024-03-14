@@ -26,7 +26,7 @@ class SettingsViewModel @Inject constructor(
     val state = getTranslationSendingPreferencesUseCase()
         .map { translationSendingPreferences ->
             SettingsState(
-                translationSendingPreferences = translationSendingPreferences
+                sendingPreferences = translationSendingPreferences
             )
         }
         .stateIn(

@@ -4,6 +4,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TranslationSendingPreferences(
-    val isSendingEnabled: Boolean = false,
-    val sendingInterval: TranslationSendingInterval = TranslationSendingInterval.MINUTES_1
-)
+    val isSendingEnabled: Boolean,
+    val sendingInterval: TranslationSendingInterval
+) {
+    companion object {
+        fun getDefault() = TranslationSendingPreferences(
+            isSendingEnabled = false,
+            sendingInterval = TranslationSendingInterval.MINUTES_1
+        )
+    }
+}

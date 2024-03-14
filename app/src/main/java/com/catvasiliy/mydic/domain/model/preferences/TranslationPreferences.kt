@@ -6,7 +6,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TranslationPreferences(
-    val languagePreferences: LanguagePreferences = LanguagePreferences(),
-    val organizingPreferences: TranslationOrganizingPreferences = TranslationOrganizingPreferences(),
-    val translationSendingPreferences: TranslationSendingPreferences = TranslationSendingPreferences()
-)
+    val languagePreferences: LanguagePreferences,
+    val organizingPreferences: TranslationOrganizingPreferences,
+    val translationSendingPreferences: TranslationSendingPreferences
+) {
+    companion object {
+        fun getDefault(): TranslationPreferences =
+            TranslationPreferences(
+                languagePreferences = LanguagePreferences.getDefault(),
+                organizingPreferences = TranslationOrganizingPreferences.getDefault(),
+                translationSendingPreferences = TranslationSendingPreferences.getDefault()
+            )
+    }
+}
