@@ -2,6 +2,7 @@ package com.catvasiliy.mydic.presentation
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -43,62 +44,23 @@ class MainActivity : AppCompatActivity(), Pronouncer {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        installSplashScreen().apply {
-            setKeepOnScreenCondition {
-                viewModel.state.value
-            }
-            pronunciationSynthesizer.initialize(this@MainActivity) {
-                viewModel.setShowSplashScreen(false)
-            }
-        }
+        setupSplashScreen()
 
         super.onCreate(savedInstanceState)
 
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        onBackPressedDispatcher.addCallback(this, backPressedCallback)
-
-        binding.drawerNavigation.setNavigationItemSelectedListener { menuItem ->
-            val navController = binding.navHostFragment.findNavController()
-            when (menuItem.itemId) {
-                R.id.miTranslations -> {
-                    if (!navController.popBackStack(R.id.fragmentTranslationsList, false)) {
-                        navController.navigate(R.id.fragmentTranslationsList)
-                    }
-                }
-                R.id.miSettings -> {
-                    if (!navController.popBackStack(R.id.fragmentSettings, false)) {
-                        navController.navigate(R.id.fragmentSettings)
-                    }
-                }
-            }
-            closeNavigationDrawer()
-            return@setNavigationItemSelectedListener true
-        }
+        setupView()
     }
 
     override fun onStart() {
         super.onStart()
 
         if (intent.action == ACTION_OPEN_TRANSLATION) {
-            val translationId = intent.getLongExtra(EXTRA_TRANSLATION_ID, -1L)
-            if (translationId == -1L) return
-
-            val args = Bundle().apply {
-                putLong("translationId", translationId)
-            }
-            binding.navHostFragment.findNavController().navigate(R.id.fragmentTranslationDetails, args)
-            intent.removeExtra(EXTRA_TRANSLATION_ID)
+            openTranslationWithId()
         } else if (intent.type == "text/plain") {
-            intent.getStringExtra(Intent.EXTRA_TEXT)?.let { text ->
-                val args = Bundle().apply {
-                    putString(KEY_EXTERNAL_SOURCE_TEXT, text.trim().trim('"'))
-                }
-                binding.navHostFragment.findNavController().navigate(R.id.fragmentTranslate, args)
-                intent.removeExtra(Intent.EXTRA_TEXT)
-            }
+            openTranslateWithSourceText()
         }
     }
 
@@ -125,5 +87,66 @@ class MainActivity : AppCompatActivity(), Pronouncer {
 
     fun closeNavigationDrawer() {
         binding.drawerLayout.close()
+    }
+
+    private fun setupSplashScreen() {
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                viewModel.state.value
+            }
+            pronunciationSynthesizer.initialize(this@MainActivity) {
+                viewModel.setShowSplashScreen(false)
+            }
+        }
+    }
+
+    private fun setupView() {
+        onBackPressedDispatcher.addCallback(this, backPressedCallback)
+
+        binding.drawerNavigation.setNavigationItemSelectedListener { menuItem ->
+            drawerMenuItemNavigate(menuItem)
+            closeNavigationDrawer()
+            return@setNavigationItemSelectedListener true
+        }
+    }
+
+    private fun drawerMenuItemNavigate(menuItem: MenuItem) {
+        val navController = binding.navHostFragment.findNavController()
+        when (menuItem.itemId) {
+            R.id.miTranslations -> {
+                if (!navController.popBackStack(R.id.fragmentTranslationsList, false)) {
+                    navController.navigate(R.id.fragmentTranslationsList)
+                }
+            }
+            R.id.miSettings -> {
+                if (!navController.popBackStack(R.id.fragmentSettings, false)) {
+                    navController.navigate(R.id.fragmentSettings)
+                }
+            }
+            else -> {
+                throw IllegalArgumentException("Unknown Drawer MenuItem.")
+            }
+        }
+    }
+
+    private fun openTranslationWithId() {
+        val translationId = intent.getLongExtra(EXTRA_TRANSLATION_ID, -1L)
+        if (translationId == -1L) return
+
+        val args = Bundle().apply {
+            putLong("translationId", translationId)
+        }
+        binding.navHostFragment.findNavController().navigate(R.id.fragmentTranslationDetails, args)
+        intent.removeExtra(EXTRA_TRANSLATION_ID)
+    }
+
+    private fun openTranslateWithSourceText() {
+        intent.getStringExtra(Intent.EXTRA_TEXT)?.let { text ->
+            val args = Bundle().apply {
+                putString(KEY_EXTERNAL_SOURCE_TEXT, text.trim().trim('"'))
+            }
+            binding.navHostFragment.findNavController().navigate(R.id.fragmentTranslate, args)
+            intent.removeExtra(Intent.EXTRA_TEXT)
+        }
     }
 }
