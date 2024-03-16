@@ -51,6 +51,35 @@ class TranslationsListFragment : Fragment() {
 
     private val translationsListAdapter = TranslationsListAdapter()
 
+    private val translationsListScrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val isShown = binding.fabTranslate.isShown
+            if (dy > 0 && isShown) {
+                binding.fabTranslate.hide()
+            } else if(dy < 0 && !isShown) {
+                binding.fabTranslate.show()
+            }
+        }
+    }
+
+    private val swipeToDeleteCallback by lazy(LazyThreadSafetyMode.NONE) {
+        object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                if (direction != ItemTouchHelper.LEFT) {
+                    return
+                }
+                val itemPosition = viewHolder.adapterPosition
+                val translationsList = viewModel.state.value.translations
+
+                val id = translationsList[itemPosition].id
+                val isMissingTranslation = translationsList[itemPosition].isMissingTranslation
+                viewModel.removeTranslation(id, isMissingTranslation)
+            }
+        }
+    }
+
     private val bottomSheetOrganize by lazy(LazyThreadSafetyMode.NONE) {
         BottomSheetDialog(requireContext()).apply {
             setContentView(bottomSheetOrganizeBinding.root)
@@ -87,22 +116,6 @@ class TranslationsListFragment : Fragment() {
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) { }
-    }
-
-    private val swipeToDeleteCallback by lazy(LazyThreadSafetyMode.NONE) {
-        object : SwipeToDeleteCallback(requireContext()) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                if (direction != ItemTouchHelper.LEFT) {
-                    return
-                }
-                val itemPosition = viewHolder.adapterPosition
-                val translationsList = viewModel.state.value.translations
-
-                val id = translationsList[itemPosition].id
-                val isMissingTranslation = translationsList[itemPosition].isMissingTranslation
-                viewModel.removeTranslation(id, isMissingTranslation)
-            }
-        }
     }
 
     override fun onCreateView(
@@ -159,6 +172,7 @@ class TranslationsListFragment : Fragment() {
         binding.rvTranslations.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = translationsListAdapter
+            addOnScrollListener(translationsListScrollListener)
             swipeHelper.attachToRecyclerView(this)
         }
 
