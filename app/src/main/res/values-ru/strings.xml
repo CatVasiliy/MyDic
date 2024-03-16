@@ -8,6 +8,7 @@
     <string name="sort_by">Сортировать по</string>
     <string name="date">Дата</string>
     <string name="source_text">Исходный текст</string>
+    <string name="restore_default">По умолчанию</string>
     <string name="translation_text">Перевод</string>
     <string name="delete_translation_snackbar">Перевод удален</string>
     <string name="undo">Отмена</string>

@@ -204,6 +204,10 @@ class TranslationsListFragment : Fragment() {
             adapter = tlFilterAdapter
             onItemSelectedListener = tlItemSelectedListener
         }
+
+        bottomSheetOrganizeBinding.btnRestoreDefault.setOnClickListener {
+            viewModel.restoreDefaultOrganizingPreferences()
+        }
     }
 
     private fun setupChips() {
@@ -257,6 +261,8 @@ class TranslationsListFragment : Fragment() {
         )
         bottomSheetOrganizeBinding.spSourceLanguage.setSelectionWithTag(slFilteringPosition)
         bottomSheetOrganizeBinding.spTargetLanguage.setSelectionWithTag(tlFilteringPosition)
+
+        bottomSheetOrganizeBinding.btnRestoreDefault.isEnabled = organizingPreferences.isDefault.not()
     }
 
     private fun updateSorting(sortingInfo: TranslationSortingInfo) {

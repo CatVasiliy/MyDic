@@ -10,6 +10,10 @@ data class UiTranslationOrganizingPreferences(
     val sourceLanguageFilteringInfo: UiSourceLanguageFilteringInfo = UiSourceLanguageFilteringInfo.LanguageAny,
     val targetLanguageFilteringInfo: UiTargetLanguageFilteringInfo = UiTargetLanguageFilteringInfo.LanguageAny
 ) {
+
+    val isDefault: Boolean
+        get() = this == getDefault()
+
     companion object {
         fun getDefault(): UiTranslationOrganizingPreferences =
             TranslationOrganizingPreferences.getDefault().toUiTranslationOrganizingPreferences()

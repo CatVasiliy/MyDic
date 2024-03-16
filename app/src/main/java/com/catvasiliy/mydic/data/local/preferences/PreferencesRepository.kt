@@ -68,6 +68,13 @@ class PreferencesRepository @Inject constructor(
             translationPreferences.copy(organizingPreferences = organizingPreferences)
         }
     }
+    suspend fun updateTranslationOrganizingPreferences(
+        organizingPreferences: TranslationOrganizingPreferences
+    ) {
+        preferences.updateData { translationPreferences ->
+            translationPreferences.copy(organizingPreferences = organizingPreferences)
+        }
+    }
 
     fun getTranslationOrganizingPreferences(): Flow<TranslationOrganizingPreferences> {
         return preferences.data.map { translationPreferences ->

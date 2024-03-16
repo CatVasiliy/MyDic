@@ -9,6 +9,7 @@
     <string name="date">Date</string>
     <string name="source_text">Source Text</string>
     <string name="translation_text">Translation Text</string>
+    <string name="restore_default">Restore default</string>
     <string name="delete_translation_snackbar">Translation deleted</string>
     <string name="undo">Undo</string>
     <string name="no_translations">There are no saved translations. Click Add button to translate.</string>

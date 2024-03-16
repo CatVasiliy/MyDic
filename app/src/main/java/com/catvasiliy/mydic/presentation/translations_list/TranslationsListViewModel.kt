@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting.TranslationSortingInfo
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.GetTranslationOrganizingPreferencesUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.RestoreDefaultOrganizingPreferencesUseCase
 import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.UpdateSourceLanguageFilteringInfoUseCase
 import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.UpdateTargetLanguageFilteringInfoUseCase
 import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.UpdateTranslationSortingInfoUseCase
@@ -47,7 +48,8 @@ class TranslationsListViewModel @Inject constructor(
     getTranslationOrganizingPreferencesUseCase: GetTranslationOrganizingPreferencesUseCase,
     private val updateTranslationSortingInfoUseCase: UpdateTranslationSortingInfoUseCase,
     private val updateSourceLanguageFilteringInfoUseCase: UpdateSourceLanguageFilteringInfoUseCase,
-    private val updateTargetLanguageFilteringInfoUseCase: UpdateTargetLanguageFilteringInfoUseCase
+    private val updateTargetLanguageFilteringInfoUseCase: UpdateTargetLanguageFilteringInfoUseCase,
+    private val restoreDefaultOrganizingPreferencesUseCase: RestoreDefaultOrganizingPreferencesUseCase
 ) : ViewModel() {
 
     private val _translationsList = getTranslationsListUseCase().map { domainTranslations ->
@@ -125,6 +127,12 @@ class TranslationsListViewModel @Inject constructor(
     fun filterTranslationsByTargetLanguage(filteringInfo: UiTargetLanguageFilteringInfo) {
         viewModelScope.launch {
             updateTargetLanguageFilteringInfoUseCase(filteringInfo.toTargetLanguageFilteringInfo())
+        }
+    }
+
+    fun restoreDefaultOrganizingPreferences() {
+        viewModelScope.launch {
+            restoreDefaultOrganizingPreferencesUseCase()
         }
     }
 
