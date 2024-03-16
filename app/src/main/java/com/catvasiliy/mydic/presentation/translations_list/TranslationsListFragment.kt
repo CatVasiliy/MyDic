@@ -51,13 +51,15 @@ class TranslationsListFragment : Fragment() {
 
     private val translationsListAdapter = TranslationsListAdapter()
 
-    private val bottomSheetOrganize by lazy {
+    private val bottomSheetOrganize by lazy(LazyThreadSafetyMode.NONE) {
         BottomSheetDialog(requireContext()).apply {
             setContentView(bottomSheetOrganizeBinding.root)
         }
     }
 
-    private val slFilterAdapter by lazy { SourceLanguageFilterSpinnerAdapter(requireContext()) }
+    private val slFilterAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        SourceLanguageFilterSpinnerAdapter(requireContext())
+    }
     private val slItemSelectedListener = object : OnItemSelectedListener {
 
         override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -71,7 +73,9 @@ class TranslationsListFragment : Fragment() {
         override fun onNothingSelected(parent: AdapterView<*>?) { }
     }
 
-    private val tlFilterAdapter by lazy { TargetLanguageFilterSpinnerAdapter(requireContext()) }
+    private val tlFilterAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        TargetLanguageFilterSpinnerAdapter(requireContext())
+    }
     private val tlItemSelectedListener = object : OnItemSelectedListener {
 
         override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -85,7 +89,7 @@ class TranslationsListFragment : Fragment() {
         override fun onNothingSelected(parent: AdapterView<*>?) { }
     }
 
-    private val swipeToDeleteCallback by lazy {
+    private val swipeToDeleteCallback by lazy(LazyThreadSafetyMode.NONE) {
         object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 if (direction != ItemTouchHelper.LEFT) {

@@ -32,7 +32,7 @@ class SettingsFragment : Fragment() {
 
     private val viewModel: SettingsViewModel by viewModels()
 
-    private val sendingIntervalAdapter by lazy {
+    private val sendingIntervalAdapter by lazy(LazyThreadSafetyMode.NONE) {
         ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,

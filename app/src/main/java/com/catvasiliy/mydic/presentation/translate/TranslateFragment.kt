@@ -36,7 +36,9 @@ class TranslateFragment : Fragment() {
 
     private val viewModel: TranslateViewModel by viewModels()
 
-    private val sourceLanguageAdapter by lazy { SourceLanguageSpinnerAdapter(requireContext()) }
+    private val sourceLanguageAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        SourceLanguageSpinnerAdapter(requireContext())
+    }
     private val slItemSelectedListener = object : OnItemSelectedListener {
 
         override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -51,7 +53,9 @@ class TranslateFragment : Fragment() {
     }
 
 
-    private val targetLanguageAdapter by lazy { TargetLanguageSpinnerAdapter(requireContext()) }
+    private val targetLanguageAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        TargetLanguageSpinnerAdapter(requireContext())
+    }
     private val tlItemSelectedListener = object : OnItemSelectedListener {
 
         override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
