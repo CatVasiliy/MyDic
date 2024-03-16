@@ -244,9 +244,17 @@ class TranslationsListFragment : Fragment() {
     private fun updateTranslations(translationsList: List<UiTranslationListItem>) {
         if (translationsList.isNotEmpty()) {
             translationsListAdapter.submitList(translationsList)
+            binding.rvTranslations.scrollToTop()
             binding.llNoTranslations.hideAndShowOther(binding.llTranslations)
         } else {
             binding.llTranslations.hideAndShowOther(binding.llNoTranslations)
+        }
+    }
+
+    private fun RecyclerView.scrollToTop() = post {
+        scrollToPosition(0)
+        binding.fabTranslate.apply {
+            if (!isShown) show()
         }
     }
 
