@@ -146,8 +146,9 @@ class TranslationsListViewModel @Inject constructor(
     }
 
     fun undoRemoveTranslation() {
+        val lastDeletedTranslation = _lastDeletedTranslation.value ?: return
         viewModelScope.launch {
-            _lastDeletedTranslation.value?.let { insertTranslationUseCase(it.toTranslation()) }
+            insertTranslationUseCase(lastDeletedTranslation.toTranslation())
             _lastDeletedTranslation.update { null }
         }
     }

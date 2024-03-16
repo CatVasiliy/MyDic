@@ -47,7 +47,7 @@ class TranslationDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupBackAction()
-        handleNavArgs()
+        handleNavArgs(arguments)
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -90,27 +90,22 @@ class TranslationDetailsFragment : Fragment() {
         findNavController().popBackStack(R.id.fragmentTranslationsList, false)
     }
 
-    private fun handleNavArgs() {
-        if (handleSourceTextNavArgs()) return
-        if (handleIdNavArgs()) return
+    private fun handleNavArgs(args: Bundle?) {
+        if (args == null) return
+
+        if (handleSourceTextNavArgs(args)) return
+        if (handleIdNavArgs(args)) return
     }
 
-    private fun handleSourceTextNavArgs(): Boolean {
-        val sourceText = arguments?.let { args ->
-            TranslationDetailsFragmentArgs.fromBundle(args).sourceText
-        } ?: ""
+    private fun handleSourceTextNavArgs(args: Bundle): Boolean {
+        val sourceText = TranslationDetailsFragmentArgs.fromBundle(args).sourceText
 
         if (sourceText.isBlank()) return false
 
-        val sourceLanguageOrdinal = arguments?.let { args ->
-            TranslationDetailsFragmentArgs.fromBundle(args).sourceLanguageOrdinal
-        } ?: -1
-
+        val sourceLanguageOrdinal = TranslationDetailsFragmentArgs.fromBundle(args).sourceLanguageOrdinal
         val sourceLanguage = UiLanguage.entries.getOrNull(sourceLanguageOrdinal)
 
-        val targetLanguage = arguments?.let { args ->
-            TranslationDetailsFragmentArgs.fromBundle(args).targetLanguage
-        }
+        val targetLanguage = TranslationDetailsFragmentArgs.fromBundle(args).targetLanguage
 
         arguments?.apply {
             remove("sourceText")
@@ -121,21 +116,17 @@ class TranslationDetailsFragment : Fragment() {
         viewModel.translate(
             sourceText = sourceText,
             sourceLanguage = sourceLanguage,
-            targetLanguage = requireNotNull(targetLanguage)
+            targetLanguage = targetLanguage
         )
         return true
     }
 
-    private fun handleIdNavArgs(): Boolean {
-        val translationId = arguments?.let { args ->
-            TranslationDetailsFragmentArgs.fromBundle(args).translationId
-        } ?: -1L
+    private fun handleIdNavArgs(args: Bundle): Boolean {
+        val translationId = TranslationDetailsFragmentArgs.fromBundle(args).translationId
 
         if (translationId == -1L) return false
 
-        val isMissingTranslation = arguments?.let { args ->
-            TranslationDetailsFragmentArgs.fromBundle(args).isMissingTranslation
-        } ?: false
+        val isMissingTranslation = TranslationDetailsFragmentArgs.fromBundle(args).isMissingTranslation
 
         arguments?.apply {
             remove("translationId")

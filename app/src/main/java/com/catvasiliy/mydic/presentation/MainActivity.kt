@@ -141,12 +141,12 @@ class MainActivity : AppCompatActivity(), Pronouncer {
     }
 
     private fun openTranslateWithSourceText() {
-        intent.getStringExtra(Intent.EXTRA_TEXT)?.let { text ->
-            val args = Bundle().apply {
-                putString(KEY_EXTERNAL_SOURCE_TEXT, text.trim().trim('"'))
-            }
-            binding.navHostFragment.findNavController().navigate(R.id.fragmentTranslate, args)
-            intent.removeExtra(Intent.EXTRA_TEXT)
+        val externalText = intent.getStringExtra(Intent.EXTRA_TEXT) ?: return
+
+        val args = Bundle().apply {
+            putString(KEY_EXTERNAL_SOURCE_TEXT, externalText.trim().trim('"'))
         }
+        binding.navHostFragment.findNavController().navigate(R.id.fragmentTranslate, args)
+        intent.removeExtra(Intent.EXTRA_TEXT)
     }
 }

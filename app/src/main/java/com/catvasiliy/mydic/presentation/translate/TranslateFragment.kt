@@ -82,7 +82,7 @@ class TranslateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupView()
-        handleNavArgs()
+        handleNavArgs(arguments)
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -114,9 +114,8 @@ class TranslateFragment : Fragment() {
         }
 
         binding.btnTranslate.setOnClickListener {
-            getOpenTranslationDetailsAction()?.let { action ->
-                findNavController().navigate(action)
-            }
+            val action = getOpenTranslationDetailsAction() ?: return@setOnClickListener
+            findNavController().navigate(action)
         }
     }
 
@@ -148,10 +147,12 @@ class TranslateFragment : Fragment() {
         ).show()
     }
 
-    private fun handleNavArgs() {
-        arguments?.getString(KEY_EXTERNAL_SOURCE_TEXT)?.let { sourceText ->
-            binding.etSource.setText(sourceText)
-        }
+    private fun handleNavArgs(args: Bundle?) {
+        if (args == null) return
+
+        val sourceText = args.getString(KEY_EXTERNAL_SOURCE_TEXT) ?: return
+        binding.etSource.setText(sourceText)
+
         arguments?.remove(KEY_EXTERNAL_SOURCE_TEXT)
     }
 
