@@ -38,36 +38,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipSortBy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sort_by_chip"
-                style="@style/Widget.Material3.Chip.Assist"
-                app:chipIcon="@drawable/baseline_sort_24" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipDescending"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checkable="true"
-                android:checked="true"
-                android:text="@string/descending"
-                style="@style/Widget.Material3.Chip.Assist" />
-
-        </com.google.android.material.chip.ChipGroup>
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTranslations"
             android:layout_width="match_parent"

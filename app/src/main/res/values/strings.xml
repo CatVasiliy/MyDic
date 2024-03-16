@@ -3,12 +3,12 @@
 
     <string name="translations">Translations</string>
     <string name="add_translation">Add translation</string>
-    <string name="sort_by_chip">Sort by: %1$s</string>
-    <string name="descending">Descending</string>
-    <string name="sort_by">Sort by</string>
+    <string name="search">Search</string>
+    <string name="organize_translations">Organize Translations</string>
     <string name="date">Date</string>
     <string name="source_text">Source Text</string>
     <string name="translation_text">Translation Text</string>
+    <string name="descending">Descending</string>
     <string name="restore_default">Restore default</string>
     <string name="delete_translation_snackbar">Translation deleted</string>
     <string name="undo">Undo</string>
@@ -30,7 +30,6 @@
 
     <string name="missing_translation_message">Translation is unavailable. Click Refresh button to try again.</string>
     <string name="btn_refresh">Refresh</string>
-    <string name="search">Search</string>
 
     <string name="language_any">Any</string>
     <string name="language_auto">Auto</string>

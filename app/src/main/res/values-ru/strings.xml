@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="translations">Переводы</string>
     <string name="add_translation">Добавить перевод</string>
-    <string name="sort_by_chip">Сортировать по: %1$s</string>
-    <string name="descending">По убыванию</string>
-    <string name="sort_by">Сортировать по</string>
+    <string name="search">Поиск</string>
+    <string name="organize_translations">Упорядочить переводы</string>
     <string name="date">Дата</string>
     <string name="source_text">Исходный текст</string>
-    <string name="restore_default">По умолчанию</string>
     <string name="translation_text">Перевод</string>
+    <string name="descending">По убыванию</string>
+    <string name="restore_default">По умолчанию</string>
     <string name="delete_translation_snackbar">Перевод удален</string>
     <string name="undo">Отмена</string>
     <string name="no_translations">Сохраненных переводов нет. Нажмите кнопку Добавить для перевода</string>
@@ -30,7 +29,6 @@
 
     <string name="missing_translation_message">Перевод недоступен. Нажмите кнопку Обновить, чтобы попробовать снова.</string>
     <string name="btn_refresh">Обновить</string>
-    <string name="search">Поиск</string>
 
     <string name="language_any">Любой</string>
     <string name="language_auto">Авто</string>
@@ -46,5 +44,4 @@
     <string name="language_japanese">Японский</string>
 
     <string name="settings">Настройки</string>
-
 </resources>

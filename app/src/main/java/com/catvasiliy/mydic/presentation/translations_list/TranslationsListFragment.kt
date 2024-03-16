@@ -163,9 +163,13 @@ class TranslationsListFragment : Fragment() {
             (requireActivity() as MainActivity).openNavigationDrawer()
         }
 
+        binding.tbTranslations.menu.findItem(R.id.miOrganize).setOnMenuItemClickListener {
+            bottomSheetOrganize.show()
+            true
+        }
+
         setupSearch()
         setupBottomSheetOrganize()
-        setupChips()
 
         val swipeHelper = ItemTouchHelper(swipeToDeleteCallback)
 
@@ -210,7 +214,16 @@ class TranslationsListFragment : Fragment() {
             }
 
             viewModel.sortTranslations(newSortingInfo)
-            changeSortByChipText()
+        }
+
+        bottomSheetOrganizeBinding.cbDescending.setOnCheckedChangeListener { _, isChecked ->
+            val currentSortingInfo = viewModel.state.value.organizingPreferences.sortingInfo
+            val newSortingOrder = if (isChecked) SortingOrder.Descending else SortingOrder.Ascending
+            val currentSortingOrder = currentSortingInfo.sortingOrder
+            if (newSortingOrder != currentSortingOrder) {
+                val sortingInfo = currentSortingInfo.copyChangeSortingOrder(newSortingOrder)
+                viewModel.sortTranslations(sortingInfo)
+            }
         }
 
         bottomSheetOrganizeBinding.spSourceLanguage.apply {
@@ -226,34 +239,6 @@ class TranslationsListFragment : Fragment() {
         bottomSheetOrganizeBinding.btnRestoreDefault.setOnClickListener {
             viewModel.restoreDefaultOrganizingPreferences()
         }
-    }
-
-    private fun setupChips() {
-        changeSortByChipText()
-
-        binding.chipSortBy.setOnClickListener {
-            bottomSheetOrganize.show()
-        }
-
-        binding.chipDescending.setOnCheckedChangeListener { _, isChecked ->
-            val currentSortingInfo = viewModel.state.value.organizingPreferences.sortingInfo
-            val newSortingOrder = if (isChecked) SortingOrder.Descending else SortingOrder.Ascending
-            val currentSortingOrder = currentSortingInfo.sortingOrder
-            if (newSortingOrder != currentSortingOrder) {
-                val sortingInfo = currentSortingInfo.copyChangeSortingOrder(newSortingOrder)
-                viewModel.sortTranslations(sortingInfo)
-            }
-        }
-    }
-
-    private fun changeSortByChipText() {
-        val radioButtonText = when (bottomSheetOrganizeBinding.radioGroup.checkedRadioButtonId) {
-            R.id.rbDate -> getString(R.string.date)
-            R.id.rbSourceText -> getString(R.string.source_text)
-            R.id.rbTranslationText -> getString(R.string.translation_text)
-            else -> return
-        }
-        binding.chipSortBy.text = getString(R.string.sort_by_chip, radioButtonText)
     }
 
     private fun updateTranslations(translationsList: List<UiTranslationListItem>) {
@@ -284,7 +269,8 @@ class TranslationsListFragment : Fragment() {
     }
 
     private fun updateSorting(sortingInfo: TranslationSortingInfo) {
-        binding.chipDescending.isChecked = sortingInfo.sortingOrder == SortingOrder.Descending
+        val isDescending = sortingInfo.sortingOrder == SortingOrder.Descending
+        bottomSheetOrganizeBinding.cbDescending.isChecked = isDescending
 
         @IdRes
         val idToCheck = when (sortingInfo) {

@@ -10,4 +10,11 @@
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
+    <item
+        android:id="@+id/miOrganize"
+        android:title="@string/organize_translations"
+        android:icon="@drawable/baseline_organize_24"
+        app:iconTint="?attr/colorOnPrimary"
+        app:showAsAction="ifRoom" />
+
 </menu>
