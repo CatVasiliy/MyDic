@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiSourceLanguageFilteringInfo
@@ -33,7 +34,8 @@ class SourceLanguageFilterSpinnerAdapter(private val context: Context) : BaseAda
         )
         val item = items[position]
 
-        view.findViewById<TextView>(R.id.tvLanguageItemText).text = context.getString(item.stringResourceId)
+        view.findViewById<ImageView>(R.id.ivLanguageItemIcon).setImageResource(item.drawableResId)
+        view.findViewById<TextView>(R.id.tvLanguageItemText).setText(item.stringResId)
 
         return view
     }

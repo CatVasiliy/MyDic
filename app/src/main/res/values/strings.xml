@@ -33,6 +33,7 @@
 
     <string name="language_any">Any</string>
     <string name="language_auto">Auto</string>
+    <string name="language_unknown">Unknown</string>
     <string name="language_english">English</string>
     <string name="language_russian">Russian</string>
     <string name="language_german">German</string>

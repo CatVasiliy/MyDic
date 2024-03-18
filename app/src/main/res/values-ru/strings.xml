@@ -32,6 +32,7 @@
 
     <string name="language_any">Любой</string>
     <string name="language_auto">Авто</string>
+    <string name="language_unknown">Неизвестен</string>
     <string name="language_english">Английский</string>
     <string name="language_russian">Русский</string>
     <string name="language_german">Немецкий</string>

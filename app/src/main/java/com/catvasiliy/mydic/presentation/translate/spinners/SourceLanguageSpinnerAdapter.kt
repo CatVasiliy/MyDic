@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
 
@@ -30,13 +33,15 @@ class SourceLanguageSpinnerAdapter(private val context: Context) : BaseAdapter()
             false
         )
         val item = items[position]
-        val itemText = if (item.language != null) {
-            context.getString(item.language.stringResourceId)
-        } else {
-            context.getString(R.string.language_auto)
-        }
 
-        view.findViewById<TextView>(R.id.tvLanguageItemText).text = itemText
+        @DrawableRes
+        val drawableResId = item.language?.drawableResId ?: R.drawable.language_icon_auto
+
+        @StringRes
+        val stringResId = item.language?.stringResId ?: R.string.language_auto
+
+        view.findViewById<ImageView>(R.id.ivLanguageItemIcon).setImageResource(drawableResId)
+        view.findViewById<TextView>(R.id.tvLanguageItemText).setText(stringResId)
 
         return view
     }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
@@ -28,7 +29,8 @@ class TargetLanguageSpinnerAdapter(private val context: Context) : BaseAdapter()
         )
         val item = items[position]
 
-        view.findViewById<TextView>(R.id.tvLanguageItemText).text = context.getString(item.language.stringResourceId)
+        view.findViewById<ImageView>(R.id.ivLanguageItemIcon).setImageResource(item.language.drawableResId)
+        view.findViewById<TextView>(R.id.tvLanguageItemText).setText(item.language.stringResId)
 
         return view
     }
