@@ -46,9 +46,6 @@ class TranslationsListFragment : Fragment() {
 
     private val viewModel: TranslationsListViewModel by viewModels()
 
-    private var _bottomSheetOrganizeBinding: BottomSheetOrganizeBinding? = null
-    private val bottomSheetOrganizeBinding get() = _bottomSheetOrganizeBinding!!
-
     private val translationsListAdapter = TranslationsListAdapter()
 
     private val translationsListScrollListener = object : RecyclerView.OnScrollListener() {
@@ -80,10 +77,11 @@ class TranslationsListFragment : Fragment() {
         }
     }
 
+    private var _bottomSheetOrganizeBinding: BottomSheetOrganizeBinding? = null
+    private val bottomSheetOrganizeBinding get() = _bottomSheetOrganizeBinding!!
+
     private val bottomSheetOrganize by lazy(LazyThreadSafetyMode.NONE) {
-        BottomSheetDialog(requireContext()).apply {
-            setContentView(bottomSheetOrganizeBinding.root)
-        }
+        BottomSheetDialog(requireContext())
     }
 
     private val slFilterAdapter by lazy(LazyThreadSafetyMode.NONE) {
@@ -124,7 +122,10 @@ class TranslationsListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTranslationsListBinding.inflate(inflater, container, false)
+
         _bottomSheetOrganizeBinding = BottomSheetOrganizeBinding.inflate(inflater, container, false)
+        bottomSheetOrganize.setContentView(bottomSheetOrganizeBinding.root)
+
         return binding.root
     }
 
