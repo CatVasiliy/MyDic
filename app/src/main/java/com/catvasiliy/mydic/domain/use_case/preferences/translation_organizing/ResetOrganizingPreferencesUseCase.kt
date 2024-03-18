@@ -4,7 +4,7 @@ import com.catvasiliy.mydic.data.local.preferences.PreferencesRepository
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.TranslationOrganizingPreferences
 import javax.inject.Inject
 
-class RestoreDefaultOrganizingPreferencesUseCase @Inject constructor(
+class ResetOrganizingPreferencesUseCase @Inject constructor(
     private val preferencesRepository: PreferencesRepository
 ) {
 

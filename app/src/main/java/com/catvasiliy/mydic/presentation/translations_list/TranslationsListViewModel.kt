@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting.TranslationSortingInfo
 import com.catvasiliy.mydic.domain.model.translation.Translation
 import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.GetTranslationOrganizingPreferencesUseCase
-import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.RestoreDefaultOrganizingPreferencesUseCase
+import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.ResetOrganizingPreferencesUseCase
 import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.UpdateSourceLanguageFilteringInfoUseCase
 import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.UpdateTargetLanguageFilteringInfoUseCase
 import com.catvasiliy.mydic.domain.use_case.preferences.translation_organizing.UpdateTranslationSortingInfoUseCase
@@ -49,7 +49,7 @@ class TranslationsListViewModel @Inject constructor(
     private val updateTranslationSortingInfoUseCase: UpdateTranslationSortingInfoUseCase,
     private val updateSourceLanguageFilteringInfoUseCase: UpdateSourceLanguageFilteringInfoUseCase,
     private val updateTargetLanguageFilteringInfoUseCase: UpdateTargetLanguageFilteringInfoUseCase,
-    private val restoreDefaultOrganizingPreferencesUseCase: RestoreDefaultOrganizingPreferencesUseCase
+    private val resetOrganizingPreferencesUseCase: ResetOrganizingPreferencesUseCase
 ) : ViewModel() {
 
     private val _translationsList = getTranslationsListUseCase().map { domainTranslations ->
@@ -130,9 +130,9 @@ class TranslationsListViewModel @Inject constructor(
         }
     }
 
-    fun restoreDefaultOrganizingPreferences() {
+    fun resetOrganizingPreferences() {
         viewModelScope.launch {
-            restoreDefaultOrganizingPreferencesUseCase()
+            resetOrganizingPreferencesUseCase()
         }
     }
 

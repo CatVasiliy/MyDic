@@ -8,7 +8,7 @@
     <string name="source_text">Исходный текст</string>
     <string name="translation_text">Перевод</string>
     <string name="descending">По убыванию</string>
-    <string name="restore_default">По умолчанию</string>
+    <string name="reset">Сбросить</string>
     <string name="delete_translation_snackbar">Перевод удален</string>
     <string name="undo">Отмена</string>
     <string name="no_translations">Сохраненных переводов нет. Нажмите кнопку Добавить для перевода</string>
