@@ -109,30 +109,35 @@ class TranslationsListViewModel @Inject constructor(
                 delay(searchDelayMillis)
             }
             _searchQuery.update { searchQuery }
+            _eventFlow.emit(TranslationsListUiEvent.ScrollListToTop)
         }
     }
 
     fun sortTranslations(sortingInfo: TranslationSortingInfo) {
         viewModelScope.launch {
             updateTranslationSortingInfoUseCase(sortingInfo)
+            _eventFlow.emit(TranslationsListUiEvent.ScrollListToTop)
         }
     }
 
     fun filterTranslationsBySourceLanguage(filteringInfo: UiSourceLanguageFilteringInfo) {
         viewModelScope.launch {
             updateSourceLanguageFilteringInfoUseCase(filteringInfo.toSourceLanguageFilteringInfo())
+            _eventFlow.emit(TranslationsListUiEvent.ScrollListToTop)
         }
     }
 
     fun filterTranslationsByTargetLanguage(filteringInfo: UiTargetLanguageFilteringInfo) {
         viewModelScope.launch {
             updateTargetLanguageFilteringInfoUseCase(filteringInfo.toTargetLanguageFilteringInfo())
+            _eventFlow.emit(TranslationsListUiEvent.ScrollListToTop)
         }
     }
 
     fun resetOrganizingPreferences() {
         viewModelScope.launch {
             resetOrganizingPreferencesUseCase()
+            _eventFlow.emit(TranslationsListUiEvent.ScrollListToTop)
         }
     }
 
