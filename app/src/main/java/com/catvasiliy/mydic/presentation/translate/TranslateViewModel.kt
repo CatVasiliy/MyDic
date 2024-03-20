@@ -46,4 +46,14 @@ class TranslateViewModel @Inject constructor(
             updateDefaultTargetLanguageUseCase(targetLanguage.toLanguageNotNull())
         }
     }
+
+    fun swapLanguages() {
+        val sourceLanguage = state.value.languagePreferences.defaultSourceLanguage ?: return
+        val targetLanguage = state.value.languagePreferences.defaultTargetLanguage
+
+        viewModelScope.launch {
+            updateDefaultSourceLanguageUseCase(targetLanguage.toLanguage())
+            updateDefaultTargetLanguageUseCase(sourceLanguage.toLanguageNotNull())
+        }
+    }
 }

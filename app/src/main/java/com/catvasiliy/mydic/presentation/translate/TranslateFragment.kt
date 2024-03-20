@@ -113,6 +113,10 @@ class TranslateFragment : Fragment() {
             onItemSelectedListener = tlItemSelectedListener
         }
 
+        binding.btnSwapLanguages.setOnClickListener {
+            viewModel.swapLanguages()
+        }
+
         binding.btnTranslate.setOnClickListener {
             val action = getOpenTranslationDetailsAction() ?: return@setOnClickListener
             findNavController().navigate(action)
@@ -160,6 +164,8 @@ class TranslateFragment : Fragment() {
         val slSelection = languagePreferences.defaultSourceLanguage
         val slPosition = sourceLanguageAdapter.getPosition(slSelection)
         binding.spSourceLanguage.setSelectionWithTag(slPosition)
+
+        binding.btnSwapLanguages.isEnabled = slSelection != null
 
         val tlSelection = languagePreferences.defaultTargetLanguage
         val tlPosition = targetLanguageAdapter.getPosition(tlSelection)
