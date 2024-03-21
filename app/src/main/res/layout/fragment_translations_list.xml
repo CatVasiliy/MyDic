@@ -71,7 +71,7 @@
         android:id="@+id/fabTranslate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/baseline_add_24"
+        android:src="@drawable/icon_add"
         android:contentDescription="@string/add_translation"
         android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -12,7 +12,7 @@ abstract class SwipeToDeleteCallback(context: Context)
     : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     private val background = ColorDrawable(ContextCompat.getColor(context, R.color.deleteBackground))
-    private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.baseline_delete_36)
+    private val deleteIcon = ContextCompat.getDrawable(context, R.drawable.icon_delete)
     private val iconCover = ColorDrawable(ContextCompat.getColor(context, R.color.surface))
 
     override fun onMove(

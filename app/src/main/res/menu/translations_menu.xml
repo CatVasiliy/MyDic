@@ -5,14 +5,14 @@
     <item
         android:id="@+id/miSearch"
         android:title="@string/search"
-        android:icon="@drawable/baseline_search_24"
+        android:icon="@drawable/icon_search"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
     <item
         android:id="@+id/miOrganize"
         android:title="@string/organize_translations"
-        android:icon="@drawable/baseline_organize_24"
+        android:icon="@drawable/icon_organize"
         app:showAsAction="ifRoom" />
 
     <item
