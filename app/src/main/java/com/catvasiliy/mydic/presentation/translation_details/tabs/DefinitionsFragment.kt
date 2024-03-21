@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.catvasiliy.mydic.databinding.DefinitionItemBinding
 import com.catvasiliy.mydic.databinding.FragmentDefinitionsBinding
+import com.catvasiliy.mydic.databinding.ItemDefinitionBinding
 import com.catvasiliy.mydic.domain.model.translation.Definition
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
@@ -58,7 +58,7 @@ class DefinitionsFragment : Fragment() {
 
         binding.svDefinitions.show()
         definitions.forEach { definition ->
-            val definitionBinding = DefinitionItemBinding.inflate(layoutInflater)
+            val definitionBinding = ItemDefinitionBinding.inflate(layoutInflater)
             definitionBinding.apply {
                 tvDefinitionPartOfSpeech.text = definition.partOfSpeech
                 tvDefinition.text = definition.definitionText

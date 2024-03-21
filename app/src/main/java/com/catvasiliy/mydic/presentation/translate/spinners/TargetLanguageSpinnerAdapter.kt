@@ -23,7 +23,7 @@ class TargetLanguageSpinnerAdapter(private val context: Context) : BaseAdapter()
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
         val view = convertView ?: LayoutInflater.from(context).inflate(
-            R.layout.language_spinner_item,
+            R.layout.item_language_spinner,
             parent,
             false
         )

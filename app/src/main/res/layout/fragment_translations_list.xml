@@ -41,7 +41,7 @@
             android:id="@+id/rvTranslations"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/translation_list_item" />
+            tools:listitem="@layout/item_translation" />
 
     </LinearLayout>
 

@@ -11,8 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.catvasiliy.mydic.databinding.ExampleItemBinding
 import com.catvasiliy.mydic.databinding.FragmentExamplesBinding
+import com.catvasiliy.mydic.databinding.ItemExampleBinding
 import com.catvasiliy.mydic.domain.model.translation.Example
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
@@ -61,7 +61,7 @@ class ExamplesFragment : Fragment() {
         binding.svExamples.show()
 
         examples.forEach { example ->
-            val exampleBinding = ExampleItemBinding.inflate(layoutInflater)
+            val exampleBinding = ItemExampleBinding.inflate(layoutInflater)
             exampleBinding.tvExample.text = HtmlCompat.fromHtml(
                 example.exampleText,
                 FROM_HTML_MODE_COMPACT

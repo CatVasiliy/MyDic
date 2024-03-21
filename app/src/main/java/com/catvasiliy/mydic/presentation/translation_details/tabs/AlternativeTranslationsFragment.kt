@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.catvasiliy.mydic.databinding.AlternativeTranslationItemBinding
 import com.catvasiliy.mydic.databinding.FragmentAlternativeTranslationsBinding
+import com.catvasiliy.mydic.databinding.ItemAlternativeTranslationBinding
 import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
@@ -61,7 +61,7 @@ class AlternativeTranslationsFragment : Fragment() {
         binding.svAlternativeTranslations.show()
 
         alternativeTranslations.forEach { alternativeTranslation ->
-            val alternativeTranslationBinding = AlternativeTranslationItemBinding
+            val alternativeTranslationBinding = ItemAlternativeTranslationBinding
                 .inflate(layoutInflater)
             alternativeTranslationBinding.apply {
                 tvAlternativePartOfSpeech.text = alternativeTranslation.partOfSpeech

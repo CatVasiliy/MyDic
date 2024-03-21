@@ -6,47 +6,47 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.catvasiliy.mydic.databinding.TranslationListItemBinding
+import com.catvasiliy.mydic.databinding.ItemTranslationBinding
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
 import com.catvasiliy.mydic.presentation.util.showIf
 
 class TranslationsListAdapter
-    : ListAdapter<UiTranslationListItem, TranslationsListAdapter.TranslationViewHolder>(ITEM_COMPARATOR) {
+    : ListAdapter<UiTranslationListItem, TranslationViewHolder>(TranslationListItemDiff()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TranslationViewHolder {
-        val binding = TranslationListItemBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemTranslationBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return TranslationViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: TranslationViewHolder, position: Int) {
-        val item: UiTranslationListItem = getItem(position)
-        holder.bind(item)
-    }
-
-    inner class TranslationViewHolder(
-        private val binding: TranslationListItemBinding
-    ) : ViewHolder(binding.root) {
-
-        fun bind(item: UiTranslationListItem) {
-
-            val isMissingTranslation = item.translationText == null
-
-            binding.root.setOnClickListener { view ->
-                val action = TranslationsListFragmentDirections.openTranslationDetailsFromList(
-                    translationId = item.id,
-                    isMissingTranslation = isMissingTranslation
-                )
-                view.findNavController().navigate(action)
-            }
-            binding.tvSource.text = item.sourceText
-            binding.tvTranslation.text = item.translationText ?: ""
-            binding.ivProblem.showIf { isMissingTranslation }
-        }
+        val translationItem = getItem(position)
+        holder.bind(translationItem)
     }
 }
 
-private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<UiTranslationListItem>() {
+class TranslationViewHolder(private val binding: ItemTranslationBinding) : ViewHolder(binding.root) {
+
+    fun bind(translationItem: UiTranslationListItem): Unit = with(binding) {
+
+        root.setOnClickListener { view ->
+            val action = TranslationsListFragmentDirections.openTranslationDetailsFromList(
+                translationId = translationItem.id,
+                isMissingTranslation = translationItem.isMissingTranslation
+            )
+            view.findNavController().navigate(action)
+        }
+
+        tvSource.text = translationItem.sourceText
+        tvTranslation.text = translationItem.translationText ?: ""
+        ivProblem.showIf { translationItem.isMissingTranslation }
+    }
+}
+
+private class TranslationListItemDiff : DiffUtil.ItemCallback<UiTranslationListItem>() {
 
     override fun areItemsTheSame(
         oldItem: UiTranslationListItem,
