@@ -83,20 +83,20 @@ class SettingsFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupView() {
-        binding.tbSettings.setNavigationOnClickListener {
+    private fun setupView() = with(binding) {
+        tbSettings.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
 
-        binding.swSendTranslations.setOnClickListener {
+        swSendTranslations.setOnClickListener {
             checkAndRequestNotificationPermission()
             viewModel.toggleTranslationSending(
-                isSendingEnabled = binding.swSendTranslations.isChecked,
-                sendingInterval = binding.spSendingIntervals.selectedItem as TranslationSendingInterval
+                isSendingEnabled = swSendTranslations.isChecked,
+                sendingInterval = spSendingIntervals.selectedItem as TranslationSendingInterval
             )
         }
 
-        binding.spSendingIntervals.apply {
+        spSendingIntervals.apply {
             adapter = sendingIntervalAdapter
             onItemSelectedListener = spinnerItemSelectedListener
         }
@@ -104,14 +104,17 @@ class SettingsFragment : Fragment() {
 
     private fun updateSendingPreferencesView(sendingPreferences: TranslationSendingPreferences) {
         val isSendingEnabled = sendingPreferences.isSendingEnabled
-        binding.swSendTranslations.isChecked = isSendingEnabled
 
         val selection = sendingPreferences.sendingInterval
         val position = sendingIntervalAdapter.getPosition(selection)
-        binding.spSendingIntervals.apply {
-            // Disable intervals spinner if translation sending enabled
-            isEnabled = !isSendingEnabled
-            setSelection(position)
+
+        with(binding) {
+            swSendTranslations.isChecked = isSendingEnabled
+            spSendingIntervals.apply {
+                // Disable intervals spinner if translation sending enabled
+                isEnabled = !isSendingEnabled
+                setSelection(position)
+            }
         }
     }
 

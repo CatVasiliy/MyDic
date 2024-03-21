@@ -164,16 +164,18 @@ class TranslationsListFragment : Fragment() {
 
         val swipeHelper = ItemTouchHelper(swipeToDeleteCallback)
 
-        binding.rvTranslations.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = translationsListAdapter
-            addOnScrollListener(translationsListScrollListener)
-            swipeHelper.attachToRecyclerView(this)
-        }
+        with(binding) {
+            rvTranslations.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = translationsListAdapter
+                addOnScrollListener(translationsListScrollListener)
+                swipeHelper.attachToRecyclerView(this)
+            }
 
-        binding.fabTranslate.setOnClickListener {
-            val action = TranslationsListFragmentDirections.openTranslate()
-            findNavController().navigate(action)
+            fabTranslate.setOnClickListener {
+                val action = TranslationsListFragmentDirections.openTranslate()
+                findNavController().navigate(action)
+            }
         }
     }
 
@@ -207,10 +209,10 @@ class TranslationsListFragment : Fragment() {
         })
     }
 
-    private fun setupBottomSheetOrganize() {
+    private fun setupBottomSheetOrganize(): Unit = with(bottomSheetOrganizeBinding) {
 
-        bottomSheetOrganizeBinding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            if (bottomSheetOrganizeBinding.radioGroup.tag == checkedId) return@setOnCheckedChangeListener
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            if (radioGroup.tag == checkedId) return@setOnCheckedChangeListener
 
             val sortingOrder = viewModel.state.value.organizingPreferences.sortingInfo.sortingOrder
             val newSortingInfo = when (checkedId) {
@@ -223,7 +225,7 @@ class TranslationsListFragment : Fragment() {
             viewModel.sortTranslations(newSortingInfo)
         }
 
-        bottomSheetOrganizeBinding.cbDescending.setOnCheckedChangeListener { _, isChecked ->
+        cbDescending.setOnCheckedChangeListener { _, isChecked ->
             val currentSortingInfo = viewModel.state.value.organizingPreferences.sortingInfo
             val newSortingOrder = if (isChecked) SortingOrder.Descending else SortingOrder.Ascending
             val currentSortingOrder = currentSortingInfo.sortingOrder
@@ -233,17 +235,17 @@ class TranslationsListFragment : Fragment() {
             }
         }
 
-        bottomSheetOrganizeBinding.spSourceLanguage.apply {
+        spSourceLanguage.apply {
             adapter = slFilterAdapter
             onItemSelectedListener = slItemSelectedListener
         }
 
-        bottomSheetOrganizeBinding.spTargetLanguage.apply {
+        spTargetLanguage.apply {
             adapter = tlFilterAdapter
             onItemSelectedListener = tlItemSelectedListener
         }
 
-        bottomSheetOrganizeBinding.btnReset.setOnClickListener {
+        btnReset.setOnClickListener {
             viewModel.resetOrganizingPreferences()
         }
     }
@@ -269,10 +271,13 @@ class TranslationsListFragment : Fragment() {
         val tlFilteringPosition = tlFilterAdapter.getPosition(
             organizingPreferences.targetLanguageFilteringInfo
         )
-        bottomSheetOrganizeBinding.spSourceLanguage.setSelectionWithTag(slFilteringPosition)
-        bottomSheetOrganizeBinding.spTargetLanguage.setSelectionWithTag(tlFilteringPosition)
 
-        bottomSheetOrganizeBinding.btnReset.isEnabled = organizingPreferences.isDefault.not()
+        with(bottomSheetOrganizeBinding) {
+            spSourceLanguage.setSelectionWithTag(slFilteringPosition)
+            spTargetLanguage.setSelectionWithTag(tlFilteringPosition)
+
+            btnReset.isEnabled = organizingPreferences.isDefault.not()
+        }
     }
 
     private fun updateSorting(sortingInfo: TranslationSortingInfo) {

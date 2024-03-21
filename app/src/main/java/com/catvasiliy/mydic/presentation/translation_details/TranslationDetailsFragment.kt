@@ -153,31 +153,35 @@ class TranslationDetailsFragment : Fragment() {
 
         val translationText = translation.translationText!!
 
-        binding.llMissingTranslation.hideAndShowOther(binding.clTranslationDetails)
-
         setupTabLayout()
 
-        binding.tvTranslation.text = translationText
+        with(binding) {
+            tvTranslation.text = translationText
 
-        binding.ivPronounceTranslation.setOnClickListener {
-            val languageCode = translation.targetLanguage.code
+            ivPronounceTranslation.setOnClickListener {
+                val languageCode = translation.targetLanguage.code
 
-            pronounce(translationText, languageCode)
+                pronounce(translationText, languageCode)
+            }
+
+            tvSource.text = translation.sourceText
+            tvTransliteration.text = translation.sourceTransliteration ?: "No transliteration"
+
+            llMissingTranslation.hideAndShowOther(clTranslationDetails)
         }
-
-        binding.tvSource.text = translation.sourceText
-        binding.tvTransliteration.text = translation.sourceTransliteration ?: "No transliteration"
     }
 
     private fun updateMissingTranslationView(missingTranslation: UiTranslation) {
         if (!missingTranslation.isMissingTranslation)
             throw IllegalArgumentException("Translation is not a MissingTranslation")
 
-        binding.clTranslationDetails.hideAndShowOther(binding.llMissingTranslation)
+        with(binding) {
+            tvSource.text = missingTranslation.sourceText
+            btnRefresh.setOnClickListener {
+                viewModel.updateMissingTranslation()
+            }
 
-        binding.tvSource.text = missingTranslation.sourceText
-        binding.btnRefresh.setOnClickListener {
-            viewModel.updateMissingTranslation()
+            clTranslationDetails.hideAndShowOther(llMissingTranslation)
         }
     }
 
