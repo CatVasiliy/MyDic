@@ -16,10 +16,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.catvasiliy.mydic.databinding.FragmentSettingsBinding
 import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingInterval
 import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingPreferences
-import com.catvasiliy.mydic.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -85,7 +85,7 @@ class SettingsFragment : Fragment() {
 
     private fun setupView() {
         binding.tbSettings.setNavigationOnClickListener {
-            (requireActivity() as MainActivity).openNavigationDrawer()
+            findNavController().popBackStack()
         }
 
         binding.swSendTranslations.setOnClickListener {

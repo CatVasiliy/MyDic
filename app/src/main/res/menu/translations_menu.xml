@@ -6,7 +6,6 @@
         android:id="@+id/miSearch"
         android:title="@string/search"
         android:icon="@drawable/baseline_search_24"
-        app:iconTint="?attr/colorOnPrimary"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
@@ -14,7 +13,12 @@
         android:id="@+id/miOrganize"
         android:title="@string/organize_translations"
         android:icon="@drawable/baseline_organize_24"
-        app:iconTint="?attr/colorOnPrimary"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/miSettings"
+        android:title="@string/settings"
+        android:icon="@drawable/icon_settings"
         app:showAsAction="ifRoom" />
 
 </menu>

@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/settings"
-        app:navigationIcon="@drawable/baseline_menu_24"
+        app:navigationIcon="@drawable/icon_arrow_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

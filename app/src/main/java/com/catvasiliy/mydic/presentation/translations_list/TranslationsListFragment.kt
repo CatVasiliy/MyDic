@@ -22,7 +22,6 @@ import com.catvasiliy.mydic.databinding.BottomSheetOrganizeBinding
 import com.catvasiliy.mydic.databinding.FragmentTranslationsListBinding
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting.SortingOrder
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting.TranslationSortingInfo
-import com.catvasiliy.mydic.presentation.MainActivity
 import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiTranslationOrganizingPreferences
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
 import com.catvasiliy.mydic.presentation.translations_list.spinner.SourceLanguageFilterSpinnerAdapter
@@ -160,16 +159,7 @@ class TranslationsListFragment : Fragment() {
     }
 
     private fun setupView() {
-        binding.tbTranslations.setNavigationOnClickListener {
-            (requireActivity() as MainActivity).openNavigationDrawer()
-        }
-
-        binding.tbTranslations.menu.findItem(R.id.miOrganize).setOnMenuItemClickListener {
-            bottomSheetOrganize.show()
-            true
-        }
-
-        setupSearch()
+        setupMenuItems()
         setupBottomSheetOrganize()
 
         val swipeHelper = ItemTouchHelper(swipeToDeleteCallback)
@@ -184,6 +174,22 @@ class TranslationsListFragment : Fragment() {
         binding.fabTranslate.setOnClickListener {
             val action = TranslationsListFragmentDirections.openTranslate()
             findNavController().navigate(action)
+        }
+    }
+
+    private fun setupMenuItems() {
+        setupSearch()
+
+        with(binding.tbTranslations.menu) {
+            findItem(R.id.miOrganize).setOnMenuItemClickListener {
+                bottomSheetOrganize.show()
+                true
+            }
+            findItem(R.id.miSettings).setOnMenuItemClickListener {
+                val action = TranslationsListFragmentDirections.openSettings()
+                findNavController().navigate(action)
+                true
+            }
         }
     }
 

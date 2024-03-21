@@ -2,8 +2,6 @@ package com.catvasiliy.mydic.presentation
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -26,20 +24,6 @@ class MainActivity : AppCompatActivity(), Pronouncer {
 
     private val viewModel: MainViewModel by viewModels()
 
-    private val backPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            val drawerLayout = binding.drawerLayout
-
-            val navController = binding.navHostFragment.findNavController()
-
-            if (drawerLayout.isOpen) {
-                drawerLayout.close()
-            } else if (!navController.popBackStack()) {
-                finish()
-            }
-        }
-    }
-
     private val pronunciationSynthesizer = PronunciationSynthesizer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +34,6 @@ class MainActivity : AppCompatActivity(), Pronouncer {
 
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        setupView()
     }
 
     override fun onStart() {
@@ -78,17 +60,6 @@ class MainActivity : AppCompatActivity(), Pronouncer {
         pronunciationSynthesizer.stop()
     }
 
-    val isNavigationDrawerOpen: Boolean
-        get() = binding.drawerLayout.isOpen
-
-    fun openNavigationDrawer() {
-        binding.drawerLayout.open()
-    }
-
-    fun closeNavigationDrawer() {
-        binding.drawerLayout.close()
-    }
-
     private fun setupSplashScreen() {
         installSplashScreen().apply {
             setKeepOnScreenCondition {
@@ -96,35 +67,6 @@ class MainActivity : AppCompatActivity(), Pronouncer {
             }
             pronunciationSynthesizer.initialize(this@MainActivity) {
                 viewModel.setShowSplashScreen(false)
-            }
-        }
-    }
-
-    private fun setupView() {
-        onBackPressedDispatcher.addCallback(this, backPressedCallback)
-
-        binding.drawerNavigation.setNavigationItemSelectedListener { menuItem ->
-            drawerMenuItemNavigate(menuItem)
-            closeNavigationDrawer()
-            return@setNavigationItemSelectedListener true
-        }
-    }
-
-    private fun drawerMenuItemNavigate(menuItem: MenuItem) {
-        val navController = binding.navHostFragment.findNavController()
-        when (menuItem.itemId) {
-            R.id.miTranslations -> {
-                if (!navController.popBackStack(R.id.fragmentTranslationsList, false)) {
-                    navController.navigate(R.id.fragmentTranslationsList)
-                }
-            }
-            R.id.miSettings -> {
-                if (!navController.popBackStack(R.id.fragmentSettings, false)) {
-                    navController.navigate(R.id.fragmentSettings)
-                }
-            }
-            else -> {
-                throw IllegalArgumentException("Unknown Drawer MenuItem.")
             }
         }
     }

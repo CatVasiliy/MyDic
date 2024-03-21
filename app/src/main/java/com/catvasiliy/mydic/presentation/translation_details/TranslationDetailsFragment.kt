@@ -74,11 +74,7 @@ class TranslationDetailsFragment : Fragment() {
         val activity = requireActivity() as MainActivity
 
         activity.onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            if (activity.isNavigationDrawerOpen) {
-                activity.closeNavigationDrawer()
-            } else {
-                handleBackNavigation()
-            }
+            handleBackNavigation()
         }
 
         binding.tbTranslation.setNavigationOnClickListener {

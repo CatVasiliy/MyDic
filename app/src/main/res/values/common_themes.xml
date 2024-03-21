@@ -5,6 +5,7 @@
         <item name="android:background">?attr/colorPrimary</item>
         <item name="titleTextColor">?attr/colorOnPrimary</item>
         <item name="navigationIconTint">?attr/colorOnPrimary</item>
+        <item name="iconTint">?attr/colorOnPrimary</item>
     </style>
 
     <style name="Theme.MyDic.ToolbarWithSearch" parent="Theme.MyDic.Toolbar">

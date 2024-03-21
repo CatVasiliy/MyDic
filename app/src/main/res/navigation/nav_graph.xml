@@ -19,6 +19,10 @@
             android:id="@+id/openTranslationDetailsFromList"
             app:destination="@id/fragmentTranslationDetails" />
 
+        <action
+            android:id="@+id/openSettings"
+            app:destination="@id/fragmentSettings" />
+
     </fragment>
 
     <fragment
@@ -38,10 +42,6 @@
         android:label="fragment_translation_details"
         android:name="com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsFragment"
         tools:layout="@layout/fragment_translation_details">
-
-        <action
-            android:id="@+id/backToList"
-            app:destination="@id/fragmentTranslationsList" />
 
         <argument
             android:name="sourceText"
