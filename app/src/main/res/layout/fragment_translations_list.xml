@@ -10,7 +10,7 @@
         android:id="@+id/tbTranslations"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:theme="@style/Theme.MyDic.ToolbarWithSearch"
+        android:theme="@style/Widget.MyDic.Toolbar.WithSearch"
         app:menu="@menu/translations_menu"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

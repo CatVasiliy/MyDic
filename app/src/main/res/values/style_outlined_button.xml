@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.MyDic.OutlinedButton" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.MyDic.OutlinedButton</item>
+    </style>
+
+    <style name="ThemeOverlay.MyDic.OutlinedButton" parent="ThemeOverlay.Material3.Button.TextButton">
+        <item name="colorPrimary">@color/buttonVariant</item>
+    </style>
+
+</resources>

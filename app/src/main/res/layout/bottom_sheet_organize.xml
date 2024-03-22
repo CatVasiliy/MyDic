@@ -2,19 +2,32 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="8dp"
     android:paddingBottom="16dp"
-    android:paddingHorizontal="8dp">
+    android:paddingHorizontal="16dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvBottomSheetTitle"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="@string/organize_translations"
-        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+        android:textAppearance="?attr/textAppearanceTitleLarge"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvSortByTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/sort_by"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        app:layout_constraintTop_toBottomOf="@id/tvBottomSheetTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -22,7 +35,9 @@
         android:id="@+id/radioGroup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/tvBottomSheetTitle"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tvSortByTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -47,50 +62,109 @@
 
     </RadioGroup>
 
-    <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/cbDescending"
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/dividerSortBy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/descending"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintTop_toBottomOf="@id/radioGroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/llLanguages"
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/cbDescending"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:weightSum="100"
-        android:orientation="horizontal"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/descending"
+        app:layout_constraintTop_toBottomOf="@id/dividerSortBy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvFilerByTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/filter_by"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
         app:layout_constraintTop_toBottomOf="@id/cbDescending"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <Spinner
-            android:id="@+id/spSourceLanguage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="50"
-            android:layout_marginEnd="16dp"/>
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/source_language"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        app:layout_constraintTop_toTopOf="@id/spSourceLanguage"
+        app:layout_constraintBottom_toBottomOf="@id/spSourceLanguage"
+        app:layout_constraintStart_toStartOf="@id/tvFilerByTitle"
+        app:layout_constraintEnd_toStartOf="@id/barrier"
+        app:layout_constraintHorizontal_bias="1.0" />
 
-        <Spinner
-            android:id="@+id/spTargetLanguage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="50" />
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/target_language"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        app:layout_constraintTop_toTopOf="@id/spTargetLanguage"
+        app:layout_constraintBottom_toBottomOf="@id/spTargetLanguage"
+        app:layout_constraintStart_toStartOf="@id/tvFilerByTitle"
+        app:layout_constraintEnd_toStartOf="@id/barrier"
+        app:layout_constraintHorizontal_bias="1.0" />
 
-    </LinearLayout>
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end" />
+
+    <Spinner
+        android:id="@+id/spSourceLanguage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tvFilerByTitle"
+        app:layout_constraintStart_toEndOf="@id/barrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_language_spinner" />
+
+    <Spinner
+        android:id="@+id/spTargetLanguage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toBottomOf="@id/spSourceLanguage"
+        app:layout_constraintStart_toEndOf="@id/barrier"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_language_spinner" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/dividerReset"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/spTargetLanguage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnReset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/reset"
         app:icon="@drawable/icon_reset"
         app:iconGravity="start"
-        app:layout_constraintTop_toBottomOf="@id/llLanguages"
+        app:layout_constraintTop_toBottomOf="@id/dividerReset"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,12 +11,16 @@
 
         <item name="colorSurface">@color/surface</item>
         <item name="colorOnSurface">@color/onSurface</item>
+        <item name="colorOnSurfaceVariant">@color/onSurfaceVariant</item>
 
         <item name="colorOutlineVariant">@color/outlineVariant</item>
 
         <item name="android:colorBackground">?attr/colorSurface</item>
 
-        <item name="toolbarStyle">@style/Theme.MyDic.Toolbar</item>
+        <item name="toolbarStyle">@style/Widget.MyDic.Toolbar</item>
+        <item name="radioButtonStyle">@style/Widget.MyDic.RadioButton</item>
+        <item name="checkboxStyle">@style/Widget.MyDic.CheckBox</item>
+        <item name="materialButtonStyle">@style/Widget.MyDic.Button</item>
 
     </style>
 

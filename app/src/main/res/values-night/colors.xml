@@ -9,9 +9,12 @@
 
     <color name="surface">#FF1D2026</color>
     <color name="onSurface">#FFE0E3E9</color>
+    <color name="onSurfaceVariant">#FFC4C8D0</color>
 
     <color name="outlineVariant">#FF45484F</color>
 
+    <color name="button">#FF37538B</color>
+    <color name="buttonVariant">#FF5A79B8</color>
     <color name="deleteBackground">#FF880000</color>
 
 </resources>

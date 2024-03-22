@@ -1,18 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">My Dic</string>
 
     <string name="translations">Translations</string>
     <string name="add_translation">Add translation</string>
     <string name="search">Search</string>
-    <string name="organize_translations">Organize Translations</string>
+    <string name="delete_translation_snackbar">Translation deleted</string>
+    <string name="undo">Undo</string>
+    <string name="no_translations">There are no saved translations. Click Add button to translate.</string>
+
+    <string name="organize_translations">Organize translations</string>
+    <string name="sort_by">Sort by</string>
     <string name="date">Date</string>
     <string name="source_text">Source Text</string>
     <string name="translation_text">Translation Text</string>
     <string name="descending">Descending</string>
+    <string name="filter_by">Filter by</string>
+    <string name="source_language">Source language</string>
+    <string name="target_language">Target language</string>
     <string name="reset">Reset</string>
-    <string name="delete_translation_snackbar">Translation deleted</string>
-    <string name="undo">Undo</string>
-    <string name="no_translations">There are no saved translations. Click Add button to translate.</string>
 
     <string name="translate">Translate</string>
     <string name="et_source_hint">Text to translate</string>

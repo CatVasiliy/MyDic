@@ -10,8 +10,13 @@
 
     <color name="surface">#FFFFFFFF</color>
     <color name="onSurface">#FF1B1D20</color>
+    <color name="onSurfaceVariant">#FF45484F</color>
 
     <color name="outlineVariant">#FFC4C8D0</color>
+
+    <!--  Light mode button colors same as Primary color  -->
+    <color name="button">#FF506CA4</color>
+    <color name="buttonVariant">#FF506CA4</color>
 
     <color name="deleteBackground">#FFEE0000</color>
 
