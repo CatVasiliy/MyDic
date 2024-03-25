@@ -4,64 +4,63 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.catvasiliy.mydic.databinding.FragmentSettingsBinding
-import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingInterval
-import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingPreferences
+import androidx.preference.ListPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreferenceCompat
+import com.catvasiliy.mydic.R
+import com.catvasiliy.mydic.presentation.model.preferences.translation_sending.UiTranslationSendingInterval
+import com.catvasiliy.mydic.presentation.model.preferences.translation_sending.UiTranslationSendingPreferences
+import com.google.android.material.appbar.MaterialToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
-class SettingsFragment : Fragment() {
+private const val sendTranslationsKey = "sendTranslations"
+private const val sendingIntervalKey = "sendingInterval"
 
-    private var _binding: FragmentSettingsBinding? = null
-    private val binding get() = _binding!!
+@AndroidEntryPoint
+class SettingsFragment : PreferenceFragmentCompat() {
 
     private val viewModel: SettingsViewModel by viewModels()
 
-    private val sendingIntervalAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            TranslationSendingInterval.entries
-        ).apply {
-            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        }
-    }
-    private val spinnerItemSelectedListener = object : OnItemSelectedListener {
+    private val sendTranslationsListener = Preference.OnPreferenceChangeListener { preference, newValue ->
+        if (preference !is SwitchPreferenceCompat) return@OnPreferenceChangeListener false
 
-        override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-            val item = parent.getItemAtPosition(position) as TranslationSendingInterval
-            val currentItem = viewModel.state.value.sendingPreferences.sendingInterval
-            if (item != currentItem) {
-                viewModel.updateTranslationSendingInterval(item)
-            }
+        val isChecked = newValue as Boolean
+        if (isChecked) {
+            checkAndRequestNotificationPermission()
         }
 
-        override fun onNothingSelected(parent: AdapterView<*>?) { }
+        val swSendingInterval = findPreference<ListPreference>(sendingIntervalKey)
+            ?: return@OnPreferenceChangeListener false
+        val sendingIntervalName = swSendingInterval.value ?: return@OnPreferenceChangeListener false
+        val sendingInterval = UiTranslationSendingInterval.valueOf(sendingIntervalName)
+
+        viewModel.toggleTranslationSending(isChecked, sendingInterval)
+
+        true
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    private val sendingIntervalListener = Preference.OnPreferenceChangeListener { preference, newValue ->
+        if (preference !is ListPreference) return@OnPreferenceChangeListener false
 
-        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
-        return binding.root
+        val sendingIntervalName = newValue as String
+        val sendingInterval = UiTranslationSendingInterval.valueOf(sendingIntervalName)
+        viewModel.updateTranslationSendingInterval(sendingInterval)
+
+        true
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences_screen, rootKey)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,43 +77,43 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun setupView() = with(binding) {
-        tbSettings.setNavigationOnClickListener {
+    private fun setupView() {
+        view?.findViewById<MaterialToolbar>(R.id.tbSettings)?.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
 
-        swSendTranslations.setOnClickListener {
-            checkAndRequestNotificationPermission()
-            viewModel.toggleTranslationSending(
-                isSendingEnabled = swSendTranslations.isChecked,
-                sendingInterval = spSendingIntervals.selectedItem as TranslationSendingInterval
-            )
+        findPreference<SwitchPreferenceCompat>(sendTranslationsKey)?.apply {
+            onPreferenceChangeListener = sendTranslationsListener
         }
 
-        spSendingIntervals.apply {
-            adapter = sendingIntervalAdapter
-            onItemSelectedListener = spinnerItemSelectedListener
+        findPreference<ListPreference>(sendingIntervalKey)?.apply {
+            entries = getSendingIntervalEntries()
+            entryValues = getSendingIntervalEntryValues()
+            onPreferenceChangeListener = sendingIntervalListener
         }
     }
 
-    private fun updateSendingPreferencesView(sendingPreferences: TranslationSendingPreferences) {
+    private fun getSendingIntervalEntries(): Array<CharSequence> {
+        return UiTranslationSendingInterval.entries.map { entry ->
+            getString(entry.stringResId)
+        }.toTypedArray()
+    }
+
+    private fun getSendingIntervalEntryValues(): Array<CharSequence> {
+        return UiTranslationSendingInterval.entries.map { entry ->
+            entry.name
+        }.toTypedArray()
+    }
+
+    private fun updateSendingPreferencesView(sendingPreferences: UiTranslationSendingPreferences) {
         val isSendingEnabled = sendingPreferences.isSendingEnabled
 
-        val selection = sendingPreferences.sendingInterval
-        val position = sendingIntervalAdapter.getPosition(selection)
+        findPreference<SwitchPreferenceCompat>(sendTranslationsKey)?.isChecked = isSendingEnabled
 
-        with(binding) {
-            swSendTranslations.isChecked = isSendingEnabled
-            spSendingIntervals.apply {
-                // Disable intervals spinner if translation sending enabled
-                isEnabled = !isSendingEnabled
-                setSelection(position)
-            }
+        findPreference<ListPreference>(sendingIntervalKey)?.apply {
+            // Disable intervals if translation sending enabled
+            isEnabled = !isSendingEnabled
+            value = sendingPreferences.sendingInterval.name
         }
     }
 

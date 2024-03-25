@@ -2,11 +2,14 @@ package com.catvasiliy.mydic.presentation.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingInterval
-import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingPreferences
 import com.catvasiliy.mydic.domain.use_case.preferences.translation_sending.GetTranslationSendingPreferencesUseCase
 import com.catvasiliy.mydic.domain.use_case.preferences.translation_sending.ToggleTranslationSendingUseCase
 import com.catvasiliy.mydic.domain.use_case.preferences.translation_sending.UpdateTranslationSendingIntervalUseCase
+import com.catvasiliy.mydic.presentation.model.preferences.translation_sending.UiTranslationSendingInterval
+import com.catvasiliy.mydic.presentation.model.preferences.translation_sending.UiTranslationSendingPreferences
+import com.catvasiliy.mydic.presentation.model.toTranslationSendingInterval
+import com.catvasiliy.mydic.presentation.model.toTranslationSendingPreferences
+import com.catvasiliy.mydic.presentation.model.toUiTranslationSendingPreferences
 import com.catvasiliy.mydic.presentation.settings.translation_sending.TranslationSendingAlarmScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -26,7 +29,7 @@ class SettingsViewModel @Inject constructor(
     val state = getTranslationSendingPreferencesUseCase()
         .map { translationSendingPreferences ->
             SettingsState(
-                sendingPreferences = translationSendingPreferences
+                sendingPreferences = translationSendingPreferences.toUiTranslationSendingPreferences()
             )
         }
         .stateIn(
@@ -37,28 +40,27 @@ class SettingsViewModel @Inject constructor(
 
     fun toggleTranslationSending(
         isSendingEnabled: Boolean,
-        sendingInterval: TranslationSendingInterval
+        sendingInterval: UiTranslationSendingInterval
     ) {
         viewModelScope.launch {
-
             if (isSendingEnabled) {
-                alarmScheduler.schedule(sendingInterval)
+                alarmScheduler.schedule(sendingInterval.toTranslationSendingInterval())
             } else {
                 alarmScheduler.cancel()
             }
 
-            toggleTranslationSendingUseCase(
-                TranslationSendingPreferences(
-                    isSendingEnabled = isSendingEnabled,
-                    sendingInterval = sendingInterval
-                )
+            val sendingPreferences = UiTranslationSendingPreferences(
+                isSendingEnabled = isSendingEnabled,
+                sendingInterval = sendingInterval
             )
+
+            toggleTranslationSendingUseCase(sendingPreferences.toTranslationSendingPreferences())
         }
     }
 
-    fun updateTranslationSendingInterval(interval: TranslationSendingInterval) {
+    fun updateTranslationSendingInterval(interval: UiTranslationSendingInterval) {
         viewModelScope.launch {
-            updateTranslationSendingIntervalUseCase(interval)
+            updateTranslationSendingIntervalUseCase(interval.toTranslationSendingInterval())
         }
     }
 }

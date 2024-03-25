@@ -21,6 +21,8 @@
         <item name="radioButtonStyle">@style/Widget.MyDic.RadioButton</item>
         <item name="checkboxStyle">@style/Widget.MyDic.CheckBox</item>
         <item name="materialButtonStyle">@style/Widget.MyDic.Button</item>
+        
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.MyDic</item>
 
     </style>
 

@@ -4,10 +4,14 @@ import com.catvasiliy.mydic.domain.model.preferences.LanguagePreferences
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.TranslationOrganizingPreferences
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.filtering.SourceLanguageFilteringInfo
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.filtering.TargetLanguageFilteringInfo
+import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingInterval
+import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingPreferences
 import com.catvasiliy.mydic.presentation.model.preferences.UiLanguagePreferences
 import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiSourceLanguageFilteringInfo
 import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiTargetLanguageFilteringInfo
 import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiTranslationOrganizingPreferences
+import com.catvasiliy.mydic.presentation.model.preferences.translation_sending.UiTranslationSendingInterval
+import com.catvasiliy.mydic.presentation.model.preferences.translation_sending.UiTranslationSendingPreferences
 
 fun TranslationOrganizingPreferences.toUiTranslationOrganizingPreferences(): UiTranslationOrganizingPreferences {
     return UiTranslationOrganizingPreferences(
@@ -28,6 +32,15 @@ private fun SourceLanguageFilteringInfo.toUiSourceLanguageFilteringInfo(): UiSou
     }
 }
 
+private fun TargetLanguageFilteringInfo.toUiTargetLanguageFilteringInfo(): UiTargetLanguageFilteringInfo {
+    return when (this) {
+        is TargetLanguageFilteringInfo.LanguageAny ->
+            UiTargetLanguageFilteringInfo.LanguageAny
+        is TargetLanguageFilteringInfo.LanguageKnown ->
+            UiTargetLanguageFilteringInfo.LanguageKnown(language.toUiLanguageNotNull())
+    }
+}
+
 fun UiSourceLanguageFilteringInfo.toSourceLanguageFilteringInfo(): SourceLanguageFilteringInfo {
     return when(this) {
         is UiSourceLanguageFilteringInfo.LanguageAny ->
@@ -36,15 +49,6 @@ fun UiSourceLanguageFilteringInfo.toSourceLanguageFilteringInfo(): SourceLanguag
             SourceLanguageFilteringInfo.LanguageUnknown
         is UiSourceLanguageFilteringInfo.LanguageKnown ->
             SourceLanguageFilteringInfo.LanguageKnown(language.toLanguageNotNull())
-    }
-}
-
-private fun TargetLanguageFilteringInfo.toUiTargetLanguageFilteringInfo(): UiTargetLanguageFilteringInfo {
-    return when (this) {
-        is TargetLanguageFilteringInfo.LanguageAny ->
-            UiTargetLanguageFilteringInfo.LanguageAny
-        is TargetLanguageFilteringInfo.LanguageKnown ->
-            UiTargetLanguageFilteringInfo.LanguageKnown(language.toUiLanguageNotNull())
     }
 }
 
@@ -62,4 +66,26 @@ fun LanguagePreferences.toUiLanguagePreferences(): UiLanguagePreferences {
         defaultSourceLanguage = defaultSourceLanguage?.toUiLanguage(),
         defaultTargetLanguage = defaultTargetLanguage.toUiLanguageNotNull()
     )
+}
+
+fun TranslationSendingPreferences.toUiTranslationSendingPreferences(): UiTranslationSendingPreferences {
+    return UiTranslationSendingPreferences(
+        isSendingEnabled = isSendingEnabled,
+        sendingInterval = sendingInterval.toUiTranslationSendingInterval()
+    )
+}
+
+fun TranslationSendingInterval.toUiTranslationSendingInterval(): UiTranslationSendingInterval {
+    return UiTranslationSendingInterval.valueOf(name)
+}
+
+fun UiTranslationSendingPreferences.toTranslationSendingPreferences(): TranslationSendingPreferences {
+    return TranslationSendingPreferences(
+        isSendingEnabled = isSendingEnabled,
+        sendingInterval = sendingInterval.toTranslationSendingInterval()
+    )
+}
+
+fun UiTranslationSendingInterval.toTranslationSendingInterval(): TranslationSendingInterval {
+    return TranslationSendingInterval.valueOf(name)
 }

@@ -1,35 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tbSettings"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/settings"
-        app:navigationIcon="@drawable/icon_arrow_back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:navigationIcon="@drawable/icon_arrow_back" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/swSendTranslations"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Send Translations"
-        app:layout_constraintTop_toBottomOf="@id/tbSettings"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <FrameLayout
+        android:id="@android:id/list_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <Spinner
-        android:id="@+id/spSendingIntervals"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/swSendTranslations"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
