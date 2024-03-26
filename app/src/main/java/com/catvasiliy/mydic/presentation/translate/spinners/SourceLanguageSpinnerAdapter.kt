@@ -15,15 +15,9 @@ import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
 class SourceLanguageSpinnerAdapter(private val context: Context) : BaseAdapter() {
 
     private val items: List<SourceLanguageSpinnerItem> = buildList {
-        add(SourceLanguageSpinnerItem(null))
+        add(SourceLanguageSpinnerItem.LanguageAuto)
         addAll(createItemListFromUiLanguageEntries())
     }
-
-    override fun getCount(): Int = items.size
-
-    override fun getItem(position: Int): Any = items[position]
-
-    override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
@@ -35,10 +29,10 @@ class SourceLanguageSpinnerAdapter(private val context: Context) : BaseAdapter()
         val item = items[position]
 
         @DrawableRes
-        val drawableResId = item.language?.drawableResId ?: R.drawable.language_icon_auto
+        val drawableResId = item.drawableResId
 
         @StringRes
-        val stringResId = item.language?.stringResId ?: R.string.language_auto
+        val stringResId = item.stringResId
 
         view.findViewById<ImageView>(R.id.ivLanguageItemIcon).setImageResource(drawableResId)
         view.findViewById<TextView>(R.id.tvLanguageItemText).setText(stringResId)
@@ -46,15 +40,21 @@ class SourceLanguageSpinnerAdapter(private val context: Context) : BaseAdapter()
         return view
     }
 
+    override fun getCount(): Int = items.size
+
+    override fun getItem(position: Int): Any = items[position]
+
+    override fun getItemId(position: Int): Long = position.toLong()
+
     fun getPosition(sourceLanguage: UiLanguage?): Int {
         return items.indexOfFirst { sourceLanguageItem ->
             sourceLanguageItem.language == sourceLanguage
         }
     }
 
-    private fun createItemListFromUiLanguageEntries(): List<SourceLanguageSpinnerItem> {
+    private fun createItemListFromUiLanguageEntries(): List<SourceLanguageSpinnerItem.LanguageKnown> {
         return UiLanguage.entries.map { language ->
-            SourceLanguageSpinnerItem(language)
+            SourceLanguageSpinnerItem.LanguageKnown(language)
         }
     }
 }
