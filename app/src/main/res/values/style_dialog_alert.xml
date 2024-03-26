@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <style name="MaterialDialogAlert" parent="ThemeOverlay.Material3.Dialog.Alert">
+        <item name="dialogCornerRadius">28dp</item>
+        <item name="android:textColorPrimary">@color/preferenceCategoryTitleText</item>
+        <item name="android:colorBackground">?attr/colorSurface</item>
+        <item name="colorAccent">@color/buttonVariant</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.MyDic.Dialog.Button</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.MyDic.Dialog.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.MyDic.Dialog.Button</item>
+    </style>
+    
+    <style name="Widget.MyDic.Dialog.Button" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/buttonVariant</item>
+    </style>
+    
+</resources>

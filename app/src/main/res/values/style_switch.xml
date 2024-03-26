@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.MyDic.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.MyDic.Switch</item>
+    </style>
+
+    <style name="ThemeOverlay.MyDic.Switch" parent="">
+        <item name="colorPrimary">@color/button</item>
+    </style>
+
+</resources>

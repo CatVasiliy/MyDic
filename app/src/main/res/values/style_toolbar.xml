@@ -6,6 +6,7 @@
         <item name="titleTextColor">?attr/colorOnPrimary</item>
         <item name="navigationIconTint">?attr/colorOnPrimary</item>
         <item name="iconTint">?attr/colorOnPrimary</item>
+        <item name="titleMarginStart">16dp</item>
     </style>
 
     <style name="Widget.MyDic.Toolbar.WithSearch" parent="Widget.MyDic.Toolbar">
