@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Widget.MyDic.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.MyDic.RadioButton</item>
+    <style name="MyDic.Widget.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/MyDic.ThemeOverlay.RadioButton</item>
     </style>
     
-    <style name="ThemeOverlay.MyDic.RadioButton" parent="">
+    <style name="MyDic.ThemeOverlay.RadioButton" parent="">
+        <!-- Checked color -->
         <item name="colorPrimary">@color/buttonVariant</item>
     </style>
 

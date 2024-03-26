@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="PreferenceThemeOverlay.MyDic" parent="PreferenceThemeOverlay">
+    <style name="MyDic.PreferenceThemeOverlay" parent="PreferenceThemeOverlay">
+        <!-- Adding custom layout to support top app bar -->
         <item name="android:layout">@layout/fragment_settings</item>
-        <item name="switchPreferenceCompatStyle">@style/Preference.MyDic.SwitchPreference</item>
+        <item name="switchPreferenceCompatStyle">@style/MyDic.Preference.SwitchPreference</item>
         <item name="preferenceCategoryTitleTextColor">@color/preferenceCategoryTitleText</item>
     </style>
 
-    <style name="Preference.MyDic.SwitchPreference" parent="Preference.SwitchPreferenceCompat.Material">
+    <style name="MyDic.Preference.SwitchPreference" parent="Preference.SwitchPreferenceCompat.Material">
+        <!-- Replacing Switch with MaterialSwitch -->
         <item name="android:widgetLayout">@layout/preference_widget_switch_material</item>
     </style>
 

@@ -16,15 +16,15 @@
     <color name="outline">#FF74777E</color>
     <color name="outlineVariant">#FFC4C8D0</color>
 
-    <!--  Same as Primary color  -->
+    <!-- Same as Primary color -->
     <color name="button">#FF506CA4</color>
-    <!--  Same as Primary color  -->
+    <!-- Same as Primary color -->
     <color name="buttonVariant">#FF506CA4</color>
 
-    <!--  Same as Primary color  -->
-    <color name="dialogTitleColor">#FF506CA4</color>
+    <!-- Same as Primary color -->
+    <color name="dialogTitleTextColor">#FF506CA4</color>
 
-    <!--  Same as Primary color  -->
+    <!-- Same as Primary color -->
     <color name="preferenceCategoryTitleText">#FF506CA4</color>
 
     <color name="deleteBackground">#FFEE0000</color>

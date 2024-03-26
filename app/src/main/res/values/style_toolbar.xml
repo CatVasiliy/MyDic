@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Widget.MyDic.Toolbar" parent="Widget.Material3.Toolbar">
+    <style name="MyDic.Widget.Toolbar" parent="Widget.Material3.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
         <item name="titleTextColor">?attr/colorOnPrimary</item>
         <item name="navigationIconTint">?attr/colorOnPrimary</item>
@@ -9,9 +9,12 @@
         <item name="titleMarginStart">16dp</item>
     </style>
 
-    <style name="Widget.MyDic.Toolbar.WithSearch" parent="Widget.MyDic.Toolbar">
+    <style name="MyDic.Widget.Toolbar.WithSearch" parent="MyDic.Widget.Toolbar">
+        <!-- Most of SearchView elements color -->
         <item name="colorControlNormal">?attr/colorOnPrimary</item>
+        <!-- Text color in SearchView (also overrides titleTextColor) -->
         <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
+        <!-- SearchView cursor color -->
         <item name="colorAccent">?attr/colorOnPrimary</item>
     </style>
 

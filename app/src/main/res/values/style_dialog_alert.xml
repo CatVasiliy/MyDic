@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <style name="MaterialDialogAlert" parent="ThemeOverlay.Material3.Dialog.Alert">
+    <style name="MyDic.ThemeOverlay.Dialog.Alert" parent="ThemeOverlay.Material3.Dialog.Alert">
         <item name="dialogCornerRadius">28dp</item>
-        <item name="android:textColorPrimary">@color/preferenceCategoryTitleText</item>
+        <!-- Dialog title color -->
+        <item name="android:textColorPrimary">@color/dialogTitleTextColor</item>
         <item name="android:colorBackground">?attr/colorSurface</item>
+        <!-- Dialog checked radio button color -->
         <item name="colorAccent">@color/buttonVariant</item>
-        <item name="buttonBarPositiveButtonStyle">@style/Widget.MyDic.Dialog.Button</item>
-        <item name="buttonBarNeutralButtonStyle">@style/Widget.MyDic.Dialog.Button</item>
-        <item name="buttonBarNegativeButtonStyle">@style/Widget.MyDic.Dialog.Button</item>
+        <item name="buttonBarPositiveButtonStyle">@style/MyDic.Widget.Button.Dialog</item>
+        <item name="buttonBarNeutralButtonStyle">@style/MyDic.Widget.Button.Dialog</item>
+        <item name="buttonBarNegativeButtonStyle">@style/MyDic.Widget.Button.Dialog</item>
     </style>
     
-    <style name="Widget.MyDic.Dialog.Button" parent="Widget.Material3.Button.TextButton.Dialog">
+    <style name="MyDic.Widget.Button.Dialog" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/buttonVariant</item>
     </style>
     

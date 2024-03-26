@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <style name="Widget.MyDic.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.MyDic.CheckBox</item>
+    <style name="MyDic.Widget.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="materialThemeOverlay">@style/MyDic.ThemeOverlay.CheckBox</item>
     </style>
 
-    <style name="ThemeOverlay.MyDic.CheckBox" parent="">
+    <style name="MyDic.ThemeOverlay.CheckBox" parent="">
+        <!-- Checked color -->
         <item name="colorPrimary">@color/buttonVariant</item>
     </style>
     

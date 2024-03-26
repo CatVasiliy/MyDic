@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Theme.MyDic" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="MyDic.Theme" parent="Theme.Material3.DayNight.NoActionBar">
 
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/onPrimary</item>
@@ -19,14 +19,14 @@
 
         <item name="android:colorBackground">?attr/colorSurface</item>
 
-        <item name="toolbarStyle">@style/Widget.MyDic.Toolbar</item>
-        <item name="radioButtonStyle">@style/Widget.MyDic.RadioButton</item>
-        <item name="checkboxStyle">@style/Widget.MyDic.CheckBox</item>
-        <item name="materialButtonStyle">@style/Widget.MyDic.Button</item>
-        <item name="materialSwitchStyle">@style/Widget.MyDic.Switch</item>
-        <item name="alertDialogTheme">@style/MaterialDialogAlert</item>
+        <item name="toolbarStyle">@style/MyDic.Widget.Toolbar</item>
+        <item name="radioButtonStyle">@style/MyDic.Widget.RadioButton</item>
+        <item name="checkboxStyle">@style/MyDic.Widget.CheckBox</item>
+        <item name="materialButtonStyle">@style/MyDic.Widget.Button</item>
+        <item name="materialSwitchStyle">@style/MyDic.Widget.Switch</item>
+        <item name="alertDialogTheme">@style/MyDic.ThemeOverlay.Dialog.Alert</item>
         
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.MyDic</item>
+        <item name="preferenceTheme">@style/MyDic.PreferenceThemeOverlay</item>
 
     </style>
 

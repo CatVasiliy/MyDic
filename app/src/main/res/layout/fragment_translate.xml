@@ -84,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@id/spSourceLanguage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        style="@style/Widget.MyDic.OutlinedButton" />
+        style="@style/MyDic.Widget.Button.OutlinedButton" />
 
     <Spinner
         android:id="@+id/spTargetLanguage"
