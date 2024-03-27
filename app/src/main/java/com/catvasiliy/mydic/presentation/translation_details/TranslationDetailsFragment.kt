@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslationDetailsBinding
 import com.catvasiliy.mydic.presentation.MainActivity
@@ -32,6 +33,8 @@ class TranslationDetailsFragment : Fragment() {
     private var _binding: FragmentTranslationDetailsBinding? = null
     private val binding get() = _binding!!
 
+    private val navArgs: TranslationDetailsFragmentArgs by navArgs()
+
     private val viewModel: TranslationDetailsViewModel by viewModels()
 
     override fun onCreateView(
@@ -47,7 +50,7 @@ class TranslationDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupBackAction()
-        handleNavArgs(arguments)
+        handleNavArgs()
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -86,22 +89,20 @@ class TranslationDetailsFragment : Fragment() {
         findNavController().popBackStack(R.id.fragmentTranslationsList, false)
     }
 
-    private fun handleNavArgs(args: Bundle?) {
-        if (args == null) return
-
-        if (handleSourceTextNavArgs(args)) return
-        if (handleIdNavArgs(args)) return
+    private fun handleNavArgs() {
+        if (handleSourceTextNavArgs()) return
+        if (handleIdNavArgs()) return
     }
 
-    private fun handleSourceTextNavArgs(args: Bundle): Boolean {
-        val sourceText = TranslationDetailsFragmentArgs.fromBundle(args).sourceText
+    private fun handleSourceTextNavArgs(): Boolean {
+        val sourceText = navArgs.sourceText
 
         if (sourceText.isBlank()) return false
 
-        val sourceLanguageOrdinal = TranslationDetailsFragmentArgs.fromBundle(args).sourceLanguageOrdinal
+        val sourceLanguageOrdinal = navArgs.sourceLanguageOrdinal
         val sourceLanguage = UiLanguage.entries.getOrNull(sourceLanguageOrdinal)
 
-        val targetLanguage = TranslationDetailsFragmentArgs.fromBundle(args).targetLanguage
+        val targetLanguage = navArgs.targetLanguage
 
         arguments?.apply {
             remove("sourceText")
@@ -117,12 +118,12 @@ class TranslationDetailsFragment : Fragment() {
         return true
     }
 
-    private fun handleIdNavArgs(args: Bundle): Boolean {
-        val translationId = TranslationDetailsFragmentArgs.fromBundle(args).translationId
+    private fun handleIdNavArgs(): Boolean {
+        val translationId = navArgs.translationId
 
         if (translationId == -1L) return false
 
-        val isMissingTranslation = TranslationDetailsFragmentArgs.fromBundle(args).isMissingTranslation
+        val isMissingTranslation = navArgs.isMissingTranslation
 
         arguments?.apply {
             remove("translationId")
