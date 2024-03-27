@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name" translatable="false">My Dic</string>
 
-    <string name="translations">Translations</string>
+    <string name="my_translations">My Translations</string>
     <string name="add_translation">Add translation</string>
     <string name="search">Search</string>
     <string name="delete_translation_snackbar">Translation deleted</string>
