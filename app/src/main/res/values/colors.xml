@@ -22,6 +22,9 @@
     <color name="buttonVariant">#FF506CA4</color>
 
     <!-- Same as Primary color -->
+    <color name="editTextOutlined">#FF506CA4</color>
+
+    <!-- Same as Primary color -->
     <color name="dialogTitleTextColor">#FF506CA4</color>
 
     <!-- Same as Primary color -->

@@ -16,24 +16,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/etSource"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="8dp"
-        android:inputType="text"
-        android:textSize="20sp"
-        android:hint="@string/et_source_hint"
+        android:layout_marginHorizontal="16dp"
+        android:hint="@string/hint_etSource"
+        app:endIconMode="clear_text"
         app:layout_constraintTop_toBottomOf="@id/tbTranslation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/MyDic.Widget.TextInputLayout.Outlined">
 
-    <TextView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSource"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|start"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:maxLines="3"
+            android:textSize="20sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvSourceLanguage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:text="@string/language_from"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@id/spSourceLanguage"
@@ -42,11 +54,11 @@
         app:layout_constraintEnd_toStartOf="@id/barrier"
         app:layout_constraintHorizontal_bias="1.0" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvTargetLanguage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:text="@string/language_to"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@id/spTargetLanguage"
@@ -66,8 +78,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="8dp"
-        app:layout_constraintTop_toBottomOf="@id/etSource"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayout"
         app:layout_constraintStart_toStartOf="@id/barrier"
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_language_spinner" />
@@ -77,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="8dp"
+        android:layout_marginHorizontal="16dp"
         android:text="@string/btn_swap_languages"
         app:icon="@drawable/icon_swap"
         app:iconGravity="start"
@@ -91,7 +104,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintTop_toBottomOf="@id/btnSwapLanguages"
         app:layout_constraintStart_toStartOf="@id/barrier"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,6 +116,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
         android:textSize="24sp"
         android:text="@string/btn_translate"
         app:layout_constraintTop_toBottomOf="@id/spTargetLanguage"

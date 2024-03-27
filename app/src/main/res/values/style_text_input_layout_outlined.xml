@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MyDic.Widget.TextInputLayout.Outlined" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="materialThemeOverlay">@style/MyDic.ThemeOverlay.TextInputLayout.Outlined</item>
+    </style>
+
+    <style name="MyDic.ThemeOverlay.TextInputLayout.Outlined" parent="ThemeOverlay.Material3.TextInputEditText.OutlinedBox">
+        <!-- Color of most Outlined EditText elements -->
+        <item name="colorPrimary">@color/editTextOutlined</item>
+    </style>
+
+</resources>

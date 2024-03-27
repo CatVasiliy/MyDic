@@ -19,7 +19,7 @@
     <string name="reset">Сбросить</string>
 
     <string name="translate">Перевести</string>
-    <string name="et_source_hint">Текст для перевода</string>
+    <string name="hint_etSource">Текст для перевода</string>
     <string name="language_from">С</string>
     <string name="language_to">На</string>
     <string name="btn_swap_languages">Обратный перевод</string>

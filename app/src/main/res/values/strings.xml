@@ -21,7 +21,7 @@
     <string name="reset">Reset</string>
 
     <string name="translate">Translate</string>
-    <string name="et_source_hint">Text to translate</string>
+    <string name="hint_etSource">Text to translate</string>
     <string name="language_from">From</string>
     <string name="language_to">To</string>
     <string name="btn_swap_languages">Swap languages</string>
