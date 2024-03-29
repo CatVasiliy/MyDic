@@ -5,63 +5,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    android:paddingTop="8dp"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
+    android:paddingHorizontal="16dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground">
 
-    <TextView
+    <ImageView
+        android:id="@+id/ivSourceLanguage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:src="@drawable/language_icon_great_britain" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvSource"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
         android:paddingVertical="4dp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:fontFamily="sans-serif-medium"
-        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivSourceLanguage"
         app:layout_constraintEnd_toStartOf="@id/barrier"
         tools:text="Source Text" />
 
-    <TextView
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvTranslation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginStart="16dp"
         android:paddingVertical="3dp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:fontFamily="sans-serif"
-        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
         app:layout_constraintTop_toBottomOf="@id/tvSource"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivSourceLanguage"
         app:layout_constraintEnd_toStartOf="@id/barrier"
         tools:text="Translation Text" />
-    
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvMissingTranslation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginStart="16dp"
+        android:paddingVertical="3dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="@string/missing_translation"
+        android:textColor="?attr/colorError"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        app:layout_constraintTop_toBottomOf="@id/tvSource"
+        app:layout_constraintStart_toEndOf="@id/ivSourceLanguage"
+        app:layout_constraintEnd_toStartOf="@id/barrier" />
+
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="start" />
-    
+
     <ImageView
-        android:id="@+id/ivProblem"
+        android:id="@+id/ivMissingTranslation"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/icon_attention"
+        app:tint="?attr/colorError"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/tvTranslation"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/barrier"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="?attr/colorError" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

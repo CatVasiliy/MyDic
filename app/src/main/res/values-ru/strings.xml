@@ -6,6 +6,7 @@
     <string name="delete_translation_snackbar">Перевод удален</string>
     <string name="undo">Отмена</string>
     <string name="no_translations">Сохраненных переводов нет. Нажмите кнопку Добавить для перевода</string>
+    <string name="missing_translation">Перевод недоступен!</string>
 
     <string name="organize_translations">Упорядочить переводы</string>
     <string name="sort_by">Сортировать по</string>

@@ -18,6 +18,7 @@
         <item name="colorOutlineVariant">@color/outlineVariant</item>
 
         <item name="android:colorBackground">?attr/colorSurface</item>
+        <item name="android:textColorPrimary">?attr/colorOnSurface</item>
 
         <item name="toolbarStyle">@style/MyDic.Widget.Toolbar</item>
         <item name="radioButtonStyle">@style/MyDic.Widget.RadioButton</item>

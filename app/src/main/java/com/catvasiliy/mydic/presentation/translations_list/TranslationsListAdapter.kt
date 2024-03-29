@@ -2,12 +2,16 @@ package com.catvasiliy.mydic.presentation.translations_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.ItemTranslationBinding
+import com.catvasiliy.mydic.presentation.model.translation.UiExtendedLanguage
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
+import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.catvasiliy.mydic.presentation.util.showIf
 
 class TranslationsListAdapter
@@ -40,9 +44,25 @@ class TranslationViewHolder(private val binding: ItemTranslationBinding) : ViewH
             view.findNavController().navigate(action)
         }
 
+        val sourceLanguage = translationItem.sourceLanguage
+        @DrawableRes
+        val sourceLanguageDrawable = if (sourceLanguage is UiExtendedLanguage.Known) {
+            sourceLanguage.language.drawableResId
+        } else {
+            R.drawable.language_icon_unknown
+        }
+
+        ivSourceLanguage.setImageResource(sourceLanguageDrawable)
         tvSource.text = translationItem.sourceText
-        tvTranslation.text = translationItem.translationText ?: ""
-        ivProblem.showIf { translationItem.isMissingTranslation }
+
+        if (translationItem.translationText != null) {
+            tvMissingTranslation.hideAndShowOther(tvTranslation)
+            tvTranslation.text = translationItem.translationText
+        } else {
+            tvTranslation.hideAndShowOther(tvMissingTranslation)
+        }
+
+        ivMissingTranslation.showIf { translationItem.isMissingTranslation }
     }
 }
 

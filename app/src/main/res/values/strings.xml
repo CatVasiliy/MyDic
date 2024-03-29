@@ -8,6 +8,7 @@
     <string name="delete_translation_snackbar">Translation deleted</string>
     <string name="undo">Undo</string>
     <string name="no_translations">There are no saved translations. Click Add button to translate.</string>
+    <string name="missing_translation">Translation is not available!</string>
 
     <string name="organize_translations">Organize translations</string>
     <string name="sort_by">Sort by</string>
