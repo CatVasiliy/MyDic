@@ -49,21 +49,30 @@
         android:id="@+id/llNoTranslations"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:padding="16dp"
         android:orientation="vertical"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tbTranslations"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible">
+        
+        <ImageView
+            android:id="@+id/ivNoTranslations"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            tools:src="@drawable/no_translations_saved" />
 
         <TextView
+            android:id="@+id/tvNoTranslations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:layout_marginTop="16dp"
             android:textAlignment="center"
-            android:text="@string/no_translations"
-            />
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:text="@string/no_translations_saved" />
 
     </LinearLayout>
 

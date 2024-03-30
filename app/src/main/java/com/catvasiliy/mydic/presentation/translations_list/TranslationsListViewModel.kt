@@ -21,6 +21,8 @@ import com.catvasiliy.mydic.presentation.model.toUiTranslation
 import com.catvasiliy.mydic.presentation.model.toUiTranslationListItem
 import com.catvasiliy.mydic.presentation.model.toUiTranslationOrganizingPreferences
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslation
+import com.catvasiliy.mydic.presentation.translations_list.state.TranslationsListState
+import com.catvasiliy.mydic.presentation.translations_list.state.TranslationsListVisibility
 import com.catvasiliy.mydic.presentation.translations_list.translation_organizing.filterBySourceLanguage
 import com.catvasiliy.mydic.presentation.translations_list.translation_organizing.filterBySourceTextContains
 import com.catvasiliy.mydic.presentation.translations_list.translation_organizing.filterByTargetLanguage
@@ -78,8 +80,16 @@ class TranslationsListViewModel @Inject constructor(
             .filterByTargetLanguage(organizingPreferences.targetLanguageFilteringInfo)
             .sortedCustom(organizingPreferences.sortingInfo)
 
+        val listVisibility: TranslationsListVisibility = when {
+            resultTranslationsList.isNotEmpty() -> TranslationsListVisibility.Visible
+            translationsList.isEmpty() -> TranslationsListVisibility.Gone.SAVED_NOTHING
+            searchQuery.isNotBlank() -> TranslationsListVisibility.Gone.SEARCH_NOTHING
+            else -> TranslationsListVisibility.Gone.FILTER_NOTHING
+        }
+
         TranslationsListState(
             translations = resultTranslationsList,
+            listVisibility = listVisibility,
             organizingPreferences = organizingPreferences,
             searchQuery = searchQuery,
             lastDeletedTranslation = lastDeletedTranslation

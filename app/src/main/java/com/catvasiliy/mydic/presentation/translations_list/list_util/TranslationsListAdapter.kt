@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.presentation.translations_list
+package com.catvasiliy.mydic.presentation.translations_list.list_util
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,6 +11,7 @@ import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.ItemTranslationBinding
 import com.catvasiliy.mydic.presentation.model.translation.UiExtendedLanguage
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
+import com.catvasiliy.mydic.presentation.translations_list.TranslationsListFragmentDirections
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.catvasiliy.mydic.presentation.util.showIf
 

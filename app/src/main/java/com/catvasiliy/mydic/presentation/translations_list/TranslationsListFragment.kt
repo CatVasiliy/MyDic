@@ -24,10 +24,13 @@ import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sort
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.sorting.TranslationSortingInfo
 import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiTranslationOrganizingPreferences
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslationListItem
+import com.catvasiliy.mydic.presentation.translations_list.list_util.SwipeToDeleteCallback
+import com.catvasiliy.mydic.presentation.translations_list.list_util.TranslationsListAdapter
 import com.catvasiliy.mydic.presentation.translations_list.spinner.SourceLanguageFilterSpinnerAdapter
 import com.catvasiliy.mydic.presentation.translations_list.spinner.SourceLanguageFilterSpinnerItem
 import com.catvasiliy.mydic.presentation.translations_list.spinner.TargetLanguageFilterSpinnerAdapter
 import com.catvasiliy.mydic.presentation.translations_list.spinner.TargetLanguageFilterSpinnerItem
+import com.catvasiliy.mydic.presentation.translations_list.state.TranslationsListVisibility
 import com.catvasiliy.mydic.presentation.util.checkWithTag
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.catvasiliy.mydic.presentation.util.setSelectionWithTag
@@ -137,7 +140,10 @@ class TranslationsListFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
                     updateOrganizingPreferences(state.organizingPreferences)
-                    updateTranslations(state.translations)
+                    updateTranslations(
+                        translationsList = state.translations,
+                        listVisibility = state.listVisibility
+                    )
                 }
             }
         }
@@ -250,13 +256,25 @@ class TranslationsListFragment : Fragment() {
         }
     }
 
-    private fun updateTranslations(translationsList: List<UiTranslationListItem>) {
-        if (translationsList.isNotEmpty()) {
-            translationsListAdapter.submitList(translationsList)
-            binding.llNoTranslations.hideAndShowOther(binding.llTranslations)
-        } else {
-            binding.llTranslations.hideAndShowOther(binding.llNoTranslations)
+    private fun updateTranslations(
+        translationsList: List<UiTranslationListItem>,
+        listVisibility: TranslationsListVisibility
+    ) {
+        when(listVisibility) {
+            is TranslationsListVisibility.Visible -> updateTranslationsList(translationsList)
+            is TranslationsListVisibility.Gone -> updateNoTranslations(listVisibility)
         }
+    }
+
+    private fun updateTranslationsList(translationsList: List<UiTranslationListItem>) {
+        translationsListAdapter.submitList(translationsList)
+        binding.llNoTranslations.hideAndShowOther(binding.llTranslations)
+    }
+
+    private fun updateNoTranslations(noTranslationsCause: TranslationsListVisibility.Gone) = with(binding) {
+        ivNoTranslations.setImageResource(noTranslationsCause.drawableResId)
+        tvNoTranslations.setText(noTranslationsCause.stringResId)
+        llTranslations.hideAndShowOther(llNoTranslations)
     }
 
     private fun updateOrganizingPreferences(

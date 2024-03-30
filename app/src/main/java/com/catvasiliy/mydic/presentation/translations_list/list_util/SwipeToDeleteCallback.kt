@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.presentation.translations_list
+package com.catvasiliy.mydic.presentation.translations_list.list_util
 
 import android.content.Context
 import android.graphics.Canvas
