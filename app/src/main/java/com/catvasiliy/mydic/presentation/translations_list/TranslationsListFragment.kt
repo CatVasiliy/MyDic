@@ -79,6 +79,10 @@ class TranslationsListFragment : Fragment() {
         }
     }
 
+    private val swipeHelper by lazy(LazyThreadSafetyMode.NONE) {
+        ItemTouchHelper(swipeToDeleteCallback)
+    }
+
     private var _bottomSheetOrganizeBinding: BottomSheetOrganizeBinding? = null
     private val bottomSheetOrganizeBinding get() = _bottomSheetOrganizeBinding!!
 
@@ -168,7 +172,7 @@ class TranslationsListFragment : Fragment() {
         setupMenuItems()
         setupBottomSheetOrganize()
 
-        val swipeHelper = ItemTouchHelper(swipeToDeleteCallback)
+//        val swipeHelper = ItemTouchHelper(swipeToDeleteCallback)
 
         with(binding) {
             rvTranslations.apply {
@@ -268,6 +272,13 @@ class TranslationsListFragment : Fragment() {
 
     private fun updateTranslationsList(translationsList: List<UiTranslationListItem>) {
         translationsListAdapter.submitList(translationsList)
+
+        // Reattach ItemTouchHelper to make sure all items that deletion was undone would draw properly
+        // Problem is caused by inability of ItemTouchHelper to restore item's original position
+        // Problem only appears if there is only one item in list
+        swipeHelper.attachToRecyclerView(null)
+        swipeHelper.attachToRecyclerView(binding.rvTranslations)
+
         binding.llNoTranslations.hideAndShowOther(binding.llTranslations)
     }
 
