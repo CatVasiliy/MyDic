@@ -11,6 +11,7 @@ import androidx.work.WorkerParameters
 import com.catvasiliy.mydic.di.TranslationNotifierQualifier
 import com.catvasiliy.mydic.domain.use_case.preferences.translation_sending.GetTranslationForSendingUseCase
 import com.catvasiliy.mydic.domain.util.Resource
+import com.catvasiliy.mydic.presentation.model.toUiTranslationForSending
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -37,11 +38,10 @@ class TranslationNotificationWorker @AssistedInject constructor(
             is Resource.Success -> translationResource.data!!
             is Resource.Error -> return Result.failure()
             else -> throw IllegalStateException()
-        }
+        }.toUiTranslationForSending()
 
         (notifier as TranslationNotifier).apply {
-            setTranslationId(translation.id)
-            setSourceText(translation.sourceText)
+            setTranslationForSending(translation)
         }
 
         notifier.showNotification()

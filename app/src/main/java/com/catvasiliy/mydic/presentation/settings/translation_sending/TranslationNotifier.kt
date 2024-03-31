@@ -5,9 +5,13 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.presentation.MainActivity
+import com.catvasiliy.mydic.presentation.model.preferences.translation_sending.UiTranslationForSending
 import com.catvasiliy.mydic.presentation.util.ACTION_OPEN_TRANSLATION
 import com.catvasiliy.mydic.presentation.util.EXTRA_TRANSLATION_ID
 import javax.inject.Inject
@@ -18,40 +22,44 @@ class TranslationNotifier @Inject constructor(
 ) : Notifier(notificationManager) {
 
     override val notificationChannelId: String = "TRANSLATION_CHANNEL"
-    override val notificationChannelName: String = "Translation"
+    override val notificationChannelName: String = "Translation sending"
     override val notificationId: Int
-        get() = translationId.toInt()
+        get() = translation.id.toInt()
 
-    private var translationId: Long = -1
-    private var sourceText: String = ""
+    private var _translation: UiTranslationForSending? = null
+    private val translation get() = _translation!!
 
     override fun buildNotification(): Notification {
+        @DrawableRes
+        val largeIconResId = translation.sourceLanguage?.drawableResId
+            ?: R.drawable.language_icon_unknown
+
+        val largeIcon = ContextCompat.getDrawable(context, largeIconResId)?.toBitmap()
+
         return NotificationCompat.Builder(context, notificationChannelId)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle(context.getString(R.string.app_name))
-            .setContentText(sourceText)
+            .setContentTitle(context.getString(R.string.translation_notification_title))
+            .setContentText(translation.sourceText)
+            .setLargeIcon(largeIcon)
             .setContentIntent(getTranslationPendingIntent())
             .setAutoCancel(true)
+            .setBadgeIconType(NotificationCompat.BADGE_ICON_NONE)
             .build()
     }
 
-    fun setTranslationId(id: Long) {
-        this.translationId = id
-    }
-
-    fun setSourceText(sourceText: String) {
-        this.sourceText = sourceText
+    fun setTranslationForSending(translationForSending: UiTranslationForSending) {
+        _translation = translationForSending
     }
 
     private fun getTranslationPendingIntent(): PendingIntent {
         val intent = Intent(context, MainActivity::class.java).apply {
             action = ACTION_OPEN_TRANSLATION
         }
-        .putExtra(EXTRA_TRANSLATION_ID, translationId)
+        .putExtra(EXTRA_TRANSLATION_ID, translation.id)
 
         return PendingIntent.getActivity(
             context,
-            translationId.toInt(),
+            translation.id.toInt(),
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )

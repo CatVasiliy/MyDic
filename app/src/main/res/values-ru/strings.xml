@@ -65,4 +65,6 @@
     <string name="interval_hours_3">3 Часа</string>
     <string name="interval_hours_6">6 Часов</string>
     <string name="interval_hours_12">12 Часов</string>
+
+    <string name="translation_notification_title">Знаете ли вы, как это переводится?</string>
 </resources>

@@ -130,7 +130,8 @@ fun CachedTranslationAggregate.toTranslationForSending(): TranslationForSending 
     return TranslationForSending(
         id = baseTranslation.id,
         sourceText = baseTranslation.sourceText,
-        translationText = baseTranslation.translationText
+        translationText = baseTranslation.translationText,
+        sourceLanguage = baseTranslation.sourceLanguage
     )
 }
 

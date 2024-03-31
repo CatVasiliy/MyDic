@@ -67,4 +67,6 @@
     <string name="interval_hours_3">3 Hours</string>
     <string name="interval_hours_6">6 Hours</string>
     <string name="interval_hours_12">12 Hours</string>
+
+    <string name="translation_notification_title">Do you know how this translates?</string>
 </resources>

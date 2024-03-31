@@ -4,12 +4,14 @@ import com.catvasiliy.mydic.domain.model.preferences.LanguagePreferences
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.TranslationOrganizingPreferences
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.filtering.SourceLanguageFilteringInfo
 import com.catvasiliy.mydic.domain.model.preferences.translation_organizing.filtering.TargetLanguageFilteringInfo
+import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationForSending
 import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingInterval
 import com.catvasiliy.mydic.domain.model.preferences.translation_sending.TranslationSendingPreferences
 import com.catvasiliy.mydic.presentation.model.preferences.UiLanguagePreferences
 import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiSourceLanguageFilteringInfo
 import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiTargetLanguageFilteringInfo
 import com.catvasiliy.mydic.presentation.model.preferences.translation_organizing.UiTranslationOrganizingPreferences
+import com.catvasiliy.mydic.presentation.model.preferences.translation_sending.UiTranslationForSending
 import com.catvasiliy.mydic.presentation.model.preferences.translation_sending.UiTranslationSendingInterval
 import com.catvasiliy.mydic.presentation.model.preferences.translation_sending.UiTranslationSendingPreferences
 
@@ -88,4 +90,13 @@ fun UiTranslationSendingPreferences.toTranslationSendingPreferences(): Translati
 
 fun UiTranslationSendingInterval.toTranslationSendingInterval(): TranslationSendingInterval {
     return TranslationSendingInterval.valueOf(name)
+}
+
+fun TranslationForSending.toUiTranslationForSending(): UiTranslationForSending {
+    return UiTranslationForSending(
+        id = id,
+        sourceText = sourceText,
+        translationText = translationText,
+        sourceLanguage = sourceLanguage?.toUiLanguage()
+    )
 }
