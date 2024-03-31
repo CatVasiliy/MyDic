@@ -25,7 +25,7 @@
     <color name="editTextOutlined">#FF506CA4</color>
 
     <!-- Same as Primary color -->
-    <color name="dialogTitleTextColor">#FF506CA4</color>
+    <color name="dialogTitleText">#FF506CA4</color>
 
     <!-- Same as Primary color -->
     <color name="preferenceCategoryTitleText">#FF506CA4</color>

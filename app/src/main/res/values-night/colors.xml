@@ -25,7 +25,7 @@
     <color name="editTextOutlined">#FF5A79B8</color>
 
     <!-- Light color for surface -->
-    <color name="dialogTitleTextColor">#FF5A79B8</color>
+    <color name="dialogTitleText">#FF5A79B8</color>
 
     <!-- Light color for surface -->
     <color name="preferenceCategoryTitleText">#FF5A79B8</color>

@@ -34,7 +34,9 @@ abstract class Notifier(
             notificationChannelId,
             notificationChannelName,
             importance
-        )
+        ).apply {
+            setShowBadge(false)
+        }
     }
 
     abstract fun buildNotification(): Notification

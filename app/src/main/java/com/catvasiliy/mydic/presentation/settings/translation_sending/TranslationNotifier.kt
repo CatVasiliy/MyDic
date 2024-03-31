@@ -37,13 +37,12 @@ class TranslationNotifier @Inject constructor(
         val largeIcon = ContextCompat.getDrawable(context, largeIconResId)?.toBitmap()
 
         return NotificationCompat.Builder(context, notificationChannelId)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.notification_icon_translate_small)
             .setContentTitle(context.getString(R.string.translation_notification_title))
             .setContentText(translation.sourceText)
             .setLargeIcon(largeIcon)
             .setContentIntent(getTranslationPendingIntent())
             .setAutoCancel(true)
-            .setBadgeIconType(NotificationCompat.BADGE_ICON_NONE)
             .build()
     }
 
