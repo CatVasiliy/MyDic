@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.catvasiliy.mydic.databinding.FragmentDefinitionsBinding
 import com.catvasiliy.mydic.databinding.ItemDefinitionBinding
+import com.catvasiliy.mydic.databinding.TabFragmentDefinitionsBinding
 import com.catvasiliy.mydic.domain.model.translation.Definition
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
@@ -20,17 +20,19 @@ import kotlinx.coroutines.launch
 
 class DefinitionsFragment : Fragment() {
 
-    private var _binding: FragmentDefinitionsBinding? = null
+    private var _binding: TabFragmentDefinitionsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: TranslationDetailsViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val viewModel: TranslationDetailsViewModel by viewModels(
+        ownerProducer = { requireParentFragment() }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDefinitionsBinding.inflate(inflater, container, false)
+        _binding = TabFragmentDefinitionsBinding.inflate(inflater, container, false)
         return binding.root
     }
 

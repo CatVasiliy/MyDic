@@ -11,8 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.catvasiliy.mydic.databinding.FragmentExamplesBinding
 import com.catvasiliy.mydic.databinding.ItemExampleBinding
+import com.catvasiliy.mydic.databinding.TabFragmentExamplesBinding
 import com.catvasiliy.mydic.domain.model.translation.Example
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
@@ -22,17 +22,19 @@ import kotlinx.coroutines.launch
 
 class ExamplesFragment : Fragment() {
 
-    private var _binding: FragmentExamplesBinding? = null
+    private var _binding: TabFragmentExamplesBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: TranslationDetailsViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val viewModel: TranslationDetailsViewModel by viewModels(
+        ownerProducer = { requireParentFragment() }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentExamplesBinding.inflate(inflater, container, false)
+        _binding = TabFragmentExamplesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
