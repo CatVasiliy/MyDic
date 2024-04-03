@@ -18,7 +18,7 @@ import com.catvasiliy.mydic.databinding.FragmentTranslationDetailsBinding
 import com.catvasiliy.mydic.presentation.MainActivity
 import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslation
-import com.catvasiliy.mydic.presentation.translation_details.tabs.TranslationDetailsAdapter
+import com.catvasiliy.mydic.presentation.translation_details.tabs.TranslationDetailsTabAdapter
 import com.catvasiliy.mydic.presentation.util.hide
 import com.catvasiliy.mydic.presentation.util.pronounce.Pronouncer
 import com.catvasiliy.mydic.presentation.util.show
@@ -38,6 +38,10 @@ class TranslationDetailsFragment : Fragment() {
 
     private val viewModel: TranslationDetailsViewModel by viewModels()
 
+    private val viewPagerAdapter: TranslationDetailsTabAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        TranslationDetailsTabAdapter(this)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,6 +56,7 @@ class TranslationDetailsFragment : Fragment() {
 
         setupBackAction()
         handleNavArgs()
+        setupTabLayout()
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -137,8 +142,27 @@ class TranslationDetailsFragment : Fragment() {
         return true
     }
 
+    private fun setupTabLayout() {
+        val viewPager = binding.viewPager
+        viewPager.apply {
+            adapter = viewPagerAdapter
+            offscreenPageLimit = viewPagerAdapter.itemCount - 1
+        }
+
+        val tabLayout = binding.tabLayout
+        TabLayoutMediator(tabLayout, viewPager, false) { tab, position ->
+            @StringRes val stringResId = when (position) {
+                0 -> R.string.main_translation
+                1 -> R.string.alternatives
+                2 -> R.string.definitions
+                3 -> R.string.examples
+                else -> throw IllegalArgumentException()
+            }
+            tab.setText(stringResId)
+        }.attach()
+    }
+
     private fun updateTranslationView() {
-        setupTabLayout()
         showTranslationView()
     }
 
@@ -182,24 +206,5 @@ class TranslationDetailsFragment : Fragment() {
         val pronouncer = requireActivity() as Pronouncer
         val locale = Locale(languageCode)
         pronouncer.pronounce(text, locale)
-    }
-
-    private fun setupTabLayout() {
-        val viewPager = binding.viewPager
-        viewPager.apply {
-            adapter = TranslationDetailsAdapter(this@TranslationDetailsFragment)
-        }
-
-        val tabLayout = binding.tabLayout
-        TabLayoutMediator(tabLayout, viewPager, false) { tab, position ->
-            @StringRes val stringResId = when (position) {
-                0 -> R.string.main_translation
-                1 -> R.string.alternatives
-                2 -> R.string.definitions
-                3 -> R.string.examples
-                else -> throw IllegalArgumentException()
-            }
-            tab.setText(stringResId)
-        }.attach()
     }
 }

@@ -1,4 +1,4 @@
-package com.catvasiliy.mydic.presentation.translation_details.tabs
+package com.catvasiliy.mydic.presentation.translation_details.tabs.alternative_translations
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.catvasiliy.mydic.databinding.ItemAlternativeTranslationBinding
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.catvasiliy.mydic.databinding.TabFragmentAlternativeTranslationsBinding
 import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsState
@@ -28,6 +28,10 @@ class AlternativeTranslationsFragment : Fragment() {
         ownerProducer = { requireParentFragment() }
     )
 
+    private val alternativeTranslationsListAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        AlternativeTranslationsListAdapter()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,6 +42,9 @@ class AlternativeTranslationsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        setupView()
+
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
@@ -57,23 +64,20 @@ class AlternativeTranslationsFragment : Fragment() {
         _binding = null
     }
 
-    private fun updateView(alternativeTranslations: List<AlternativeTranslation>) {
+    private fun setupView() {
+        binding.rvAlternativeTranslations.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = alternativeTranslationsListAdapter
+        }
+    }
+
+    private fun updateView(alternativeTranslations: List<AlternativeTranslation>): Unit = with(binding) {
         if (alternativeTranslations.isEmpty()) {
-            binding.svAlternativeTranslations.hideAndShowOther(binding.llNoAlternativeTranslations)
+            rvAlternativeTranslations.hideAndShowOther(binding.llNoAlternativeTranslations)
             return
         }
 
-        binding.svAlternativeTranslations.show()
-
-        alternativeTranslations.forEach { alternativeTranslation ->
-            val alternativeTranslationBinding = ItemAlternativeTranslationBinding.inflate(layoutInflater)
-            alternativeTranslationBinding.apply {
-                tvAlternativePartOfSpeech.text = alternativeTranslation.partOfSpeech
-                tvAlternativeTranslation.text = alternativeTranslation.translationText
-                tvAlternativeSynonyms.text = alternativeTranslation.synonyms
-                    .joinToString(separator = ", ")
-            }
-            binding.llAlternativeTranslations.addView(alternativeTranslationBinding.root)
-        }
+        rvAlternativeTranslations.show()
+        alternativeTranslationsListAdapter.submitList(alternativeTranslations)
     }
 }

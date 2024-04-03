@@ -2,8 +2,11 @@ package com.catvasiliy.mydic.presentation.translation_details.tabs
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.catvasiliy.mydic.presentation.translation_details.tabs.alternative_translations.AlternativeTranslationsFragment
+import com.catvasiliy.mydic.presentation.translation_details.tabs.definitions.DefinitionsFragment
+import com.catvasiliy.mydic.presentation.translation_details.tabs.examples.ExamplesFragment
 
-class TranslationDetailsAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class TranslationDetailsTabAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 4
 
