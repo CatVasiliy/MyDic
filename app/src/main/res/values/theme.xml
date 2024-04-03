@@ -6,6 +6,7 @@
         <item name="colorOnPrimary">@color/onPrimary</item>
         <item name="colorPrimaryContainer">@color/primaryContainer</item>
         <item name="colorOnPrimaryContainer">@color/onPrimaryContainer</item>
+        <item name="colorPrimaryInverse">@color/primaryInverse</item>
 
         <item name="colorSecondaryContainer">@color/secondaryContainer</item>
 
@@ -13,6 +14,8 @@
         <item name="colorOnSurface">@color/onSurface</item>
         <item name="colorSurfaceVariant">@color/surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/onSurfaceVariant</item>
+        <item name="colorSurfaceInverse">@color/surfaceInverse</item>
+        <item name="colorOnSurfaceInverse">@color/onSurfaceInverse</item>
 
         <item name="colorOutline">@color/outline</item>
         <item name="colorOutlineVariant">@color/outlineVariant</item>

@@ -5,6 +5,7 @@
     <color name="onPrimary">#FFFFFFFF</color>
     <color name="primaryContainer">#FFDDE8FF</color>
     <color name="onPrimaryContainer">#FF001F5D</color>
+    <color name="primaryInverse">#FF5A79B8</color>
 
     <color name="secondaryContainer">#FFDEE7F8</color>
 
@@ -12,6 +13,11 @@
     <color name="onSurface">#FF1B1D20</color>
     <color name="surfaceVariant">#FFE0E4EC</color>
     <color name="onSurfaceVariant">#FF45484F</color>
+
+    <!-- Same as Dark Surface -->
+    <color name="surfaceInverse">#FF1D2026</color>
+    <!-- Same as Dark OnSurface -->
+    <color name="onSurfaceInverse">#FFE0E3E9</color>
 
     <color name="outline">#FF74777E</color>
     <color name="outlineVariant">#FFC4C8D0</color>

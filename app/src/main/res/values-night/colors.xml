@@ -5,6 +5,9 @@
     <color name="primaryContainer">#FF37538B</color>
     <color name="onPrimaryContainer">#FFDDE8FF</color>
 
+    <!-- Same as Light Primary -->
+    <color name="primaryInverse">#FF506CA4</color>
+
     <color name="secondaryContainer">#FF444B58</color>
 
     <color name="surface">#FF1D2026</color>
@@ -12,24 +15,29 @@
     <color name="surfaceVariant">#FF45484F</color>
     <color name="onSurfaceVariant">#FFC4C8D0</color>
 
+    <!-- Same as Light Surface -->
+    <color name="surfaceInverse">#FFFFFFFF</color>
+    <!-- Same as Light OnSurface -->
+    <color name="onSurfaceInverse">#FF1B1D20</color>
+
     <color name="outline">#FF8F9299</color>
     <color name="outlineVariant">#FF45484F</color>
 
     <!-- Same as PrimaryContainer color -->
     <color name="button">#FF37538B</color>
 
-    <!-- Light color for surface -->
+    <!-- Light color for OnSurface -->
     <color name="buttonVariant">#FF5A79B8</color>
 
-    <!-- Light color for surface -->
+    <!-- Light color for OnSurface -->
     <color name="editTextOutlined">#FF5A79B8</color>
 
-    <!-- Light color for surface -->
+    <!-- Light color for OnSurface -->
     <color name="tabLayoutPrimary">#FF5A79B8</color>
 
-    <!-- Light color for surface -->
+    <!-- Light color for OnSurface -->
     <color name="coloredTitleText">#FF5A79B8</color>
-    <!-- Light color for surface -->
+    <!-- Light color for OnSurface -->
     <color name="coloredText">#FF5A79B8</color>
 
     <color name="deleteBackground">#FF880000</color>
