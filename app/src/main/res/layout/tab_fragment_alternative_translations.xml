@@ -17,7 +17,9 @@
             android:id="@+id/llAlternativeTranslations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:paddingTop="@dimen/padding_half_normal"
+            android:paddingHorizontal="@dimen/padding_normal" />
 
     </ScrollView>
 
@@ -27,7 +29,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:padding="@dimen/padding_normal">
 
         <TextView
             android:layout_width="wrap_content"

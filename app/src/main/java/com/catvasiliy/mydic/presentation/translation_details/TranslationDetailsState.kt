@@ -2,8 +2,8 @@ package com.catvasiliy.mydic.presentation.translation_details
 
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslation
 
-data class TranslationDetailsState(
-    val translation: UiTranslation? = null,
-    val isLoading: Boolean = false,
-    val errorMessage: String = ""
-)
+sealed interface TranslationDetailsState {
+    data object Loading : TranslationDetailsState
+    data class Translation(val translation: UiTranslation) : TranslationDetailsState
+    data class MissingTranslation(val missingTranslation: UiTranslation) : TranslationDetailsState
+}

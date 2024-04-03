@@ -5,7 +5,7 @@
         <!-- Adding custom layout to support top app bar -->
         <item name="android:layout">@layout/fragment_settings</item>
         <item name="switchPreferenceCompatStyle">@style/MyDic.Preference.SwitchPreference</item>
-        <item name="preferenceCategoryTitleTextColor">@color/preferenceCategoryTitleText</item>
+        <item name="preferenceCategoryTitleTextColor">@color/coloredTitleText</item>
     </style>
 
     <style name="MyDic.Preference.SwitchPreference" parent="Preference.SwitchPreferenceCompat.Material">

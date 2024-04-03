@@ -20,7 +20,7 @@
         tools:src="@drawable/language_icon_great_britain" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvSource"
+        android:id="@+id/tvSourceText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -36,7 +36,7 @@
 
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvTranslation"
+        android:id="@+id/tvTranslationText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -45,13 +45,13 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:textAppearance="?attr/textAppearanceBodyMedium"
-        app:layout_constraintTop_toBottomOf="@id/tvSource"
+        app:layout_constraintTop_toBottomOf="@id/tvSourceText"
         app:layout_constraintStart_toEndOf="@id/ivSourceLanguage"
         app:layout_constraintEnd_toStartOf="@id/barrier"
         tools:text="Translation Text" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvMissingTranslation"
+        android:id="@+id/tvMissingTranslationMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -62,7 +62,7 @@
         android:text="@string/missing_translation"
         android:textColor="?attr/colorError"
         android:textAppearance="?attr/textAppearanceBodyMedium"
-        app:layout_constraintTop_toBottomOf="@id/tvSource"
+        app:layout_constraintTop_toBottomOf="@id/tvSourceText"
         app:layout_constraintStart_toEndOf="@id/ivSourceLanguage"
         app:layout_constraintEnd_toStartOf="@id/barrier" />
 

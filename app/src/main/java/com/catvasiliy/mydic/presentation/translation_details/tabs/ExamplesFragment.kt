@@ -11,9 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.ItemExampleBinding
 import com.catvasiliy.mydic.databinding.TabFragmentExamplesBinding
 import com.catvasiliy.mydic.domain.model.translation.Example
+import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsState
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.catvasiliy.mydic.presentation.util.show
@@ -42,8 +44,12 @@ class ExamplesFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-                    val examples = state.translation?.examples ?: emptyList()
-                    createExamplesViews(examples)
+                    val examples = if (state is TranslationDetailsState.Translation) {
+                        state.translation.examples
+                    } else {
+                        emptyList()
+                    }
+                    updateView(examples)
                 }
             }
         }
@@ -54,7 +60,7 @@ class ExamplesFragment : Fragment() {
         _binding = null
     }
 
-    private fun createExamplesViews(examples: List<Example>) {
+    private fun updateView(examples: List<Example>) {
         if (examples.isEmpty()) {
             binding.svExamples.hideAndShowOther(binding.llNoExamples)
             return
@@ -62,12 +68,17 @@ class ExamplesFragment : Fragment() {
 
         binding.svExamples.show()
 
-        examples.forEach { example ->
+        examples.forEachIndexed { index, example ->
             val exampleBinding = ItemExampleBinding.inflate(layoutInflater)
-            exampleBinding.tvExample.text = HtmlCompat.fromHtml(
-                example.exampleText,
-                FROM_HTML_MODE_COMPACT
-            )
+            with(exampleBinding) {
+                val exampleTitleText = getString(R.string.example_with_number, index + 1)
+                tvExampleTitle.text = exampleTitleText
+                tvExample.text = HtmlCompat.fromHtml(
+                    example.exampleText,
+                    FROM_HTML_MODE_COMPACT
+                )
+            }
+
             binding.llExamples.addView(exampleBinding.root)
         }
     }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MyDic.Widget.TabLayout" parent="Widget.Material3.TabLayout">
+        <item name="materialThemeOverlay">@style/MyDic.ThemeOverlay.TabLayout</item>
+    </style>
+
+    <style name="MyDic.ThemeOverlay.TabLayout" parent="">
+        <item name="colorPrimary">@color/tabLayoutPrimary</item>
+    </style>
+
+</resources>

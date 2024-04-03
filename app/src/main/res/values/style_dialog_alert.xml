@@ -4,7 +4,7 @@
     <style name="MyDic.ThemeOverlay.Dialog.Alert" parent="ThemeOverlay.Material3.Dialog.Alert">
         <item name="dialogCornerRadius">28dp</item>
         <!-- Dialog title color -->
-        <item name="android:textColorPrimary">@color/dialogTitleText</item>
+        <item name="android:textColorPrimary">@color/coloredTitleText</item>
         <item name="android:colorBackground">?attr/colorSurface</item>
         <!-- Dialog checked radio button color -->
         <item name="colorAccent">@color/buttonVariant</item>

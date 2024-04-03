@@ -12,11 +12,13 @@
     <string name="no_translations_search">No translations found matching the search (search performs according to source text).</string>
     <string name="missing_translation">Translation is not available!</string>
 
+    <string name="source_text">Source text</string>
+    <string name="translation_text">Translation text</string>
+    <string name="transliteration">Transliteration</string>
+
     <string name="organize_translations">Organize translations</string>
     <string name="sort_by">Sort by</string>
     <string name="date">Date</string>
-    <string name="source_text">Source Text</string>
-    <string name="translation_text">Translation Text</string>
     <string name="descending">Descending</string>
     <string name="filter_by">Filter by</string>
     <string name="source_language">Source language</string>
@@ -32,9 +34,14 @@
     <string name="empty_source_snackbar">Text to translate field can\'t be empty.</string>
 
     <string name="translation_details">Translation Details</string>
-    <string name="alternatives">Alternatives</string>
+    <string name="main_translation">Main translation</string>
+    <string name="language_unknown_with_code">Unknown (%1$s)</string>
+    <string name="alternatives">Alternative translations</string>
     <string name="definitions">Definitions</string>
+    <string name="usage_example">Usage example</string>
     <string name="examples">Examples</string>
+    <string name="example_with_number">Example %1$d</string>
+    <string name="pronounce">Pronounce</string>
     <string name="synonyms">Synonyms</string>
     <string name="no_alternatives">There are no Alternative Translations.</string>
     <string name="no_definitions">There are no Definitions.</string>
@@ -44,7 +51,7 @@
     <string name="btn_refresh">Refresh</string>
 
     <string name="language_any">Any</string>
-    <string name="language_auto">Auto</string>
+    <string name="language_auto">Detect language</string>
     <string name="language_unknown">Unknown</string>
     <string name="language_english">English</string>
     <string name="language_russian">Russian</string>

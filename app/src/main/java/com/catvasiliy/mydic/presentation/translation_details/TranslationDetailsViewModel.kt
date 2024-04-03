@@ -29,7 +29,7 @@ class TranslationDetailsViewModel @Inject constructor(
     private val updateMissingTranslationUseCase: UpdateMissingTranslationUseCase
 ): ViewModel() {
 
-    private val _state = MutableStateFlow(TranslationDetailsState())
+    private val _state = MutableStateFlow<TranslationDetailsState>(TranslationDetailsState.Loading)
     val state = _state.asStateFlow()
 
     private var currentJob: Job? = null
@@ -44,65 +44,55 @@ class TranslationDetailsViewModel @Inject constructor(
         sourceLanguage: UiLanguage?,
         targetLanguage: UiLanguage
     ) {
+        _state.update { TranslationDetailsState.Loading }
+
         currentJob?.cancel()
         currentJob = translateUseCase(
             sourceLanguage = sourceLanguage?.toLanguage(),
             targetLanguage = targetLanguage.toLanguageNotNull(),
             sourceText = sourceText
         )
-        .onEach { processResult(it) }
+        .onEach(::processResult)
         .launchIn(viewModelScope)
     }
 
-    private fun processResult(result: Resource<Translation>) {
-        val newState = when(result) {
-            is Resource.Loading -> {
-                state.value.copy(
-                    translation = result.data?.toUiTranslation(),
-                    isLoading = true
-                )
-            }
-            is Resource.Success -> {
-                if (result.data != null) {
-                    state.value.copy(
-                        translation = result.data.toUiTranslation(),
-                        isLoading = false
-                    )
-                } else {
-                    state.value.copy(
-                        isLoading = false
-                    )
-                }
-            }
-            is Resource.Error -> {
-                state.value.copy(
-                    translation = result.data?.toUiTranslation(),
-                    isLoading = false,
-                    errorMessage = result.message ?: "Something went wrong!"
-                )
-            }
-        }
-        _state.update { newState }
-    }
-
     fun loadTranslation(id: Long, isMissingTranslation: Boolean = false) {
+        _state.update { TranslationDetailsState.Loading }
+
         currentJob?.cancel()
         currentJob = viewModelScope.launch {
-            _state.update {
-                state.value.copy(
-                    translation = getTranslationUseCase(id, isMissingTranslation).toUiTranslation()
-                )
+            val translation = getTranslationUseCase(id, isMissingTranslation).toUiTranslation()
+
+            val translationState: TranslationDetailsState = if (!translation.isMissingTranslation) {
+                TranslationDetailsState.Translation(translation)
+            } else {
+                TranslationDetailsState.MissingTranslation(translation)
             }
+
+            _state.update { translationState }
         }
     }
 
     fun updateMissingTranslation() {
-        val translation = requireNotNull(state.value.translation)
+        val missingTranslationState = state.value as TranslationDetailsState.MissingTranslation
+
+        _state.update { TranslationDetailsState.Loading }
+
         currentJob?.cancel()
         currentJob = updateMissingTranslationUseCase(
-            missingTranslation = translation.toMissingTranslation()
+            missingTranslation = missingTranslationState.missingTranslation.toMissingTranslation()
         )
-        .onEach { processResult(it) }
+        .onEach(::processResult)
         .launchIn(viewModelScope)
+    }
+
+    private fun processResult(result: Resource<Translation>) {
+        _state.update {
+            val translation = result.data ?: throw IllegalStateException("No data.")
+            when (result) {
+                is Resource.Success -> TranslationDetailsState.Translation(translation.toUiTranslation())
+                is Resource.Error -> TranslationDetailsState.MissingTranslation(translation.toUiTranslation())
+            }
+        }
     }
 }

@@ -12,9 +12,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.catvasiliy.mydic.databinding.ItemDefinitionBinding
 import com.catvasiliy.mydic.databinding.TabFragmentDefinitionsBinding
 import com.catvasiliy.mydic.domain.model.translation.Definition
+import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsState
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.catvasiliy.mydic.presentation.util.show
+import com.catvasiliy.mydic.presentation.util.showIf
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -40,8 +42,12 @@ class DefinitionsFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-                    val definitions = state.translation?.definitions ?: emptyList()
-                    createDefinitionViews(definitions)
+                    val definitions = if (state is TranslationDetailsState.Translation) {
+                        state.translation.definitions
+                    } else {
+                        emptyList()
+                    }
+                    updateView(definitions)
                 }
             }
         }
@@ -52,7 +58,7 @@ class DefinitionsFragment : Fragment() {
         _binding = null
     }
 
-    private fun createDefinitionViews(definitions: List<Definition>) {
+    private fun updateView(definitions: List<Definition>) {
         if (definitions.isEmpty()) {
             binding.svDefinitions.hideAndShowOther(binding.llNoDefinitions)
             return
@@ -61,10 +67,18 @@ class DefinitionsFragment : Fragment() {
         binding.svDefinitions.show()
         definitions.forEach { definition ->
             val definitionBinding = ItemDefinitionBinding.inflate(layoutInflater)
-            definitionBinding.apply {
+            with(definitionBinding) {
                 tvDefinitionPartOfSpeech.text = definition.partOfSpeech
                 tvDefinition.text = definition.definitionText
-                tvDefinitionExample.text = definition.exampleText ?: "No example"
+
+                val exampleText = definition.exampleText
+                dividerNoExample.showIf { exampleText == null }
+                tvDefinitionExampleTitle.showIf { exampleText != null }
+                tvDefinitionExample.apply {
+                    showIf { exampleText != null }
+                    text = exampleText
+                }
+                dividerDefinition.showIf { exampleText != null }
             }
             binding.llDefinitions.addView(definitionBinding.root)
         }

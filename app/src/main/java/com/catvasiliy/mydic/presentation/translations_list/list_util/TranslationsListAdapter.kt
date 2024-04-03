@@ -54,13 +54,13 @@ class TranslationViewHolder(private val binding: ItemTranslationBinding) : ViewH
         }
 
         ivSourceLanguage.setImageResource(sourceLanguageDrawable)
-        tvSource.text = translationItem.sourceText
+        tvSourceText.text = translationItem.sourceText
 
         if (translationItem.translationText != null) {
-            tvMissingTranslation.hideAndShowOther(tvTranslation)
-            tvTranslation.text = translationItem.translationText
+            tvMissingTranslationMessage.hideAndShowOther(tvTranslationText)
+            tvTranslationText.text = translationItem.translationText
         } else {
-            tvTranslation.hideAndShowOther(tvMissingTranslation)
+            tvTranslationText.hideAndShowOther(tvMissingTranslationMessage)
         }
 
         ivMissingTranslation.showIf { translationItem.isMissingTranslation }

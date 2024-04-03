@@ -39,8 +39,6 @@ class TranslateRepositoryImpl @Inject constructor(
         targetLanguage: Language
     ): Flow<Resource<Translation>> = flow {
 
-        emit(Resource.Loading())
-
         val existingCachedTranslation = if (sourceLanguage == null) {
             translationDao.getUniqueTranslationAutoDetectLanguage(
                 sourceText = sourceText,
@@ -84,8 +82,6 @@ class TranslateRepositoryImpl @Inject constructor(
                 translatedAtMillis = translatedAtMillis
             )
 
-            emit(Resource.Loading(domainTranslation))
-
             val cachedTranslation = domainTranslation.toCachedTranslation()
             translationDao.insertTranslation(cachedTranslation)
 
@@ -100,7 +96,7 @@ class TranslateRepositoryImpl @Inject constructor(
                 }
             }
 
-            emit(Resource.Success())
+            emit(Resource.Success(domainTranslation))
 
         } catch (e: Exception) {
             coroutineContext.ensureActive()
@@ -152,8 +148,6 @@ class TranslateRepositoryImpl @Inject constructor(
         missingTranslation: MissingTranslation
     ): Flow<Resource<Translation>> = flow {
 
-        emit(Resource.Loading())
-
         val sourceLanguageCode = missingTranslation.sourceLanguage?.code ?: Language.AUTO_CODE
 
         try {
@@ -166,8 +160,6 @@ class TranslateRepositoryImpl @Inject constructor(
                 isLanguageDetected = missingTranslation.sourceLanguage == null,
                 translatedAtMillis = missingTranslation.translatedAtMillis
             )
-
-            emit(Resource.Loading(domainTranslation))
 
             val cachedTranslation = domainTranslation.toCachedTranslation()
             translationDao.insertTranslation(cachedTranslation)
@@ -185,7 +177,7 @@ class TranslateRepositoryImpl @Inject constructor(
 
             translationDao.deleteMissingTranslationById(missingTranslation.id)
 
-            emit(Resource.Success())
+            emit(Resource.Success(domainTranslation))
 
         } catch (e: Exception) {
             coroutineContext.ensureActive()

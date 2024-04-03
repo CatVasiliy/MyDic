@@ -17,10 +17,11 @@ import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslationDetailsBinding
 import com.catvasiliy.mydic.presentation.MainActivity
 import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
-import com.catvasiliy.mydic.presentation.util.pronounce.Pronouncer
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslation
-import com.catvasiliy.mydic.presentation.util.hideAndShowOther
-import com.catvasiliy.mydic.presentation.util.visibleIf
+import com.catvasiliy.mydic.presentation.translation_details.tabs.TranslationDetailsAdapter
+import com.catvasiliy.mydic.presentation.util.hide
+import com.catvasiliy.mydic.presentation.util.pronounce.Pronouncer
+import com.catvasiliy.mydic.presentation.util.show
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -55,9 +56,11 @@ class TranslationDetailsFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-                    binding.piTranslation.visibleIf { state.isLoading }
-                    val translation = state.translation ?: return@collectLatest
-                    updateView(translation)
+                    when (state) {
+                        is TranslationDetailsState.Loading -> showLoadingView()
+                        is TranslationDetailsState.Translation -> updateTranslationView()
+                        is TranslationDetailsState.MissingTranslation -> updateMissingTranslationView(state.missingTranslation)
+                    }
                 }
             }
         }
@@ -80,7 +83,7 @@ class TranslationDetailsFragment : Fragment() {
             handleBackNavigation()
         }
 
-        binding.tbTranslation.setNavigationOnClickListener {
+        binding.tbTranslationDetails.setNavigationOnClickListener {
             handleBackNavigation()
         }
     }
@@ -134,56 +137,45 @@ class TranslationDetailsFragment : Fragment() {
         return true
     }
 
-    private fun updateView(translation: UiTranslation) {
-        binding.ivPronounceSource.setOnClickListener {
-            val sourceText = translation.sourceText
-            val languageCode = translation.sourceLanguageCode ?: UiLanguage.ENGLISH.code
-
-            pronounce(sourceText, languageCode)
-        }
-        if (translation.isMissingTranslation) {
-            updateMissingTranslationView(translation)
-        } else {
-            updateTranslationView(translation)
-        }
-    }
-
-    private fun updateTranslationView(translation: UiTranslation) {
-        if (translation.isMissingTranslation)
-            throw IllegalArgumentException("Translation cannot be a MissingTranslation")
-
-        val translationText = translation.translationText!!
-
+    private fun updateTranslationView() {
         setupTabLayout()
-
-        with(binding) {
-            tvTranslation.text = translationText
-
-            ivPronounceTranslation.setOnClickListener {
-                val languageCode = translation.targetLanguage.code
-
-                pronounce(translationText, languageCode)
-            }
-
-            tvSource.text = translation.sourceText
-            tvTransliteration.text = translation.sourceTransliteration ?: "No transliteration"
-
-            llMissingTranslation.hideAndShowOther(clTranslationDetails)
-        }
+        showTranslationView()
     }
 
     private fun updateMissingTranslationView(missingTranslation: UiTranslation) {
-        if (!missingTranslation.isMissingTranslation)
-            throw IllegalArgumentException("Translation is not a MissingTranslation")
+        val sourceText = missingTranslation.sourceText
 
         with(binding) {
-            tvSource.text = missingTranslation.sourceText
+            tvMissingTranslationSource.text = sourceText
+            ivPronounceMissingTranslationSource.setOnClickListener {
+                val sourceLanguageCode = missingTranslation.sourceLanguageCode ?: UiLanguage.ENGLISH.code
+
+                pronounce(sourceText, sourceLanguageCode)
+            }
             btnRefresh.setOnClickListener {
                 viewModel.updateMissingTranslation()
             }
-
-            clTranslationDetails.hideAndShowOther(llMissingTranslation)
         }
+
+        showMissingTranslationView()
+    }
+
+    private fun showLoadingView() = with(binding) {
+        clTranslationDetails.hide()
+        svMissingTranslation.hide()
+        piTranslationDetails.visibility = View.VISIBLE
+    }
+
+    private fun showTranslationView() = with(binding) {
+        piTranslationDetails.visibility = View.GONE
+        svMissingTranslation.hide()
+        clTranslationDetails.show()
+    }
+
+    private fun showMissingTranslationView() = with(binding) {
+        piTranslationDetails.visibility = View.GONE
+        clTranslationDetails.hide()
+        svMissingTranslation.show()
     }
 
     private fun pronounce(text: String, languageCode: String) {
@@ -196,18 +188,18 @@ class TranslationDetailsFragment : Fragment() {
         val viewPager = binding.viewPager
         viewPager.apply {
             adapter = TranslationDetailsAdapter(this@TranslationDetailsFragment)
-            isUserInputEnabled = false
         }
 
         val tabLayout = binding.tabLayout
-        TabLayoutMediator(tabLayout, viewPager, false, false) { tab, position ->
-            @StringRes val id = when (position) {
-                0 -> R.string.alternatives
-                1 -> R.string.definitions
-                2 -> R.string.examples
+        TabLayoutMediator(tabLayout, viewPager, false) { tab, position ->
+            @StringRes val stringResId = when (position) {
+                0 -> R.string.main_translation
+                1 -> R.string.alternatives
+                2 -> R.string.definitions
+                3 -> R.string.examples
                 else -> throw IllegalArgumentException()
             }
-            tab.text = getString(id)
+            tab.setText(stringResId)
         }.attach()
     }
 }

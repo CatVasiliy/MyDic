@@ -10,11 +10,13 @@
     <string name="no_translations_search">Не найдено переводов, удовлетворяющих поиску (поиск ведется по исходному тексту).</string>
     <string name="missing_translation">Перевод недоступен!</string>
 
+    <string name="source_text">Исходный текст</string>
+    <string name="translation_text">Перевод</string>
+    <string name="transliteration">Транскрипция</string>
+
     <string name="organize_translations">Упорядочить переводы</string>
     <string name="sort_by">Сортировать по</string>
     <string name="date">Дата</string>
-    <string name="source_text">Исходный текст</string>
-    <string name="translation_text">Перевод</string>
     <string name="descending">По убыванию</string>
     <string name="filter_by">Фильтровать по</string>
     <string name="source_language">Исходный язык</string>
@@ -30,9 +32,14 @@
     <string name="empty_source_snackbar">Поле \"Текст для перевода\" не может быть пустым</string>
 
     <string name="translation_details">Перевод</string>
-    <string name="alternatives">Альтернативы</string>
+    <string name="main_translation">Основной перевод</string>
+    <string name="language_unknown_with_code">Неизвестен ($1%s)</string>
+    <string name="alternatives">Альтернативные переводы</string>
     <string name="definitions">Определения</string>
+    <string name="usage_example">Пример использования</string>
     <string name="examples">Примеры</string>
+    <string name="example_with_number">Пример %1$d</string>
+    <string name="pronounce">Произнести</string>
     <string name="synonyms">Синонимы</string>
     <string name="no_alternatives">Альтернативы отстутствуют.</string>
     <string name="no_definitions">Определения отсутствуют.</string>
@@ -42,7 +49,7 @@
     <string name="btn_refresh">Обновить</string>
 
     <string name="language_any">Любой</string>
-    <string name="language_auto">Авто</string>
+    <string name="language_auto">Определить язык</string>
     <string name="language_unknown">Неизвестен</string>
     <string name="language_english">Английский</string>
     <string name="language_russian">Русский</string>

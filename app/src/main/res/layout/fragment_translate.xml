@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/tbTranslation"
+        android:id="@+id/tbTranslate"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/translate"
@@ -24,7 +24,7 @@
         android:layout_marginHorizontal="16dp"
         android:hint="@string/hint_etSource"
         app:endIconMode="clear_text"
-        app:layout_constraintTop_toBottomOf="@id/tbTranslation"
+        app:layout_constraintTop_toBottomOf="@id/tbTranslate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         style="@style/MyDic.Widget.TextInputLayout.Outlined">
@@ -42,7 +42,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvSourceLanguage"
+        android:id="@+id/tvFrom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -55,7 +55,7 @@
         app:layout_constraintHorizontal_bias="1.0" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvTargetLanguage"
+        android:id="@+id/tvTo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

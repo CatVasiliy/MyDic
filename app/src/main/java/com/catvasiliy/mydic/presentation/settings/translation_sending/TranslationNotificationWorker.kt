@@ -37,7 +37,6 @@ class TranslationNotificationWorker @AssistedInject constructor(
         val translation = when (val translationResource = getTranslationForSendingUseCase()) {
             is Resource.Success -> translationResource.data!!
             is Resource.Error -> return Result.failure()
-            else -> throw IllegalStateException()
         }.toUiTranslationForSending()
 
         (notifier as TranslationNotifier).apply {

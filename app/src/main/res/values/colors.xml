@@ -25,10 +25,12 @@
     <color name="editTextOutlined">#FF506CA4</color>
 
     <!-- Same as Primary color -->
-    <color name="dialogTitleText">#FF506CA4</color>
+    <color name="tabLayoutPrimary">#FF506CA4</color>
 
     <!-- Same as Primary color -->
-    <color name="preferenceCategoryTitleText">#FF506CA4</color>
+    <color name="coloredTitleText">#FF506CA4</color>
+    <!-- Same as Primary color -->
+    <color name="coloredText">#FF506CA4</color>
 
     <color name="deleteBackground">#FFEE0000</color>
 

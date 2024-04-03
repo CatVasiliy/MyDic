@@ -99,7 +99,7 @@ class TranslateFragment : Fragment() {
     }
 
     private fun setupView(): Unit = with(binding) {
-        tbTranslation.setNavigationOnClickListener {
+        tbTranslate.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
 

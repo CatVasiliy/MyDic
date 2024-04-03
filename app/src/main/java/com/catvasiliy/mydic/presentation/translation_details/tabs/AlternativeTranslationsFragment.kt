@@ -12,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.catvasiliy.mydic.databinding.ItemAlternativeTranslationBinding
 import com.catvasiliy.mydic.databinding.TabFragmentAlternativeTranslationsBinding
 import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
+import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsState
 import com.catvasiliy.mydic.presentation.translation_details.TranslationDetailsViewModel
 import com.catvasiliy.mydic.presentation.util.hideAndShowOther
 import com.catvasiliy.mydic.presentation.util.show
@@ -40,8 +41,12 @@ class AlternativeTranslationsFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest { state ->
-                    val alternativeTranslations = state.translation?.alternativeTranslations ?: emptyList()
-                    createAlternativeTranslationsViews(alternativeTranslations)
+                    val alternativeTranslations = if (state is TranslationDetailsState.Translation) {
+                        state.translation.alternativeTranslations
+                    } else {
+                        emptyList()
+                    }
+                    updateView(alternativeTranslations)
                 }
             }
         }
@@ -52,9 +57,7 @@ class AlternativeTranslationsFragment : Fragment() {
         _binding = null
     }
 
-    private fun createAlternativeTranslationsViews(
-        alternativeTranslations: List<AlternativeTranslation>
-    ) {
+    private fun updateView(alternativeTranslations: List<AlternativeTranslation>) {
         if (alternativeTranslations.isEmpty()) {
             binding.svAlternativeTranslations.hideAndShowOther(binding.llNoAlternativeTranslations)
             return
@@ -63,8 +66,7 @@ class AlternativeTranslationsFragment : Fragment() {
         binding.svAlternativeTranslations.show()
 
         alternativeTranslations.forEach { alternativeTranslation ->
-            val alternativeTranslationBinding = ItemAlternativeTranslationBinding
-                .inflate(layoutInflater)
+            val alternativeTranslationBinding = ItemAlternativeTranslationBinding.inflate(layoutInflater)
             alternativeTranslationBinding.apply {
                 tvAlternativePartOfSpeech.text = alternativeTranslation.partOfSpeech
                 tvAlternativeTranslation.text = alternativeTranslation.translationText

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="none">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_normal">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvSourceTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/source_text"
+            android:textAppearance="@style/MyDic.TextAppearance.TranslationDetails.Title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvSourceText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:textAppearance="@style/MyDic.TextAppearance.MainTranslation.Body"
+            app:layout_constraintTop_toBottomOf="@id/tvSourceTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="source" />
+
+        <ImageView
+            android:id="@+id/ivSourceLanguageIcon"
+            android:layout_width="@dimen/language_icon_small"
+            android:layout_height="@dimen/language_icon_small"
+            app:layout_constraintTop_toTopOf="@id/tvSourceLanguage"
+            app:layout_constraintBottom_toBottomOf="@id/tvSourceLanguage"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@drawable/language_icon_great_britain" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvSourceLanguage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:textAppearance="@style/MyDic.TextAppearance.MainTranslation.Language"
+            app:layout_constraintTop_toTopOf="@id/btnPronounceSource"
+            app:layout_constraintBottom_toBottomOf="@id/btnPronounceSource"
+            app:layout_constraintStart_toEndOf="@id/ivSourceLanguageIcon"
+            app:layout_constraintEnd_toStartOf="@id/btnPronounceSource"
+            tools:text="@string/language_english" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPronounceSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:icon="@drawable/icon_pronounce"
+            app:iconGravity="start"
+            android:text="@string/pronounce"
+            app:layout_constraintTop_toBottomOf="@id/tvSourceText"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/MyDic.Widget.Button.OutlinedButton" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dividerSource"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintTop_toBottomOf="@id/btnPronounceSource"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTranslationTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/translation_text"
+            android:textAppearance="@style/MyDic.TextAppearance.TranslationDetails.Title"
+            app:layout_constraintTop_toBottomOf="@id/dividerSource"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTranslationText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:textAppearance="@style/MyDic.TextAppearance.MainTranslation.Body"
+            app:layout_constraintTop_toBottomOf="@id/tvTranslationTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="translation" />
+
+        <ImageView
+            android:id="@+id/ivTargetLanguageIcon"
+            android:layout_width="@dimen/language_icon_small"
+            android:layout_height="@dimen/language_icon_small"
+            app:layout_constraintTop_toTopOf="@id/tvTargetLanguage"
+            app:layout_constraintBottom_toBottomOf="@id/tvTargetLanguage"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@drawable/language_icon_russia" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTargetLanguage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:textAppearance="@style/MyDic.TextAppearance.MainTranslation.Language"
+            app:layout_constraintTop_toTopOf="@id/btnPronounceTranslation"
+            app:layout_constraintBottom_toBottomOf="@id/btnPronounceTranslation"
+            app:layout_constraintStart_toEndOf="@id/ivTargetLanguageIcon"
+            app:layout_constraintEnd_toStartOf="@id/btnPronounceTranslation"
+            tools:text="@string/language_russian" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPronounceTranslation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:icon="@drawable/icon_pronounce"
+            app:iconGravity="start"
+            android:text="@string/pronounce"
+            app:layout_constraintTop_toBottomOf="@id/tvTranslationText"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/MyDic.Widget.Button.OutlinedButton" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dividerTranslation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintTop_toBottomOf="@id/btnPronounceTranslation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTransliterationTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/transliteration"
+            android:textAppearance="@style/MyDic.TextAppearance.TranslationDetails.Title"
+            app:layout_constraintTop_toBottomOf="@id/dividerTranslation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTransliteration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:textAppearance="@style/MyDic.TextAppearance.MainTranslation.Body"
+            app:layout_constraintTop_toBottomOf="@id/tvTransliterationTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="transliteration" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
