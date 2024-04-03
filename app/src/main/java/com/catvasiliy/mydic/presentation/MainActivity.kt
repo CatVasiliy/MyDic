@@ -27,10 +27,9 @@ class MainActivity : AppCompatActivity(), Pronouncer {
     private val pronunciationSynthesizer = PronunciationSynthesizer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         setupSplashScreen()
-
-        super.onCreate(savedInstanceState)
 
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
