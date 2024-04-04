@@ -7,16 +7,16 @@
     <string name="search">Search</string>
     <string name="delete_translation_snackbar">Translation deleted</string>
     <string name="undo">Undo</string>
-    <string name="no_translations_saved">There are no saved translations. Click Add button to translate.</string>
-    <string name="no_translations_filter">No translations found matching the filter.</string>
-    <string name="no_translations_search">No translations found matching the search (search performs according to source text).</string>
+    <string name="no_translations_saved">No saved translations. Click Add button to translate.</string>
+    <string name="no_translations_filter">No Translations found matching the filter.</string>
+    <string name="no_translations_search">No Translations found matching the search (search performs according to source text).</string>
     <string name="missing_translation">Translation is not available!</string>
 
     <string name="source_text">Source text</string>
     <string name="translation_text">Translation text</string>
     <string name="transliteration">Transliteration</string>
 
-    <string name="organize_translations">Organize translations</string>
+    <string name="organize_translations">Organize Translations</string>
     <string name="sort_by">Sort by</string>
     <string name="date">Date</string>
     <string name="descending">Descending</string>
@@ -35,20 +35,19 @@
 
     <string name="translation_details">Translation Details</string>
     <string name="main_translation">Main translation</string>
-    <string name="language_unknown_with_code">Unknown (%1$s)</string>
     <string name="alternatives">Alternative translations</string>
     <string name="definitions">Definitions</string>
-    <string name="usage_example">Usage example</string>
     <string name="examples">Examples</string>
-    <string name="example_with_number">Example %1$d</string>
-    <string name="pronounce">Pronounce</string>
-    <string name="synonyms">Synonyms</string>
     <string name="no_alternatives">No Alternative translations</string>
     <string name="no_definitions">No Definitions</string>
     <string name="no_examples">No Examples</string>
-
+    <string name="pronounce">Pronounce</string>
+    <string name="language_unknown_with_code">Unknown (%1$s)</string>
+    <string name="usage_example">Usage example</string>
+    <string name="example_with_number">Example %1$d</string>
+    <string name="synonyms">Synonyms</string>
     <string name="missing_translation_target_language_title">Attempted translation to</string>
-    <string name="missing_translation_message">Translation is not available.\nClick button below to try again</string>
+    <string name="missing_translation_message">Translation is not available!\nClick button below to try again</string>
 
     <string name="language_any">Any</string>
     <string name="language_auto">Detect language</string>
