@@ -2,45 +2,45 @@
 <resources>
 
     <color name="primary">#FF506CA4</color>
-    <color name="onPrimary">#FFFFFFFF</color>
-    <color name="primaryContainer">#FFDDE8FF</color>
-    <color name="onPrimaryContainer">#FF001F5D</color>
-    <color name="primaryInverse">#FF5A79B8</color>
+    <color name="on_primary">#FFFFFFFF</color>
+    <color name="primary_container">#FFDDE8FF</color>
+    <color name="on_primary_container">#FF001F5D</color>
+    <color name="primary_inverse">#FF5A79B8</color>
 
-    <color name="secondaryContainer">#FFDEE7F8</color>
+    <color name="secondary_container">#FFDEE7F8</color>
 
     <color name="surface">#FFFFFFFF</color>
-    <color name="onSurface">#FF1B1D20</color>
-    <color name="surfaceVariant">#FFE0E4EC</color>
-    <color name="onSurfaceVariant">#FF45484F</color>
+    <color name="on_surface">#FF1B1D20</color>
+    <color name="surface_variant">#FFE0E4EC</color>
+    <color name="on_surface_variant">#FF45484F</color>
 
     <!-- Same as Dark Surface -->
-    <color name="surfaceInverse">#FF1D2026</color>
+    <color name="surface_inverse">#FF1D2026</color>
     <!-- Same as Dark OnSurface -->
-    <color name="onSurfaceInverse">#FFE0E3E9</color>
+    <color name="on_surface_inverse">#FFE0E3E9</color>
 
     <color name="outline">#FF74777E</color>
-    <color name="outlineVariant">#FFC4C8D0</color>
+    <color name="outline_variant">#FFC4C8D0</color>
 
     <!-- Same as Primary color -->
     <color name="button">#FF506CA4</color>
     <!-- Same as Primary color -->
-    <color name="buttonVariant">#FF506CA4</color>
+    <color name="button_variant">#FF506CA4</color>
 
     <!-- Same as Primary color -->
-    <color name="editTextOutlined">#FF506CA4</color>
+    <color name="edit_text_outlined">#FF506CA4</color>
 
     <!-- Same as Primary color -->
-    <color name="tabLayoutPrimary">#FF506CA4</color>
+    <color name="tab_layout_primary">#FF506CA4</color>
 
     <!-- Same as Primary color -->
-    <color name="coloredTitleText">#FF506CA4</color>
+    <color name="colored_title_text">#FF506CA4</color>
     <!-- Same as Primary color -->
-    <color name="coloredText">#FF506CA4</color>
+    <color name="colored_text">#FF506CA4</color>
 
-    <color name="noItemsImage">#FF7D9AD4</color>
+    <color name="no_items_image">#FF7D9AD4</color>
     <color name="no_items_message">#FF6683BD</color>
 
-    <color name="deleteBackground">#FFEE0000</color>
+    <color name="delete_background">#FFEE0000</color>
 
 </resources>

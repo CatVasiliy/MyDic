@@ -6,7 +6,7 @@
     </style>
 
     <style name="MyDic.TextAppearance.TranslationDetails.Title" parent="TextAppearance.Material3.TitleMedium">
-        <item name="android:textColor">@color/coloredTitleText</item>
+        <item name="android:textColor">@color/colored_title_text</item>
     </style>
 
     <style name="MyDic.TextAppearance.MainTranslation.Body" parent="MyDic.TextAppearance.TranslationDetails.Body">
@@ -14,7 +14,7 @@
     </style>
 
     <style name="MyDic.TextAppearance.MainTranslation.Language" parent="MyDic.TextAppearance.TranslationDetails.Body">
-        <item name="android:textColor">@color/coloredText</item>
+        <item name="android:textColor">@color/colored_text</item>
     </style>
 
 </resources>

@@ -27,7 +27,7 @@
 
     <style name="MyDic.ThemeOverlay.OutlinedButton" parent="ThemeOverlay.Material3.Button.TextButton">
         <!-- Button text color -->
-        <item name="colorPrimary">@color/buttonVariant</item>
+        <item name="colorPrimary">@color/button_variant</item>
     </style>
 
 </resources>

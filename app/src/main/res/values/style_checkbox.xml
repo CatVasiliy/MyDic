@@ -7,7 +7,7 @@
 
     <style name="MyDic.ThemeOverlay.CheckBox" parent="">
         <!-- Checked color -->
-        <item name="colorPrimary">@color/buttonVariant</item>
+        <item name="colorPrimary">@color/button_variant</item>
     </style>
     
 </resources>

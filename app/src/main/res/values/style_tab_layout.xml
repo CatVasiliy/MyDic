@@ -6,7 +6,7 @@
     </style>
 
     <style name="MyDic.ThemeOverlay.TabLayout" parent="">
-        <item name="colorPrimary">@color/tabLayoutPrimary</item>
+        <item name="colorPrimary">@color/tab_layout_primary</item>
     </style>
 
 </resources>

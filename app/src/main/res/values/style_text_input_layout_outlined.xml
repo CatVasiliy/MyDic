@@ -7,7 +7,7 @@
 
     <style name="MyDic.ThemeOverlay.TextInputLayout.Outlined" parent="ThemeOverlay.Material3.TextInputEditText.OutlinedBox">
         <!-- Color of most Outlined EditText elements -->
-        <item name="colorPrimary">@color/editTextOutlined</item>
+        <item name="colorPrimary">@color/edit_text_outlined</item>
     </style>
 
 </resources>

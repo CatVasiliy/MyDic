@@ -3,22 +3,22 @@
     <style name="MyDic.Theme" parent="Theme.Material3.DayNight.NoActionBar">
 
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorOnPrimary">@color/onPrimary</item>
-        <item name="colorPrimaryContainer">@color/primaryContainer</item>
-        <item name="colorOnPrimaryContainer">@color/onPrimaryContainer</item>
-        <item name="colorPrimaryInverse">@color/primaryInverse</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorPrimaryContainer">@color/primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/on_primary_container</item>
+        <item name="colorPrimaryInverse">@color/primary_inverse</item>
 
-        <item name="colorSecondaryContainer">@color/secondaryContainer</item>
+        <item name="colorSecondaryContainer">@color/secondary_container</item>
 
         <item name="colorSurface">@color/surface</item>
-        <item name="colorOnSurface">@color/onSurface</item>
-        <item name="colorSurfaceVariant">@color/surfaceVariant</item>
-        <item name="colorOnSurfaceVariant">@color/onSurfaceVariant</item>
-        <item name="colorSurfaceInverse">@color/surfaceInverse</item>
-        <item name="colorOnSurfaceInverse">@color/onSurfaceInverse</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
+        <item name="colorSurfaceInverse">@color/surface_inverse</item>
+        <item name="colorOnSurfaceInverse">@color/on_surface_inverse</item>
 
         <item name="colorOutline">@color/outline</item>
-        <item name="colorOutlineVariant">@color/outlineVariant</item>
+        <item name="colorOutlineVariant">@color/outline_variant</item>
 
         <item name="android:colorBackground">?attr/colorSurface</item>
         <item name="android:textColorPrimary">?attr/colorOnSurface</item>

@@ -11,25 +11,25 @@
         android:strokeColor="#00000000" />
       
     <path
-        android:fillColor="@color/noItemsImage"
+        android:fillColor="@color/no_items_image"
         android:pathData="M0.97,13.261A0.97,0.97 0,0 0,0 14.232,0.97 0.97,0 0,0 0.97,15.202L11.321,15.202a0.97,0.97 0,0 0,0.97 -0.97,0.97 0.97,0 0,0 -0.97,-0.97z"
         android:strokeWidth="1.2938"
         android:strokeLineCap="round" />
       
     <path
-        android:fillColor="@color/noItemsImage"
+        android:fillColor="@color/no_items_image"
         android:pathData="M0.97,18.437A0.97,0.97 0,0 0,0 19.407,0.97 0.97,0 0,0 0.97,20.377L11.321,20.377a0.97,0.97 0,0 0,0.97 -0.97,0.97 0.97,0 0,0 -0.97,-0.97z"
         android:strokeWidth="1.2938"
         android:strokeLineCap="round" />
       
     <path
-        android:fillColor="@color/noItemsImage"
+        android:fillColor="@color/no_items_image"
         android:pathData="M0.97,2.911A0.97,0.97 0,0 0,0 3.881,0.97 0.97,0 0,0 0.97,4.852L14.555,4.852A0.97,0.97 0,0 0,15.526 3.881,0.97 0.97,0 0,0 14.555,2.911ZM20.054,2.911a0.97,0.97 0,0 0,-0.97 0.97,0.97 0.97,0 0,0 0.97,0.97L22.965,4.852A0.97,0.97 0,0 0,23.935 3.881,0.97 0.97,0 0,0 22.965,2.911Z"
         android:strokeWidth="1.2938"
         android:strokeLineCap="round" />
       
     <path
-        android:fillColor="@color/noItemsImage"
+        android:fillColor="@color/no_items_image"
         android:pathData="M0.97,8.086A0.97,0.97 0,0 0,0 9.057,0.97 0.97,0 0,0 0.97,10.027L3.881,10.027A0.97,0.97 0,0 0,4.852 9.057,0.97 0.97,0 0,0 3.881,8.086ZM9.38,8.086a0.97,0.97 0,0 0,-0.97 0.97,0.97 0.97,0 0,0 0.97,0.97L22.965,10.027a0.97,0.97 0,0 0,0.97 -0.97,0.97 0.97,0 0,0 -0.97,-0.97z"
         android:strokeWidth="1.2938"
         android:strokeLineCap="round" />
