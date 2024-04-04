@@ -13,8 +13,8 @@ sealed interface TranslationsListVisibility {
         @StringRes val stringResId: Int
     ) : TranslationsListVisibility {
 
-        SAVED_NOTHING(R.drawable.no_translations_saved, R.string.no_translations_saved),
-        FILTER_NOTHING(R.drawable.no_translations_filter, R.string.no_translations_filter),
-        SEARCH_NOTHING(R.drawable.no_translations_search, R.string.no_translations_search)
+        SAVED_NOTHING(R.drawable.image_no_translations_saved, R.string.no_translations_saved),
+        FILTER_NOTHING(R.drawable.image_no_translations_filter, R.string.no_translations_filter),
+        SEARCH_NOTHING(R.drawable.image_no_translations_search, R.string.no_translations_search)
     }
 }

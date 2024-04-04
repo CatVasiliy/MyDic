@@ -45,8 +45,8 @@
     <string name="no_definitions">Определения отсутствуют.</string>
     <string name="no_examples">Примеры отсутствуют.</string>
 
-    <string name="missing_translation_message">Перевод недоступен. Нажмите кнопку Обновить, чтобы попробовать снова.</string>
-    <string name="btn_refresh">Обновить</string>
+    <string name="missing_translation_target_language_title">Попытка перевода на</string>
+    <string name="missing_translation_message">Перевод недоступен.\nНажмите на кнопку ниже, чтобы попробовать ещё раз.</string>
 
     <string name="language_any">Любой</string>
     <string name="language_auto">Определить язык</string>

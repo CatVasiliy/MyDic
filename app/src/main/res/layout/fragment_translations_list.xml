@@ -63,7 +63,7 @@
             android:id="@+id/ivNoTranslations"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            tools:src="@drawable/no_translations_saved" />
+            tools:src="@drawable/image_no_translations_saved" />
 
         <TextView
             android:id="@+id/tvNoTranslations"

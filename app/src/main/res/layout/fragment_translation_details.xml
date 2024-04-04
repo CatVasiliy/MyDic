@@ -76,63 +76,148 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_normal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMissingTranslationSourceTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/source_text"
+                android:textAppearance="@style/MyDic.TextAppearance.TranslationDetails.Title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvMissingTranslationSource"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textSize="24sp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:textAppearance="@style/MyDic.TextAppearance.MainTranslation.Body"
+                app:layout_constraintTop_toBottomOf="@id/tvMissingTranslationSourceTitle"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/ivPronounceMissingTranslationSource"
-                tools:text="source" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="missing translation" />
 
             <ImageView
-                android:id="@+id/ivPronounceMissingTranslationSource"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginHorizontal="8dp"
-                android:src="@drawable/icon_pronounce"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tvMissingTranslationSource"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:id="@+id/ivMissingTranslationSourceLanguageIcon"
+                android:layout_width="@dimen/language_icon_small"
+                android:layout_height="@dimen/language_icon_small"
+                app:layout_constraintTop_toTopOf="@id/tvMissingTranslationSourceLanguage"
+                app:layout_constraintBottom_toBottomOf="@id/tvMissingTranslationSourceLanguage"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:src="@drawable/language_icon_great_britain" />
 
-            <LinearLayout
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMissingTranslationSourceLanguage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="@dimen/margin_medium"
+                android:textAppearance="@style/MyDic.TextAppearance.MainTranslation.Language"
+                app:layout_constraintTop_toTopOf="@id/btnPronounceMissingSource"
+                app:layout_constraintBottom_toBottomOf="@id/btnPronounceMissingSource"
+                app:layout_constraintStart_toEndOf="@id/ivMissingTranslationSourceLanguageIcon"
+                app:layout_constraintEnd_toStartOf="@id/btnPronounceMissingSource"
+                tools:text="@string/language_english" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPronounceMissingSource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/pronounce"
+                app:icon="@drawable/icon_pronounce"
+                app:iconGravity="start"
                 app:layout_constraintTop_toBottomOf="@id/tvMissingTranslationSource"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/MyDic.Widget.Button.OutlinedButton" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dividerMissingTranslationSource"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                app:layout_constraintTop_toBottomOf="@id/btnPronounceMissingSource"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintEnd_toEndOf="parent" />
 
-                <TextView
-                    android:id="@+id/tvMissingTranslationRefreshMessage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textAlignment="center"
-                    android:text="@string/missing_translation_message"
-                    app:layout_constraintBottom_toTopOf="@id/btnRefresh"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMissingTranslationTargetLanguageTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:text="@string/missing_translation_target_language_title"
+                android:textAppearance="@style/MyDic.TextAppearance.TranslationDetails.Title"
+                app:layout_constraintTop_toBottomOf="@id/dividerMissingTranslationSource"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnRefresh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/btn_refresh"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+            <ImageView
+                android:id="@+id/ivMissingTranslationTargetLanguageIcon"
+                android:layout_width="@dimen/language_icon_small"
+                android:layout_height="@dimen/language_icon_small"
+                android:layout_marginTop="@dimen/margin_large"
+                app:layout_constraintTop_toBottomOf="@id/tvMissingTranslationTargetLanguageTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:src="@drawable/language_icon_russia" />
 
-            </LinearLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMissingTranslationTargetLanguage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_medium"
+                android:textAppearance="@style/MyDic.TextAppearance.MainTranslation.Language"
+                app:layout_constraintTop_toTopOf="@id/ivMissingTranslationTargetLanguageIcon"
+                app:layout_constraintBottom_toBottomOf="@id/ivMissingTranslationTargetLanguageIcon"
+                app:layout_constraintStart_toEndOf="@id/ivMissingTranslationTargetLanguageIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="@string/language_russian" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dividerMissingTranslationTargetLanguage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                app:layout_constraintTop_toBottomOf="@id/ivMissingTranslationTargetLanguageIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivMissingTranslationMessageIcon"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="@dimen/margin_large"
+                android:src="@drawable/image_missing_translation"
+                app:tint="?attr/colorError"
+                app:layout_constraintTop_toBottomOf="@id/dividerMissingTranslationTargetLanguage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMissingTranslationMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/missing_translation_message"
+                app:layout_constraintTop_toBottomOf="@id/ivMissingTranslationMessageIcon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/MyDic.Widget.TextView.Message.Error" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTranslateAgain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/btn_translate"
+                app:icon="@drawable/icon_reset"
+                app:iconGravity="start"
+                app:layout_constraintTop_toBottomOf="@id/tvMissingTranslationMessage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/MyDic.Widget.Button.Error" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

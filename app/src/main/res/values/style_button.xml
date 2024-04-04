@@ -10,4 +10,24 @@
         <item name="colorPrimary">@color/button</item>
     </style>
 
+    <style name="MyDic.Widget.Button.Error" parent="MyDic.Widget.Button">
+        <item name="materialThemeOverlay">@style/MyDic.ThemeOverlay.Button.Error</item>
+    </style>
+
+    <style name="MyDic.ThemeOverlay.Button.Error" parent="ThemeOverlay.Material3.Button">
+        <!-- Button background color -->
+        <item name="colorPrimary">?attr/colorError</item>
+        <!-- Button's contents color -->
+        <item name="colorOnPrimary">?attr/colorOnError</item>
+    </style>
+
+    <style name="MyDic.Widget.Button.OutlinedButton" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="materialThemeOverlay">@style/MyDic.ThemeOverlay.OutlinedButton</item>
+    </style>
+
+    <style name="MyDic.ThemeOverlay.OutlinedButton" parent="ThemeOverlay.Material3.Button.TextButton">
+        <!-- Button text color -->
+        <item name="colorPrimary">@color/buttonVariant</item>
+    </style>
+
 </resources>

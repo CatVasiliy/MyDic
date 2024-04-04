@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import com.catvasiliy.mydic.R
 import com.catvasiliy.mydic.databinding.FragmentTranslationDetailsBinding
 import com.catvasiliy.mydic.presentation.MainActivity
+import com.catvasiliy.mydic.presentation.model.translation.UiExtendedLanguage
 import com.catvasiliy.mydic.presentation.model.translation.UiLanguage
 import com.catvasiliy.mydic.presentation.model.translation.UiTranslation
 import com.catvasiliy.mydic.presentation.translation_details.tabs.TranslationDetailsTabAdapter
@@ -168,15 +170,33 @@ class TranslationDetailsFragment : Fragment() {
 
     private fun updateMissingTranslationView(missingTranslation: UiTranslation) {
         val sourceText = missingTranslation.sourceText
+        val sourceLanguage = missingTranslation.sourceLanguage
+        val targetLanguage = missingTranslation.targetLanguage
+
+        @DrawableRes
+        val sourceLanguageDrawableResId = when(sourceLanguage) {
+            is UiExtendedLanguage.Known -> sourceLanguage.language.drawableResId
+            else -> R.drawable.language_icon_unknown
+        }
+
+        @StringRes
+        val sourceLanguageStringResId = when(sourceLanguage) {
+            is UiExtendedLanguage.Known -> sourceLanguage.language.drawableResId
+            else -> R.string.language_unknown
+        }
 
         with(binding) {
             tvMissingTranslationSource.text = sourceText
-            ivPronounceMissingTranslationSource.setOnClickListener {
+            ivMissingTranslationSourceLanguageIcon.setImageResource(sourceLanguageDrawableResId)
+            tvMissingTranslationSourceLanguage.setText(sourceLanguageStringResId)
+            ivMissingTranslationTargetLanguageIcon.setImageResource(targetLanguage.drawableResId)
+            tvMissingTranslationTargetLanguage.setText(targetLanguage.stringResId)
+            btnPronounceMissingSource.setOnClickListener {
                 val sourceLanguageCode = missingTranslation.sourceLanguageCode ?: UiLanguage.ENGLISH.code
 
                 pronounce(sourceText, sourceLanguageCode)
             }
-            btnRefresh.setOnClickListener {
+            btnTranslateAgain.setOnClickListener {
                 viewModel.updateMissingTranslation()
             }
         }
