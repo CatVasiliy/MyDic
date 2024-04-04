@@ -19,62 +19,58 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="@dimen/margin_small"
             android:gravity="center_vertical"
             android:text="@string/my_translations"
             android:textAppearance="?attr/textAppearanceTitleLarge"/>
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <LinearLayout
-        android:id="@+id/llTranslations"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTranslations"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tbTranslations"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        tools:listitem="@layout/item_translation" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTranslations"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_translation" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llNoTranslations"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clNoTranslations"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="16dp"
-        android:orientation="vertical"
-        android:gravity="center"
+        android:padding="@dimen/padding_normal"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tbTranslations"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="visible">
         
         <ImageView
             android:id="@+id/ivNoTranslations"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="@dimen/no_items_image_small"
+            android:layout_height="@dimen/no_items_image_small"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvNoTranslations"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_bias="0.4"
             tools:src="@drawable/image_no_translations_saved" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tvNoTranslations"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textAlignment="center"
-            android:textAppearance="?attr/textAppearanceBodyLarge"
-            android:text="@string/no_translations_saved" />
+            android:layout_marginTop="@dimen/margin_large"
+            app:layout_constraintTop_toBottomOf="@id/ivNoTranslations"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="@string/no_translations_saved"
+            style="@style/MyDic.Widget.TextView.Message.NoItems.TranslationsList" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabTranslate"

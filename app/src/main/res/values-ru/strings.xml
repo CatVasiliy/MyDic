@@ -5,9 +5,9 @@
     <string name="search">Поиск</string>
     <string name="delete_translation_snackbar">Перевод удален</string>
     <string name="undo">Отмена</string>
-    <string name="no_translations_saved">Сохраненных переводов нет. Нажмите кнопку Добавить для перевода.</string>
-    <string name="no_translations_filter">Не найдено Переводов, удовлетворяющих фильтру.</string>
-    <string name="no_translations_search">Не найдено Переводов, удовлетворяющих поиску (поиск ведется по исходному тексту).</string>
+    <string name="no_translations_saved">Сохраненных переводов нет.\nНажмите кнопку Добавить (+) для перевода</string>
+    <string name="no_translations_filter">Не найдено переводов, удовлетворяющих фильтру</string>
+    <string name="no_translations_search">Не найдено переводов, удовлетворяющих поиску\n(поиск ведется по исходному тексту)</string>
     <string name="missing_translation">Перевод недоступен!</string>
 
     <string name="source_text">Исходный текст</string>

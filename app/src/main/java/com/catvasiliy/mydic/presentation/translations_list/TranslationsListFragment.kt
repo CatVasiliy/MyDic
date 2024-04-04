@@ -283,13 +283,13 @@ class TranslationsListFragment : Fragment() {
             swipeHelper.attachToRecyclerView(rvTranslations)
         }
 
-        llNoTranslations.hideAndShowOther(llTranslations)
+        clNoTranslations.hideAndShowOther(rvTranslations)
     }
 
     private fun updateNoTranslations(noTranslationsCause: TranslationsListVisibility.Gone) = with(binding) {
         ivNoTranslations.setImageResource(noTranslationsCause.drawableResId)
         tvNoTranslations.setText(noTranslationsCause.stringResId)
-        llTranslations.hideAndShowOther(llNoTranslations)
+        rvTranslations.hideAndShowOther(clNoTranslations)
     }
 
     private fun updateOrganizingPreferences(

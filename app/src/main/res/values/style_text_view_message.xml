@@ -14,6 +14,14 @@
         <item name="android:textColor">@color/no_items_message</item>
     </style>
 
+    <style name="MyDic.Widget.TextView.Message.NoItems.TranslationsList" parent="MyDic.Widget.TextView.Message.NoItems">
+        <item name="android:textAppearance">@style/MyDic.TextAppearance.Message.NoItems.TranslationsList</item>
+    </style>
+
+    <style name="MyDic.TextAppearance.Message.NoItems.TranslationsList" parent="MyDic.TextAppearance.Message.NoItems">
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="MyDic.Widget.TextView.Message.Error" parent="MyDic.Widget.TextView.Message">
         <item name="android:textAppearance">@style/MyDic.TextAppearance.Message.Error</item>
     </style>
