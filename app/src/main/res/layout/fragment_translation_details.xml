@@ -178,7 +178,7 @@
                 android:id="@+id/dividerMissingTranslationTargetLanguage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_large"
                 app:layout_constraintTop_toBottomOf="@id/ivMissingTranslationTargetLanguageIcon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -187,7 +187,7 @@
                 android:id="@+id/ivMissingTranslationMessageIcon"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_extra_large"
                 android:src="@drawable/image_missing_translation"
                 app:tint="?attr/colorError"
                 app:layout_constraintTop_toBottomOf="@id/dividerMissingTranslationTargetLanguage"
