@@ -38,6 +38,9 @@
     <!-- Same as Primary color -->
     <color name="coloredText">#FF506CA4</color>
 
+    <color name="noItemsImage">#FF7D9AD4</color>
+    <color name="no_items_message">#FF6683BD</color>
+
     <color name="deleteBackground">#FFEE0000</color>
 
 </resources>

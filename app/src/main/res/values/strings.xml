@@ -43,12 +43,12 @@
     <string name="example_with_number">Example %1$d</string>
     <string name="pronounce">Pronounce</string>
     <string name="synonyms">Synonyms</string>
-    <string name="no_alternatives">There are no Alternative Translations.</string>
-    <string name="no_definitions">There are no Definitions.</string>
-    <string name="no_examples">There are no Examples.</string>
+    <string name="no_alternatives">No Alternative translations</string>
+    <string name="no_definitions">No Definitions</string>
+    <string name="no_examples">No Examples</string>
 
     <string name="missing_translation_target_language_title">Attempted translation to</string>
-    <string name="missing_translation_message">Translation is not available.\nClick button below to try again.</string>
+    <string name="missing_translation_message">Translation is not available.\nClick button below to try again</string>
 
     <string name="language_any">Any</string>
     <string name="language_auto">Detect language</string>

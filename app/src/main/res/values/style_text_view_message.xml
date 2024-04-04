@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="MyDic.Widget.TextView.Message.Error" parent="">
+    <style name="MyDic.Widget.TextView.Message" parent="">
         <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="MyDic.Widget.TextView.Message.NoItems">
+        <item name="android:textAppearance">@style/MyDic.TextAppearance.Message.NoItems</item>
+    </style>
+
+    <style name="MyDic.TextAppearance.Message.NoItems" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/no_items_message</item>
+    </style>
+
+    <style name="MyDic.Widget.TextView.Message.Error" parent="MyDic.Widget.TextView.Message">
         <item name="android:textAppearance">@style/MyDic.TextAppearance.Message.Error</item>
     </style>
 

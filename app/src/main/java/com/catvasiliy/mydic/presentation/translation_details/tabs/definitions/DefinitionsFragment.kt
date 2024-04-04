@@ -73,7 +73,7 @@ class DefinitionsFragment : Fragment() {
 
     private fun updateView(definitions: List<Definition>): Unit = with(binding) {
         if (definitions.isEmpty()) {
-            rvDefinitions.hideAndShowOther(binding.llNoDefinitions)
+            rvDefinitions.hideAndShowOther(binding.clNoDefinitions)
             return
         }
 

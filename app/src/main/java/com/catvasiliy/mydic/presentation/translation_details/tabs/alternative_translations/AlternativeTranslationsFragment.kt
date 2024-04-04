@@ -73,7 +73,7 @@ class AlternativeTranslationsFragment : Fragment() {
 
     private fun updateView(alternativeTranslations: List<AlternativeTranslation>): Unit = with(binding) {
         if (alternativeTranslations.isEmpty()) {
-            rvAlternativeTranslations.hideAndShowOther(binding.llNoAlternativeTranslations)
+            rvAlternativeTranslations.hideAndShowOther(binding.clNoAlternativeTranslations)
             return
         }
 

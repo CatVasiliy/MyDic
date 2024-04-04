@@ -73,7 +73,7 @@ class ExamplesFragment : Fragment() {
 
     private fun updateView(examples: List<Example>): Unit = with(binding) {
         if (examples.isEmpty()) {
-            rvExamples.hideAndShowOther(binding.llNoExamples)
+            rvExamples.hideAndShowOther(binding.clNoExamples)
             return
         }
 

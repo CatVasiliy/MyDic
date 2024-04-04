@@ -38,7 +38,11 @@
     <!-- Light color for OnSurface -->
     <color name="coloredTitleText">#FF5A79B8</color>
     <!-- Light color for OnSurface -->
-    <color name="coloredText">#FF5A79B8</color>
+        <color name="coloredText">#FF5A79B8</color>
+
+    <color name="noItemsImage">#FF84A3E3</color>
+    <!-- Same as no_items_image -->
+    <color name="no_items_message">#FF84A3E3</color>
 
     <color name="deleteBackground">#FF880000</color>
 
