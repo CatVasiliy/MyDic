@@ -10,7 +10,7 @@
     </style>
 
     <style name="MyDic.TextAppearance.Message.NoItems" parent="TextAppearance.Material3.BodyLarge">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/no_items_message</item>
     </style>
 

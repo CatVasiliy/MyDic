@@ -47,8 +47,8 @@
         
         <ImageView
             android:id="@+id/ivNoTranslations"
-            android:layout_width="@dimen/no_items_image_small"
-            android:layout_height="@dimen/no_items_image_small"
+            android:layout_width="@dimen/no_items_image"
+            android:layout_height="@dimen/no_items_image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/tvNoTranslations"
             app:layout_constraintStart_toStartOf="parent"

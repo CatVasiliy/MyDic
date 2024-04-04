@@ -9,6 +9,5 @@
     <dimen name="margin_extra_large">32dp</dimen>
 
     <dimen name="language_icon_small">28dp</dimen>
-    <dimen name="no_items_image_small">170dp</dimen>
-    <dimen name="no_items_image">200dp</dimen>
+    <dimen name="no_items_image">170dp</dimen>
 </resources>
