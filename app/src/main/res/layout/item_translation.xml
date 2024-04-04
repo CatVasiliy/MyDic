@@ -77,7 +77,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
-        android:src="@drawable/icon_attention"
+        android:src="@drawable/icon_missing_translation"
         app:tint="?attr/colorError"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
