@@ -28,10 +28,6 @@ class DefinitionsFragment : Fragment() {
         ownerProducer = { requireParentFragment() }
     )
 
-    private val definitionsListAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        DefinitionsListAdapter()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -67,7 +63,6 @@ class DefinitionsFragment : Fragment() {
     private fun setupView() {
         binding.rvDefinitions.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = definitionsListAdapter
         }
     }
 
@@ -77,7 +72,9 @@ class DefinitionsFragment : Fragment() {
             return
         }
 
-        rvDefinitions.show()
-        definitionsListAdapter.submitList(definitions)
+        rvDefinitions.apply {
+            adapter = DefinitionsAdapter(definitions)
+            show()
+        }
     }
 }

@@ -28,10 +28,6 @@ class AlternativeTranslationsFragment : Fragment() {
         ownerProducer = { requireParentFragment() }
     )
 
-    private val alternativeTranslationsListAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        AlternativeTranslationsListAdapter()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -67,7 +63,6 @@ class AlternativeTranslationsFragment : Fragment() {
     private fun setupView() {
         binding.rvAlternativeTranslations.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = alternativeTranslationsListAdapter
         }
     }
 
@@ -77,7 +72,9 @@ class AlternativeTranslationsFragment : Fragment() {
             return
         }
 
-        rvAlternativeTranslations.show()
-        alternativeTranslationsListAdapter.submitList(alternativeTranslations)
+        rvAlternativeTranslations.apply {
+            adapter = AlternativeTranslationsAdapter(alternativeTranslations)
+            show()
+        }
     }
 }

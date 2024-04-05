@@ -2,14 +2,15 @@ package com.catvasiliy.mydic.presentation.translation_details.tabs.definitions
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.catvasiliy.mydic.databinding.ItemDefinitionBinding
 import com.catvasiliy.mydic.domain.model.translation.Definition
 import com.catvasiliy.mydic.presentation.util.showIf
 
-class DefinitionsListAdapter : ListAdapter<Definition, DefinitionViewHolder>(DefinitionItemDiff()) {
+class DefinitionsAdapter(
+    private val definitions: List<Definition>
+) : RecyclerView.Adapter<DefinitionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DefinitionViewHolder {
         val binding = ItemDefinitionBinding.inflate(
@@ -21,9 +22,11 @@ class DefinitionsListAdapter : ListAdapter<Definition, DefinitionViewHolder>(Def
     }
 
     override fun onBindViewHolder(holder: DefinitionViewHolder, position: Int) {
-        val definitionItem = getItem(position)
+        val definitionItem = definitions[position]
         holder.bind(definitionItem)
     }
+
+    override fun getItemCount(): Int = definitions.size
 }
 
 class DefinitionViewHolder(
@@ -42,16 +45,5 @@ class DefinitionViewHolder(
             text = exampleText
         }
         dividerDefinition.showIf { exampleText != null }
-    }
-}
-
-private class DefinitionItemDiff : DiffUtil.ItemCallback<Definition>() {
-
-    override fun areItemsTheSame(oldItem: Definition, newItem: Definition): Boolean {
-        return oldItem.definitionText == newItem.definitionText
-    }
-
-    override fun areContentsTheSame(oldItem: Definition, newItem: Definition): Boolean {
-        return oldItem == newItem
     }
 }

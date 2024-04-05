@@ -2,14 +2,14 @@ package com.catvasiliy.mydic.presentation.translation_details.tabs.alternative_t
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.catvasiliy.mydic.databinding.ItemAlternativeTranslationBinding
 import com.catvasiliy.mydic.domain.model.translation.AlternativeTranslation
 
-class AlternativeTranslationsListAdapter
-    : ListAdapter<AlternativeTranslation, AlternativeTranslationViewHolder>(AlternativeTranslationItemDiff()) {
+class AlternativeTranslationsAdapter(
+    private val alternativeTranslations: List<AlternativeTranslation>
+) : RecyclerView.Adapter<AlternativeTranslationViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -24,9 +24,11 @@ class AlternativeTranslationsListAdapter
     }
 
     override fun onBindViewHolder(holder: AlternativeTranslationViewHolder, position: Int) {
-        val alternativeTranslationItem = getItem(position)
+        val alternativeTranslationItem = alternativeTranslations[position]
         holder.bind(alternativeTranslationItem)
     }
+
+    override fun getItemCount(): Int = alternativeTranslations.size
 }
 
 class AlternativeTranslationViewHolder(
@@ -38,22 +40,5 @@ class AlternativeTranslationViewHolder(
         tvAlternativeTranslation.text = alternativeTranslation.translationText
         tvAlternativeSynonyms.text = alternativeTranslation.synonyms
             .joinToString(separator = ", ")
-    }
-}
-
-private class AlternativeTranslationItemDiff : DiffUtil.ItemCallback<AlternativeTranslation>() {
-
-    override fun areItemsTheSame(
-        oldItem: AlternativeTranslation,
-        newItem: AlternativeTranslation
-    ): Boolean {
-        return oldItem.translationText == newItem.translationText
-    }
-
-    override fun areContentsTheSame(
-        oldItem: AlternativeTranslation,
-        newItem: AlternativeTranslation
-    ): Boolean {
-        return oldItem == newItem
     }
 }

@@ -28,10 +28,6 @@ class ExamplesFragment : Fragment() {
         ownerProducer = { requireParentFragment() }
     )
 
-    private val examplesListAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        ExamplesListAdapter()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -67,7 +63,6 @@ class ExamplesFragment : Fragment() {
     private fun setupView() {
         binding.rvExamples.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = examplesListAdapter
         }
     }
 
@@ -77,7 +72,9 @@ class ExamplesFragment : Fragment() {
             return
         }
 
-        rvExamples.show()
-        examplesListAdapter.submitList(examples)
+        rvExamples.apply {
+            adapter = ExamplesAdapter(examples)
+            show()
+        }
     }
 }
