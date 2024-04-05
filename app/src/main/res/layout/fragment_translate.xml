@@ -8,119 +8,118 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tbTranslate"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/translate"
         app:navigationIcon="@drawable/icon_arrow_back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="16dp"
-        android:hint="@string/hint_etSource"
-        app:endIconMode="clear_text"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/tbTranslate"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        style="@style/MyDic.Widget.TextInputLayout.Outlined">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="@dimen/padding_normal">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etSource"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="top|start"
-            android:inputType="textMultiLine"
-            android:minLines="3"
-            android:maxLines="3"
-            android:textSize="20sp" />
+            android:hint="@string/hint_etSource"
+            app:endIconMode="clear_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/MyDic.Widget.TextInputLayout.Outlined">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSource"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:minLines="3"
+                android:maxLines="3"
+                android:textSize="20sp" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvFrom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/language_from"
-        android:textAppearance="?attr/textAppearanceBodyLarge"
-        app:layout_constraintTop_toTopOf="@id/spSourceLanguage"
-        app:layout_constraintBottom_toBottomOf="@id/spSourceLanguage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/barrier"
-        app:layout_constraintHorizontal_bias="1.0" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvTo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/language_to"
-        android:textAppearance="?attr/textAppearanceBodyLarge"
-        app:layout_constraintTop_toTopOf="@id/spTargetLanguage"
-        app:layout_constraintBottom_toBottomOf="@id/spTargetLanguage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/barrier"
-        app:layout_constraintHorizontal_bias="1.0" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language_from"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            app:layout_constraintTop_toTopOf="@id/spSourceLanguage"
+            app:layout_constraintBottom_toBottomOf="@id/spSourceLanguage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/barrier"
+            app:layout_constraintHorizontal_bias="1.0" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="end" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/language_to"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            app:layout_constraintTop_toTopOf="@id/spTargetLanguage"
+            app:layout_constraintBottom_toBottomOf="@id/spTargetLanguage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/barrier"
+            app:layout_constraintHorizontal_bias="1.0" />
 
-    <Spinner
-        android:id="@+id/spSourceLanguage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayout"
-        app:layout_constraintStart_toStartOf="@id/barrier"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_language_spinner" />
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSwapLanguages"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="16dp"
-        android:text="@string/btn_swap_languages"
-        app:icon="@drawable/icon_swap"
-        app:iconGravity="start"
-        app:layout_constraintTop_toBottomOf="@id/spSourceLanguage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        style="@style/MyDic.Widget.Button.OutlinedButton" />
+        <Spinner
+            android:id="@+id/spSourceLanguage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginStart="@dimen/margin_medium"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayout"
+            app:layout_constraintStart_toStartOf="@id/barrier"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/item_language_spinner" />
 
-    <Spinner
-        android:id="@+id/spTargetLanguage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@id/btnSwapLanguages"
-        app:layout_constraintStart_toStartOf="@id/barrier"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_language_spinner" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSwapLanguages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="@string/btn_swap_languages"
+            app:icon="@drawable/icon_swap"
+            app:layout_constraintTop_toBottomOf="@id/spSourceLanguage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/MyDic.Widget.Button.OutlinedButton" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnTranslate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="16dp"
-        android:textSize="24sp"
-        android:text="@string/btn_translate"
-        app:layout_constraintTop_toBottomOf="@id/spTargetLanguage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <Spinner
+            android:id="@+id/spTargetLanguage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_medium"
+            app:layout_constraintTop_toBottomOf="@id/btnSwapLanguages"
+            app:layout_constraintStart_toStartOf="@id/barrier"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/item_language_spinner" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTranslate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/btn_translate"
+            app:icon="@drawable/icon_translate"
+            app:layout_constraintTop_toBottomOf="@id/spTargetLanguage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/MyDic.Widget.Button.Large" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

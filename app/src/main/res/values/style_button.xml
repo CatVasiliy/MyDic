@@ -10,6 +10,12 @@
         <item name="colorPrimary">@color/button</item>
     </style>
 
+    <style name="MyDic.Widget.Button.Large" parent="MyDic.Widget.Button">
+        <item name="iconGravity">start</item>
+        <item name="iconSize">28dp</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
     <style name="MyDic.Widget.Button.Error" parent="MyDic.Widget.Button">
         <item name="materialThemeOverlay">@style/MyDic.ThemeOverlay.Button.Error</item>
     </style>
@@ -22,6 +28,7 @@
     </style>
 
     <style name="MyDic.Widget.Button.OutlinedButton" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="iconGravity">start</item>
         <item name="materialThemeOverlay">@style/MyDic.ThemeOverlay.OutlinedButton</item>
     </style>
 
