@@ -8,13 +8,11 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tbTranslations"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/MyDic.Widget.Toolbar.WithSearch"
         app:menu="@menu/translations_menu"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,7 +76,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/icon_add"
         android:contentDescription="@string/add_translation"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/margin_large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

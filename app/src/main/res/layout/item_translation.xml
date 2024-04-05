@@ -4,16 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:paddingHorizontal="16dp"
+    android:layout_height="@dimen/list_item_translation_height"
+    android:paddingHorizontal="@dimen/padding_normal"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/ivSourceLanguage"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/list_item_source_language_icon"
+        android:layout_height="@dimen/list_item_source_language_icon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,9 +23,9 @@
         android:id="@+id/tvSourceText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:paddingVertical="4dp"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/margin_large"
+        android:paddingVertical="@dimen/padding_quarter_normal"
         android:maxLines="1"
         android:ellipsize="end"
         android:textAppearance="?attr/textAppearanceBodyLarge"
@@ -40,23 +40,24 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_marginStart="16dp"
-        android:paddingVertical="3dp"
+        android:layout_marginStart="@dimen/margin_large"
+        android:paddingVertical="@dimen/list_item_translation_text_padding_vertical"
         android:maxLines="1"
         android:ellipsize="end"
         android:textAppearance="?attr/textAppearanceBodyMedium"
         app:layout_constraintTop_toBottomOf="@id/tvSourceText"
         app:layout_constraintStart_toEndOf="@id/ivSourceLanguage"
         app:layout_constraintEnd_toStartOf="@id/barrier"
-        tools:text="Translation Text" />
+        tools:text="Translation Text"
+        tools:visibility="visible" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvMissingTranslationMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_marginStart="16dp"
-        android:paddingVertical="3dp"
+        android:layout_marginStart="@dimen/margin_large"
+        android:paddingVertical="@dimen/list_item_translation_text_padding_vertical"
         android:maxLines="1"
         android:ellipsize="end"
         android:text="@string/missing_translation"
@@ -74,9 +75,9 @@
 
     <ImageView
         android:id="@+id/ivMissingTranslation"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="@dimen/list_item_missing_translation_icon"
+        android:layout_height="@dimen/list_item_missing_translation_icon"
+        android:layout_marginStart="@dimen/margin_large"
         android:src="@drawable/icon_missing_translation"
         app:tint="?attr/colorError"
         app:layout_constraintTop_toTopOf="parent"
@@ -86,9 +87,9 @@
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/margin_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

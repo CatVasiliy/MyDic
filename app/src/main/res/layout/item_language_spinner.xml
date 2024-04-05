@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:paddingHorizontal="8dp"
-    android:paddingVertical="4dp">
+    android:layout_height="@dimen/spinner_item_height"
+    android:paddingHorizontal="@dimen/padding_half_normal"
+    android:paddingVertical="@dimen/padding_quarter_normal">
 
     <ImageView
         android:id="@+id/ivLanguageItemIcon"
@@ -19,7 +19,7 @@
     
     <TextView
         android:id="@+id/tvLanguageItemText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:textSize="18sp"
@@ -27,6 +27,7 @@
         app:layout_constraintTop_toTopOf="@id/ivLanguageItemIcon"
         app:layout_constraintBottom_toBottomOf="@id/ivLanguageItemIcon"
         app:layout_constraintStart_toEndOf="@id/ivLanguageItemIcon"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="@string/language_russian" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

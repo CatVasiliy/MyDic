@@ -8,13 +8,11 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tbTranslationDetails"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/translation_details"
         app:navigationIcon="@drawable/icon_arrow_back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/piTranslationDetails"
@@ -34,29 +32,22 @@
         android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/tbTranslationDetails"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="scrollable"
-            app:tabContentStart="52dp"
+            app:tabMode="auto"
+            app:tabContentStart="@dimen/tab_start_padding"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/viewPager"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             style="@style/MyDic.Widget.TabLayout" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@id/tabLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -70,8 +61,6 @@
         android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@id/tbTranslationDetails"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -125,7 +114,7 @@
                 android:id="@+id/btnPronounceMissingSource"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:text="@string/pronounce"
                 app:icon="@drawable/icon_pronounce"
                 app:iconGravity="start"
@@ -184,9 +173,9 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <ImageView
-                android:id="@+id/ivMissingTranslationMessageIcon"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:id="@+id/ivMissingTranslationMessage"
+                android:layout_width="@dimen/missing_translation_image"
+                android:layout_height="@dimen/missing_translation_image"
                 android:layout_marginTop="@dimen/margin_extra_large"
                 android:src="@drawable/image_missing_translation"
                 app:tint="?attr/colorError"
@@ -200,7 +189,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:text="@string/missing_translation_message"
-                app:layout_constraintTop_toBottomOf="@id/ivMissingTranslationMessageIcon"
+                app:layout_constraintTop_toBottomOf="@id/ivMissingTranslationMessage"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 style="@style/MyDic.Widget.TextView.Message.Error" />

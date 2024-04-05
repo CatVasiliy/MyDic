@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="padding_quarter_normal">4dp</dimen>
     <dimen name="padding_half_normal">8dp</dimen>
     <dimen name="padding_normal">16dp</dimen>
 
@@ -10,4 +11,14 @@
 
     <dimen name="language_icon_small">28dp</dimen>
     <dimen name="no_items_image">170dp</dimen>
+    <dimen name="missing_translation_image">80dp</dimen>
+
+    <dimen name="list_item_translation_height">72dp</dimen>
+    <dimen name="list_item_source_language_icon">40dp</dimen>
+    <dimen name="list_item_translation_text_padding_vertical">3dp</dimen>
+    <dimen name="list_item_missing_translation_icon">24dp</dimen>
+
+    <dimen name="tab_start_padding">52dp</dimen>
+
+    <dimen name="spinner_item_height">48dp</dimen>
 </resources>
