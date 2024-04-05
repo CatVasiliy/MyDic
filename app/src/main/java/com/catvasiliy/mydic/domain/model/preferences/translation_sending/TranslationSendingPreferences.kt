@@ -10,7 +10,7 @@ data class TranslationSendingPreferences(
     companion object {
         fun getDefault() = TranslationSendingPreferences(
             isSendingEnabled = false,
-            sendingInterval = TranslationSendingInterval.MINUTES_1
+            sendingInterval = TranslationSendingInterval.HOURS_6
         )
     }
 }

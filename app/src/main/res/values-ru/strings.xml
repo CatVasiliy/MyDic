@@ -66,11 +66,10 @@
     <string name="send_translations">Отправлять переводы</string>
     <string name="send_translations_summary">Отправлять уведомления с переводами</string>
     <string name="sending_interval">Интервал отправки</string>
-    <string name="interval_minutes_1">1 Минута</string>
-    <string name="interval_minutes_2">2 Минуты</string>
     <string name="interval_hours_3">3 Часа</string>
     <string name="interval_hours_6">6 Часов</string>
     <string name="interval_hours_12">12 Часов</string>
+    <string name="interval_days_1">1 День</string>
 
     <string name="translation_notification_title">Знаете ли вы, как это переводится?</string>
 </resources>

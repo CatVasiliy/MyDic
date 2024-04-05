@@ -68,11 +68,10 @@
     <string name="send_translations">Send translations</string>
     <string name="send_translations_summary">Send notifications with translations</string>
     <string name="sending_interval">Sending interval</string>
-    <string name="interval_minutes_1">1 Minute</string>
-    <string name="interval_minutes_2">2 Minutes</string>
     <string name="interval_hours_3">3 Hours</string>
     <string name="interval_hours_6">6 Hours</string>
     <string name="interval_hours_12">12 Hours</string>
+    <string name="interval_days_1">1 Day</string>
 
     <string name="translation_notification_title">Do you know how this translates?</string>
 </resources>
