@@ -31,6 +31,9 @@
     <color name="edit_text_outlined">#FF506CA4</color>
 
     <!-- Same as Primary color -->
+    <color name="circular_progress_indicator">#FF506CA4</color>
+
+    <!-- Same as Primary color -->
     <color name="tab_layout_primary">#FF506CA4</color>
 
     <!-- Same as Primary color -->

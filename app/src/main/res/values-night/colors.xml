@@ -33,6 +33,9 @@
     <color name="edit_text_outlined">#FF5A79B8</color>
 
     <!-- Light color for OnSurface -->
+    <color name="circular_progress_indicator">#FF5A79B8</color>
+
+    <!-- Light color for OnSurface -->
     <color name="tab_layout_primary">#FF5A79B8</color>
 
     <!-- Light color for OnSurface -->

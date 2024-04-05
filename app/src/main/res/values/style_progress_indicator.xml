@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MyDic.Widget.CircularProgressIndicator" parent="Widget.Material3.CircularProgressIndicator">
+        <item name="materialThemeOverlay">@style/MyDic.ThemeOverlay.CircularProgressIndicator</item>
+    </style>
+
+    <style name="MyDic.ThemeOverlay.CircularProgressIndicator" parent="">
+        <item name="colorPrimary">@color/circular_progress_indicator</item>
+    </style>
+
+</resources>

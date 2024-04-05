@@ -28,6 +28,7 @@
         <item name="checkboxStyle">@style/MyDic.Widget.CheckBox</item>
         <item name="materialButtonStyle">@style/MyDic.Widget.Button</item>
         <item name="materialSwitchStyle">@style/MyDic.Widget.Switch</item>
+        <item name="circularProgressIndicatorStyle">@style/MyDic.Widget.CircularProgressIndicator</item>
         <item name="alertDialogTheme">@style/MyDic.ThemeOverlay.Dialog.Alert</item>
         
         <item name="preferenceTheme">@style/MyDic.PreferenceThemeOverlay</item>
