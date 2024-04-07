@@ -103,12 +103,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_medium"
-                android:textAppearance="@style/MyDic.TextAppearance.MainTranslation.Language"
                 app:layout_constraintTop_toTopOf="@id/btnPronounceMissingSource"
                 app:layout_constraintBottom_toBottomOf="@id/btnPronounceMissingSource"
                 app:layout_constraintStart_toEndOf="@id/ivMissingTranslationSourceLanguageIcon"
                 app:layout_constraintEnd_toStartOf="@id/btnPronounceMissingSource"
-                tools:text="@string/language_english" />
+                tools:text="@string/language_english"
+                style="@style/MyDic.Widget.TextView.MainTranslation.Language" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPronounceMissingSource"
@@ -161,7 +161,8 @@
                 app:layout_constraintBottom_toBottomOf="@id/ivMissingTranslationTargetLanguageIcon"
                 app:layout_constraintStart_toEndOf="@id/ivMissingTranslationTargetLanguageIcon"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="@string/language_russian" />
+                tools:text="@string/language_russian"
+                style="@style/MyDic.Widget.TextView.MainTranslation.Language"/>
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/dividerMissingTranslationTargetLanguage"

@@ -31,4 +31,10 @@
         <item name="android:textColor">?attr/colorError</item>
     </style>
 
+    <style name="MyDic.Widget.TextView.MainTranslation.Language" parent="">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textAppearance">@style/MyDic.TextAppearance.MainTranslation.Language</item>
+    </style>
+
 </resources>

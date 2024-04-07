@@ -48,12 +48,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_medium"
-            android:textAppearance="@style/MyDic.TextAppearance.MainTranslation.Language"
             app:layout_constraintTop_toTopOf="@id/btnPronounceSource"
             app:layout_constraintBottom_toBottomOf="@id/btnPronounceSource"
             app:layout_constraintStart_toEndOf="@id/ivSourceLanguageIcon"
             app:layout_constraintEnd_toStartOf="@id/btnPronounceSource"
-            tools:text="@string/language_english" />
+            tools:text="@string/language_english"
+            style="@style/MyDic.Widget.TextView.MainTranslation.Language" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPronounceSource"
@@ -113,12 +113,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_medium"
-            android:textAppearance="@style/MyDic.TextAppearance.MainTranslation.Language"
             app:layout_constraintTop_toTopOf="@id/btnPronounceTranslation"
             app:layout_constraintBottom_toBottomOf="@id/btnPronounceTranslation"
             app:layout_constraintStart_toEndOf="@id/ivTargetLanguageIcon"
             app:layout_constraintEnd_toStartOf="@id/btnPronounceTranslation"
-            tools:text="@string/language_russian" />
+            tools:text="@string/language_russian"
+            style="@style/MyDic.Widget.TextView.MainTranslation.Language" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPronounceTranslation"
