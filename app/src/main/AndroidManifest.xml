@@ -20,6 +20,7 @@
 
         <activity
             android:name=".presentation.MainActivity"
+            android:launchMode="singleTop"
             android:exported="true"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>

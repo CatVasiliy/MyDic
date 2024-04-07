@@ -40,10 +40,6 @@ class TranslationDetailsFragment : Fragment() {
 
     private val viewModel: TranslationDetailsViewModel by viewModels()
 
-    private val viewPagerAdapter: TranslationDetailsTabAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        TranslationDetailsTabAdapter(this)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -145,6 +141,8 @@ class TranslationDetailsFragment : Fragment() {
     }
 
     private fun setupTabLayout() {
+        val viewPagerAdapter = TranslationDetailsTabAdapter(this)
+
         val viewPager = binding.viewPager
         viewPager.apply {
             adapter = viewPagerAdapter

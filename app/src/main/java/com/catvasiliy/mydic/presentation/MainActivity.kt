@@ -38,11 +38,15 @@ class MainActivity : AppCompatActivity(), Pronouncer {
     override fun onStart() {
         super.onStart()
 
-        if (intent.action == ACTION_OPEN_TRANSLATION) {
-            openTranslationWithId()
-        } else if (intent.type == "text/plain") {
-            openTranslateWithSourceText()
-        }
+        handleIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        if (intent == null) return
+
+        handleIntent(intent)
     }
 
     override fun onDestroy() {
@@ -70,7 +74,15 @@ class MainActivity : AppCompatActivity(), Pronouncer {
         }
     }
 
-    private fun openTranslationWithId() {
+    private fun handleIntent(intent: Intent) {
+        if (intent.action == ACTION_OPEN_TRANSLATION) {
+            openTranslationWithId(intent)
+        } else if (intent.type == "text/plain") {
+            openTranslateWithSourceText(intent)
+        }
+    }
+
+    private fun openTranslationWithId(intent: Intent) {
         val translationId = intent.getLongExtra(EXTRA_TRANSLATION_ID, -1L)
         if (translationId == -1L) return
 
@@ -81,9 +93,9 @@ class MainActivity : AppCompatActivity(), Pronouncer {
         intent.removeExtra(EXTRA_TRANSLATION_ID)
     }
 
-    private fun openTranslateWithSourceText() {
+    private fun openTranslateWithSourceText(intent: Intent) {
         val externalText = intent.getStringExtra(Intent.EXTRA_TEXT) ?: return
-
+        println("Got text: $externalText")
         val args = Bundle().apply {
             putString(KEY_EXTERNAL_SOURCE_TEXT, externalText.trim().trim('"'))
         }
