@@ -32,14 +32,13 @@ MyDic app lets you:
 
 ## Screenshots
 
-<p align="center">
+<p align="left">
   <img src="/../readme_screenshots/screenshots/TranslationsList.png?raw=true" width="200" hspace="10" />
-  <img src="/../readme_screenshots/screenshots/OrganizeTranslations.png?raw=true" width="200" hspace="10" />
   <img src="/../readme_screenshots/screenshots/Translate.png?raw=true" width="200" hspace="10" />
+  <img src="/../readme_screenshots/screenshots/TranslationDetailsMain.png?raw=true" width="200" hspace="10" />
 </p>
 
-<p align="center">
-  <img src="/../readme_screenshots/screenshots/TranslationDetailsMain.png?raw=true" width="200" hspace="10" />
+<p align="left">
   <img src="/../readme_screenshots/screenshots/TranslationDetailsAlternatives.png?raw=true" width="200" hspace="10" />
   <img src="/../readme_screenshots/screenshots/TranslationDetailsDefinitions.png?raw=true" width="200" hspace="10" />
   <img src="/../readme_screenshots/screenshots/TranslationDetailsExamples.png?raw=true" width="200" hspace="10" />
