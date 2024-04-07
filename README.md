@@ -25,9 +25,25 @@ MyDic app lets you:
 - Translate any text to many languages
 - Auto detect language, if you're not sure if you know it
 - Get not only translation, but alternative translations, definitions and examples
+- Pronounce text (not all languages alvailable)
 - Sort, filter and search your saved translations
 - Schedule notification with text sending to remind how it translates
 - Send text to translate from other apps via Android Share feature
+
+## Screenshots
+
+<p align="center">
+  <img src="/../readme_screenshots/screenshots/TranslationsList.png?raw=true" width="200" hspace="10" />
+  <img src="/../readme_screenshots/screenshots/OrganizeTranslations.png?raw=true" width="200" hspace="10" />
+  <img src="/../readme_screenshots/screenshots/Translate.png?raw=true" width="200" hspace="10" />
+</p>
+
+<p align="center">
+  <img src="/../readme_screenshots/screenshots/TranslationDetailsMain.png?raw=true" width="200" hspace="10" />
+  <img src="/../readme_screenshots/screenshots/TranslationDetailsAlternatives.png?raw=true" width="200" hspace="10" />
+  <img src="/../readme_screenshots/screenshots/TranslationDetailsDefinitions.png?raw=true" width="200" hspace="10" />
+  <img src="/../readme_screenshots/screenshots/TranslationDetailsExamples.png?raw=true" width="200" hspace="10" />
+</p>
 
 ## Permissions
 
