@@ -40,12 +40,12 @@
     <string name="no_definitions">Определений нет</string>
     <string name="no_examples">Примеров нет</string>
     <string name="pronounce">Произнести</string>
-    <string name="language_unknown_with_code">Неизвестен ($1%s)</string>
+    <string name="language_unknown_with_code">Неизвестен (%1$s)</string>
     <string name="usage_example">Пример использования</string>
     <string name="example_with_number">Пример %1$d</string>
     <string name="synonyms">Синонимы</string>
     <string name="missing_translation_target_language_title">Попытка перевода на</string>
-    <string name="missing_translation_message">Перевод недоступен!\nНажмите на кнопку ниже, чтобы попробовать ещё раз.</string>
+    <string name="missing_translation_message">Перевод недоступен!\nНажмите на кнопку ниже, чтобы попробовать ещё раз</string>
 
     <string name="language_any">Любой</string>
     <string name="language_auto">Определить язык</string>

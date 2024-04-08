@@ -179,7 +179,7 @@ class TranslationDetailsFragment : Fragment() {
 
         @StringRes
         val sourceLanguageStringResId = when(sourceLanguage) {
-            is UiExtendedLanguage.Known -> sourceLanguage.language.drawableResId
+            is UiExtendedLanguage.Known -> sourceLanguage.language.stringResId
             else -> R.string.language_unknown
         }
 
